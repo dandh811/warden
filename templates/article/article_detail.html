@@ -1,0 +1,625 @@
+{% extends 'super.html' %}
+{% load static %}
+{% load article_tag %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block css %}
+    <style>
+        .lyric_area{/*歌词显示区域*/
+        {#height: 360px; /*歌词区域高度*/#}
+        overflow: hidden; /*隐藏超出部分*/
+        margin-top: 15px;
+            font-size: 20px;
+        }
+        #lyric{/*歌词列表*/
+        line-height: 40px;/*行高，这个值要用在歌词滚动距离上*/
+        transition-duration: 600ms;/*滚动速度*/
+        }
+        #lyric .lineHigh{/*高亮行*/
+        color: red;
+        }
+        .functional-area-left {
+            float:left;
+            margin-left:-98px;
+            padding-right:0!important;
+            width:48px;
+            position:fixed;
+        }
+        .functional-area-left .func-btn {
+            margin-bottom:.5rem;
+            border-radius:50%;
+            padding:0;
+            text-align:center;
+            width:32px;
+            height:32px;
+            line-height:32px;
+            font-size:1rem;
+            border-color:transparent;
+            background-color:#fff
+        }
+        .functional-area-left .func-btn:hover {
+            color:#fff
+        }
+        .functional-area-left .func-btn.btn-outline-primary:hover {
+            background-color:#00965e
+        }
+        .functional-area-left .func-btn.btn-outline-secondary:hover {
+            background-color:#6c757d
+        }
+        .functional-area-left .func-btn.mainLike {
+            position:relative;
+            width:48px;
+            height:48px;
+            line-height:48px;
+            margin-bottom:1rem;
+            border-color:#00965e
+        }
+        .functional-area-left .func-btn .mainLikeNum {
+            position:absolute;
+            top:-40px;
+            left:0;
+            font-weight:700;
+            display:block;
+            width:48px;
+            color:#6c757d
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="layui-col-md8 content detail">
+        <div class="fly-panel detail-box">
+        <h1>{{ article.title }}</h1>
+        <div class="fly-detail-info">
+          <!-- <span class="layui-badge">审核中</span> -->
+          <span class="layui-badge" style="background-color: green;">{{ article.get_category_display }}</span>
+{#            <span style="padding-right: 10px; color: #FF7200"></span>#}
+              {% if res.collect %}
+                <span class="layui-btn layui-btn-xs jie-admin" style="background-color: red;" type="collect" data-type="add" id="uncollect">取消收藏</span>
+              {% else %}
+                <span class="layui-btn layui-btn-xs jie-admin" style="background-color: #994029;" type="collect" data-type="add" id="collect">收藏</span>
+              {% endif %}
+{#                    <span>{{ article.c_time|date:"Y-m-j G:i" }}</span>#}
+            {% if request.user.is_superuser %}
+                <span class="layui-badge" style="background-color: #999;">
+                    <a href="/admin/article/article/{{ article_id }}/change/" target="_blank">编辑此贴</a>
+                </span>
+            {% endif %}
+
+{#          <span class="layui-badge layui-bg-black">置顶</span>#}
+{#          <span class="layui-badge layui-bg-red">精帖</span>#}
+
+          <div class="fly-admin-box" data-id="123">
+{#            <span class="layui-btn layui-btn-xs jie-admin" type="del">删除</span>#}
+{#            #}
+{#            <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="1">置顶</span> #}
+{#            <!-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="0" style="background-color:#ccc;">取消置顶</span> -->#}
+{#            #}
+{#            <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="1">加精</span> #}
+            <!-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">取消加精</span> -->
+          </div>
+          <span class="fly-list-nums"> 
+            <a href="#comment"><i class="iconfont" title="回答">&#xe60c;</i>{{ comments|length }}评论</a>
+            <i class="iconfont" title="人气">&#xe60b;</i> {{ article.views }}
+          </span>
+        </div>
+
+      <br>
+            <div class="functional-area-left sticky-top d-none d-xl-flex">
+                <div class="text-center">
+                    <div class="btn-group like-group " role="group">
+                        <button class="func-btn mainLike like-btn btn btn-outline-primary" onclick="setExcerpt()">摘录</button>
+                        <button class="func-btn mainLike like-btn btn btn-outline-primary" onclick="setIdea()">想法</button>
+                        <button class="func-btn mainLike like-btn btn btn-outline-primary" onclick="setPay()">打赏</button>
+
+                    </div>
+                </div>
+            </div>
+      {% if article.voice %}
+          <audio controls="controls" style="width: 500px" id="audio" preload>
+              <source src="/media/{{ article.voice }}" type="audio/ogg" />
+              Your browser does not support the audio element.
+          </audio>
+
+            <div class="lyric_area">
+                <ul id="lyric"></ul>
+            </div>
+
+          <textarea id="lrc_content" cols="30" style="display: none">{{ article.content }}</textarea>
+      {% else %}
+          <div style="font-size: 20px; line-height: 200%" onclick="copyTxt()">{{ article.content|linebreaksbr }}</div>
+      {% endif %}
+      <br>
+        <div class="jieda-reply">
+          {% if res.support %}
+              <span class="jieda-zan zanok" type="zan" id="unzan-article">
+          {% else %}
+              <span class="jieda-zan" type="zan" id="zan-article">
+          {% endif %}
+            <i class="iconfont icon-zan"></i>
+            <em>{{ article.support }}</em>
+          </span>
+
+
+{#                        <span onclick="shareTo('qq')">#}
+{#                <img src="http://zixuephp.net/static/images/qqshare.png" width="32">#}
+{#            </span>#}
+{#                        <span onclick="shareTo('sina')">#}
+{#                <img src="http://zixuephp.net/static/images/sinaweiboshare.png" width="36">#}
+{#            </span>#}
+{#                        <span onclick="shareTo('wechat')">#}
+{#                <img src="{% static 'images/wechat_logo.png' %}" width="32">#}
+{#            </span>#}
+
+          <div class="layui-form layui-form-pane">
+              <div class="layui-tab layui-tab-brief" lay-filter="user">
+                  <ul class="layui-tab-title">
+                  </ul>
+                  <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
+                      <div class="layui-tab-item layui-show">
+                          <form action="" method="post">
+                              <div class="layui-row layui-col-space15 layui-form-item">
+
+                                  <div class="layui-col-md5">
+                                      <label for="L_title" class="layui-form-label">姓名</label>
+                                      <div class="layui-input-block">
+                                          <input type="text" id="M_name" name="title" required lay-verify="required" class="layui-input">
+                                          <!-- <input type="hidden" name="id" value=""> -->
+                                      </div>
+                                  </div>
+                                  <div class="layui-col-md5">
+                                      <label for="L_title" class="layui-form-label">年龄</label>
+                                      <div class="layui-input-block">
+                                          <input type="text" id="M_age" name="title" required lay-verify="required" class="layui-input">
+                                          <!-- <input type="hidden" name="id" value=""> -->
+                                      </div>
+                                  </div>
+
+                              </div>
+                              {#                  #}
+                              <div class="layui-form-item layui-form-text">
+                                  <div class="layui-input-block">
+                                      <textarea id="M_content" name="content" required lay-verify="required" placeholder="填写功德回向内容" class="layui-textarea fly-editor" style="height: 260px;"></textarea>
+                                  </div>
+                              </div>
+
+                              <div class="layui-form-item">
+                                  <button class="layui-btn" lay-filter="add-merit-to" lay-submit>确认提交</button>
+                              </div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+
+      <div class="fly-panel detail-box" id="flyReply">
+        <fieldset class="layui-elem-field layui-field-title" style="text-align: center;">
+          <legend>回帖</legend>
+        </fieldset>
+        <ul class="jieda" id="jieda">
+            {% for c in comments %}
+                <li data-id="111">
+            <div class="detail-about detail-about-reply">
+              <a class="fly-avatar" href="">
+                  {% if c.user.profile.avatar %}
+                    <img src="/media/{{ c.user.profile.avatar }}" alt="">
+                {% else %}
+                    <img src="/media/avatar/default.png">
+                {% endif %}
+              </a>
+              <div class="fly-detail-user">
+                <a href="{% url 'users:user_home' c.user.id %}" class="fly-link">
+                  <cite>{{ c.user }}</cite>
+                </a>
+              </div>
+              <div class="detail-hits">
+                <span>{{ c.c_time|date:"Y-m-j G:i" }}</span>
+              </div>
+            </div>
+            <div class="detail-body jieda-body photos">
+              <p>{{ c.comment }}</p>
+            </div>
+            <div class="jieda-reply">
+              <span class="jieda-zan" type="zan">
+                <i class="iconfont icon-zan"></i>
+                <em>0</em>
+              </span>
+
+              <span type="reply"><i class="iconfont icon-svgmoban53"></i>评论</span>
+
+            </div>
+          </li>
+            {% endfor %}
+        </ul>
+        <div class="layui-form layui-form-pane">
+            {% if request.user.is_authenticated %}
+{#              <form action="{% url 'article:article_detail' article_id %}" method="post">#}
+                <form class="layui-form">
+                    <div class="layui-form-item layui-form-text">
+                      <div class="layui-input-block">
+                        <textarea id="L_content" name="content" required lay-verify="required" placeholder="请输入内容"  class="layui-textarea fly-editor" style="height: 150px;"></textarea>
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <input type="hidden" id="article_id" value="{{ article_id }}">
+                      <button class="layui-btn" lay-submit lay-filter="add-comment">提交评论</button>
+                    </div>
+              </form>
+            {% else %}
+                <p>请<a href="{% url 'users:login' %}?next={% url 'articles:article_detail' article_id %}" style="color:red"> 登录 </a>后再添加评论。</p>
+            {% endif %}
+        </div>
+      </div>
+{#            <ul class="layui-fixbar">#}
+{#                <li class="layui-icon" lay-type="bar1" style="background-color:#009688"></li>#}
+{#                <li class="layui-icon layui-fixbar-top" lay-type="top" style="background-color: rgb(0, 150, 136); display: list-item;"></li>#}
+{#            </ul>#}
+    </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        layui.use(['layer','form'], function(){
+        var layer = layui.layer
+           ,form = layui.form;
+          form.on('submit(add-comment)', function(data){
+              var content = $("#L_content").val();
+          $.ajax({
+              type: "post",
+              url:"{% url 'articles:article_comment' %}",
+              data:{'article_id': {{ article_id }}, 'content': content},
+              dateType:"json",
+              async: false,
+              success: function(data) {
+                  if(data.status == 'success'){
+                      alert("提交成功，增加1个积分！");
+                      window.location.reload();//刷新当前页面.
+                  }else {
+                      $('#jsCompanyTips').html(data.msg)
+                      alert("提交失败！");
+                  }
+              },
+          });
+          return false;
+            });
+          });
+
+        $('#zan-article').click(function(){
+        $.ajax({
+            url: '{% url 'articles:article_support' %}',
+            data: {'article_id': {{ article_id }}, 'action': 'support'},
+            type: 'post',
+            dataType: 'json',
+            success: function(data) {
+                  if(data.status == 'success'){
+                      window.location.reload();//刷新当前页面.
+                  }else {
+                      $('#jsCompanyTips').html(data.msg);
+                      alert("提交失败！");
+                  }
+              },
+        })
+        });
+
+        $('#unzan-article').click(function(){
+        $.ajax({
+            url: '{% url 'articles:article_support' %}',
+            data: {'article_id': {{ article_id }}, 'action': 'unsupport'},
+            type: 'post',
+            dataType: 'json',
+            success: function(data) {
+                  if(data.status == 'success'){
+                      window.location.reload();//刷新当前页面.
+                  }else {
+                      $('#jsCompanyTips').html(data.msg)
+                      alert("提交失败！");
+                  }
+              },
+        })
+        });
+
+        $('#collect').click(function(){
+        $.ajax({
+            url: '{% url 'articles:article_collect' %}',
+            data: {'article_id': {{ article_id }}, 'action': 'collect'},
+            type: 'post',
+            dataType: 'json',
+            success: function(data) {
+                  if(data.status == 'success'){
+                      window.location.reload();//刷新当前页面.
+                  }else {
+                      $('#jsCompanyTips').html(data.msg);
+                      alert("提交失败！");
+                  }
+              },
+        })
+        });
+
+        $('#uncollect').click(function(){
+        $.ajax({
+            url: '{% url 'articles:article_collect' %}',
+            data: {'article_id': {{ article_id }}, 'action': 'uncollect'},
+            type: 'post',
+            dataType: 'json',
+            {#contentType: 'application/json; charset=utf-8',#}
+            success: function(data) {
+                  if(data.status == 'success'){
+                      window.location.reload();//刷新当前页面.
+                  }else {
+                      $('#jsCompanyTips').html(data.msg);
+                      alert("提交失败！");
+                  }
+              },
+        })
+        });
+
+        function setExcerpt(){
+            var tr = window.getSelection().getRangeAt(0);
+            {#var span = document.createElement("span");#}
+            {#span.style.cssText = "color:#ff0000";#}
+            {#tr.surroundContents(span);#}
+            $.ajax({
+                url: '{% url 'article:add_excerpt' %}',
+                data: {'article_id': {{article_id}}, 'content': tr.toString()},
+                type: 'post',
+                dataType: 'json',
+                async: false,
+                success: function(data) {
+                    if(data.status == 'success'){
+                        alert("已加入摘录");
+                    }else {
+                        $('#jsCompanyTips').html(data.msg);
+                        alert("请先选中要摘录的经文");
+                    }
+                },
+            })
+
+        }
+
+        function setIdea(){
+            var tr = window.getSelection().getRangeAt(0);
+            layer.prompt({
+                formType: 2,
+                value: '',
+                title: '请输入批注内容',
+                area: ['500px', '200px'] // 宽、高
+            }, function(value, index, elem){
+                layer.close(index);
+                $.ajax({
+                    url: '{% url 'article:add_idea' %}',
+                    data: {'article_id': {{article_id}}, 'content': tr.toString(), 'i_content': value.toString()},
+                    type: 'post',
+                    dataType: 'json',
+                    async: false,
+                    success: function(data) {
+                        if(data.status == 'fail'){
+                            alert("请先选中要批注的经文");
+                        }
+                    },
+                })
+            });
+        }
+
+        function setPay(){
+            var img = "<img src='/static/images/pay.png' />";
+            layer.open({
+                type: 1,
+                shade: false,
+                title: false, //不显示标题
+                btn: '关闭窗口',
+                btnAlign: 'c',
+                area: [img.width + 'px', img.height+'px'],
+                content: img, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+                yes: function(){
+                layer.closeAll();
+            }
+            });
+        }
+
+
+    </script>
+
+    <script>
+        var lrc = document.getElementById("lrc_content").innerHTML;
+        var oLRC = {
+            offset: 0, //时间补偿值，单位毫秒，用于调整歌词整体位置
+            ms: [] //歌词数组{t:时间,c:歌词}
+        };
+        var lineNo = 0; //当前行
+        var C_pos = 3; //C位
+        var offset = -40; //滚动距离（应等于行高）
+        var audio = document.getElementById("audio");//播放器
+        var ul = document.getElementById("lyric"); //歌词容器列表
+
+        function createLrcObj(lrc) {
+            if(lrc.length==0) return;
+            var lrcs = lrc.split('\n');//用回车拆分成数组
+            for(var i in lrcs) {//遍历歌词数组
+                lrcs[i] = lrcs[i].replace(/(^\s*)|(\s*$)/g, ""); //去除前后空格
+
+                var t = lrcs[i].substring(lrcs[i].indexOf("[") + 1, lrcs[i].indexOf("]"));//取[]间的内容
+                var arr = lrcs[i].match(/\[(\d+:.+?)\]/g);//提取时间字段，可能有多个
+
+                var start = 0;
+                for(var k in arr){
+                    start += arr[k].length; //计算歌词位置
+                }
+
+                var content = lrcs[i].substring(start);//获取歌词内容
+
+                for (var k in arr){
+                    var t = arr[k].substring(1, arr[k].length-1);//取[]间的内容
+                    var s = t.split(":");
+                    oLRC.ms.push({//对象{t:时间,c:歌词}加入ms数组
+                        t: (parseFloat(s[0])*60+parseFloat(s[1])).toFixed(3),
+                        c: content
+                    });
+                }
+            }
+
+            oLRC.ms.sort(function (a, b) {//按时间顺序排序
+                return a.t-b.t;
+            });
+        }
+
+        createLrcObj(lrc);
+
+        function showLRC() {
+            var s="";
+            for(var i in oLRC.ms){//遍历ms数组，把歌词加入列表
+                s+='<li>'+oLRC.ms[i].c+'</li>';
+            }
+            document.getElementById("lyric").innerHTML = s;
+        }
+        showLRC();
+
+        //高亮显示歌词当前行及文字滚动控制，行号为lineNo
+        function lineHigh() {
+            var lis = ul.getElementsByTagName("li");//歌词数组
+            if(lineNo>0){
+                lis[lineNo-1].removeAttribute("class");//去掉上一行的高亮样式
+            }
+            lis[lineNo].className = "lineHigh";//高亮显示当前行
+
+            //文字滚动
+            if(lineNo>C_pos){
+                ul.style.transform = "translateY("+(lineNo-C_pos)*offset+"px)"; //整体向上滚动一行高度
+            }
+        }
+
+        //滚回到开头，用于播放结束时
+        function goback() {
+            document.querySelector("#lyric .lineHigh").removeAttribute("class");
+            ul.style.transform = "translateY(0)";
+            lineNo = 0;
+        }
+
+        //监听播放器的timeupdate事件，实现文字与音频播放同步
+        audio.ontimeupdate = function () {
+            if(lineNo==oLRC.ms.length)
+                return;
+            var curTime = audio.currentTime; //播放器时间
+            if(parseFloat(oLRC.ms[lineNo].t)<=curTime){
+                lineHigh();  //高亮当前行
+                lineNo++;
+            }
+        };
+
+        //监听播放器的ended事件，播放结束时回滚歌词
+        audio.onended = function () {
+            goback(); //回滚歌词
+        };
+    </script>
+
+
+    {#    提交回向#}
+    <script>
+        layui.use(['layer','form'], function(){
+            var layer = layui.layer
+                ,form = layui.form;
+            form.on('submit(add-merit-to)', function(data){
+                var name = $("#M_name").val();
+                var age = $("#M_age").val();
+                var content = $("#M_content").val();
+                $.ajax({
+                    type: "post",
+                    url:"{% url 'articles:add_merit_to' %}",
+                    data:{'name': name, 'content': content, 'age': age, 'article_id': {{ article_id }}},
+                    dateType:"json",
+                    async: false,
+                    success: function(data) {
+                        if(data.status == 'success'){
+                            alert("提交成功！");
+                            window.location.reload();//刷新当前页面.
+                        }else{
+                            $('#jsCompanyTips').html(data.msg);
+                            alert("提交失败！");
+                        }
+                    },
+                });
+                return false;
+            });
+        });
+
+        function shareTo(stype){
+            var ftit = '';
+            var flink = '';
+            var lk = '';
+            //获取文章标题
+            ftit = $('.pctitle').text();
+            //获取网页中内容的第一张图片
+            flink = $('.pcdetails img').eq(0).attr('src');
+            if(typeof flink == 'undefined'){
+                flink='';
+            }
+            //当内容中没有图片时，设置分享图片为网站logo
+            if(flink == ''){
+                lk = 'http://'+window.location.host+'/static/images/logo.png';
+            }
+            //如果是上传的图片则进行绝对路径拼接
+            if(flink.indexOf('/uploads/') != -1) {
+                lk = 'http://'+window.location.host+flink;
+            }
+            //百度编辑器自带图片获取
+            if(flink.indexOf('ueditor') != -1){
+                lk = flink;
+            }
+            //qq空间接口的传参
+            if(stype=='qzone'){
+                window.open('https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url='+document.location.href+'?sharesource=qzone&title='+ftit+'&pics='+lk+'&summary='+document.querySelector('meta[name="description"]').getAttribute('content'));
+            }
+            //新浪微博接口的传参
+            if(stype=='sina'){
+                window.open('http://service.weibo.com/share/share.php?url='+document.location.href+'?sharesource=weibo&title='+ftit+'&pic='+lk+'&appkey=2706825840');
+            }
+            //qq好友接口的传参
+            if(stype == 'qq'){
+                window.open('http://connect.qq.com/widget/shareqq/index.html?url='+document.location.href+'?sharesource=qzone&title='+ftit+'&pics='+lk+'&summary='+document.querySelector('meta[name="description"]').getAttribute('content')+'&desc=php自学网，一个web开发交流的网站');
+            }
+            //生成二维码给微信扫描分享
+            if(stype == 'wechat'){
+                window.open('inc/qrcode_img.php?url=http://zixuephp.net/article-1.html');
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        window.onload = function () {
+             var ls = window.localStorage;
+             if (ls.getItem('sTop')) {
+                 var oldStop = ls.getItem('sTop');
+
+
+                // 获取到的值来设置页面滚动条的位置
+
+                 if (document.documentElement.scrollTop) {
+
+                    document.documentElement.scrollTop = oldStop;
+                     alert(2)
+                 } else {
+                    document.body.scrollTop = oldStop;
+                    alert(3)
+                 }
+             } else {
+
+                 console.log('抱歉，找不到滚动条的值');
+
+            }
+        }
+
+        // 监听页面滚动条的状态（是否滚动）
+
+        window.addEventListener('scroll', function() {
+
+            // 滚动时获取页面滚动条的位置
+
+            var sTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+            // 滚动条的位置保存到本地存储里面
+
+            ls.setItem('sTop', sTop);
+
+        }, false);
+
+    </script>
+{% endblock %}

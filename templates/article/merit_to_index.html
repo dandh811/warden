@@ -1,0 +1,52 @@
+{% extends 'super.html' %}
+
+{% block title %}回向列表{% endblock %}
+
+{% block content %}
+    <div class="layui-col-md8">
+        <div class="fly-panel" style="margin-bottom: 0;">
+            <ul class="fly-list">
+            {% for m in mts %}
+                <li>
+                    <h2 style="font-size: 15px">
+                        <span style="display: inline; color: green">{{ m.name }}</span> 诵读
+                        <a href="{% url 'articles:article_detail' m.article_id %}" style="display: inline; color: #1E9FFF">{{ m.article.title }}</a>回向：
+                    </h2>
+                    <div class="fly-list-info">
+                        <cite>{{ m.content }}</cite>
+                        <span>{{ m.c_time|date:"Y-m-j G:i" }}</span>
+                    </div>
+                    <div class="fly-list-badge">
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+{#        <div style="text-align: center">#}
+{#          <div class="laypage-main">#}
+{#              {% if pks.has_next %}#}
+{#                <a href="?page={{ pks.next_page_number }}" class="laypage-next">查看更多</a>#}
+{#              {% endif %}#}
+{#          </div>#}
+{#        </div>#}
+        <div style="border-top: 1px dotted #e2e2e2; text-align: center;">
+            <div class="laypage-main">
+                {% if mts.has_previous %}
+                        <a href="?page=1" class="laypage-prev">第一页</a>
+
+                        <a href="?page={{ mts.previous_page_number }}">上一页</a>
+                {% endif %}
+
+                <span class="current">
+                        第 {{ mts.number }}页 | 共 {{ mts.paginator.num_pages }}页
+                </span>
+
+                {% if mts.has_next %}
+                        <a href="?page={{ mts.next_page_number }}" class="laypage-next">下一页</a>
+
+                        <a href="?page={{ mts.paginator.num_pages }}" class="laypage-last">最后一页</a>
+                {% endif %}
+            </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

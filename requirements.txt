@@ -1,0 +1,9 @@
+django
+mysqlclient
+django-simple-captcha
+requests
+simpleui
+librosa
+google-cloud-storage
+loguru
+social-auth-app-django

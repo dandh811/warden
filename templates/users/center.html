@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}用户中心{% endblock %}
+
+{% block body %}
+    <div class="layui-container fly-marginTop fly-user-main">
+  <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="user">
+    <li class="layui-nav-item">
+      <a href="{% url 'users:user_home' request.user.id %}">
+        <i class="layui-icon">&#xe609;</i>
+        我的主页
+      </a>
+    </li>
+    <li class="layui-nav-item layui-this">
+      <a href="{% url 'users:user_center' %}">
+        <i class="layui-icon">&#xe612;</i>
+        用户中心
+      </a>
+    </li>
+    <li class="layui-nav-item">
+      <a href="{% url 'users:user_set' %}">
+        <i class="layui-icon">&#xe620;</i>
+        基本设置
+      </a>
+    </li>
+{#    <li class="layui-nav-item">#}
+{#      <a href="message.html">#}
+{#        <i class="layui-icon">&#xe611;</i>#}
+{#        我的消息#}
+{#      </a>#}
+{#    </li>#}
+  </ul>
+
+  <div class="site-tree-mobile layui-hide">
+    <i class="layui-icon">&#xe602;</i>
+  </div>
+  <div class="site-mobile-shade"></div>
+  
+  <div class="site-tree-mobile layui-hide">
+    <i class="layui-icon">&#xe602;</i>
+  </div>
+  <div class="site-mobile-shade"></div>
+
+    <div class="fly-panel fly-panel-user" pad20>
+        <div class="layui-tab layui-tab-brief" lay-filter="user">
+            <ul class="layui-tab-title" id="LAY_mine">
+                <li data-type="mine-jie" lay-id="index" class="layui-this">我收藏的经文（<span>{{scriptures|length}}</span>）</li>
+                <li data-type="collection" lay-id="collection">我收藏的音乐（<span>{{musics|length}}</span>）</li>
+                <li data-type="collection" lay-id="collection">我的摘录（<span>{{excerpts|length}}</span>）</li>
+
+            </ul>
+            <div class="layui-tab-content" style="padding: 20px 0;">
+                <div class="layui-tab-item layui-show">
+                    <ul class="mine-view jie-row">
+                        {% for s in scriptures %}
+                            <li>
+                                <a class="jie-title" href="{% url 'article:article_detail' s.id %}" target="_blank">{{ s.title }}</a>
+                                <i>{{ s.collection_time }}</i>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div id="LAY_page"></div>
+                </div>
+                <div class="layui-tab-item">
+                    <ul class="mine-view jie-row">
+                        {% for m in musics %}
+                            <li>
+                                <a class="jie-title" href="{% url 'article:article_detail' m.id %}" target="_blank">{{ m.title }}</a>
+                                <i>{{ m.collection_time }}</i>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div id="LAY_page1"></div>
+                </div>
+                <div class="layui-tab-item">
+                    <ul class="mine-view jie-row">
+                        {% for e in excerpts %}
+                            <li>
+                                <a>{{ e.content }}</a>
+                                <i style="text-align: right">摘录自：{{ e.source }}  |  {{ e.c_time }}</i>
+
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div id="LAY_page1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

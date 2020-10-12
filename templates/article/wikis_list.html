@@ -1,0 +1,16 @@
+{% extends 'super.html' %}
+{% load article_tag %}
+{% block title %}佛教百科{% endblock %}
+{% block content %}
+    <div class="layui-col-md8 content detail">
+      <div class="fly-panel detail-box">
+        <br>
+          <div style="font-size: 16px; line-height: 200%" >
+              {% for w in wikis %}
+                <a style="font-size: 20px; color: #5DB276" href="{% url 'article:wiki_detail' w.id %}">{{ w.name }} &nbsp; </a>
+              {% endfor %}
+          </div>
+        <br>
+      </div>
+    </div>
+{% endblock %}

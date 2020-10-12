@@ -1,0 +1,25 @@
+server {
+
+        server_name songjing.vip www.songjing.vip;
+        return 301 https://www.songjing.vip$request_uri;
+
+}
+
+server {
+        listen [::]:443 ssl ipv6only=on; # managed by Certbot
+		listen 443 ssl; # managed by Certbot
+		ssl_certificate /etc/letsencrypt/live/songjing.vip/fullchain.pem; # managed by Certbot
+		ssl_certificate_key /etc/letsencrypt/live/songjing.vip/privkey.pem; # managed by Certbot
+		include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+		ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+        server_name songjing.vip www.songjing.vip;
+        location / {
+            include  uwsgi_params;
+            proxy_pass  http://127.0.0.1:8002;              
+           # uwsgi_param UWSGI_SCRIPT demosite.wsgi; 
+           # uwsgi_param UWSGI_CHDIR /demosite;      
+           # index  index.html index.htm;
+            client_max_body_size 35m; 
+	}
+}
