@@ -7,3 +7,5 @@ librosa
 google-cloud-storage
 loguru
 social-auth-app-django
+requests
+django-ckeditor

@@ -9,8 +9,8 @@
     <meta charset="utf-8">
   <title>{% block title %}{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="佛教修行, 修行，诵经">
-  <meta name="description" content="修行">
+  <meta name="keywords" content="博客，董建军博客">
+  <meta name="description" content="董建军博客">
   <link rel="stylesheet" href="{% static 'layui/css/layui.css' %}">
   <link rel="stylesheet" href="{% static 'css/global.css' %}">
     <link rel="shortcut icon" href="{% static 'images/avatar/favicon.ico' %}">
@@ -89,11 +89,9 @@
 <div class="fly-panel fly-column">
   <div class="layui-container">
     <ul class="layui-clear">
-        <li><a href="{% url 'articles:articles_category' 'scripture' %}">在线诵经</a></li>
-        <li><a href="{% url 'articles:articles_category' 'music' %}">佛教音乐</a></li>
-        <li><a href="{% url 'articles:merit_to_index' %}">回向列表</a></li>
-        <li><a href="{% url 'articles:wikis' %}">佛教百科</a></li>
-
+        {% for c in categories %}
+            <li><a href="{% url 'articles:articles_category' c.name %}">{{ c.name }}</a></li>
+        {% endfor %}
         <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li>
       
       <!-- 用户登入后显示 -->
@@ -112,10 +110,9 @@
 {% block body %}{% endblock %}
 
 <div class="fly-footer">
-    <p><a href="https://www.songjing.vip" target="_blank">诵经网</a> 2020 &copy; <a href="https://www.songjing.vip" target="_blank">dandh 出品</a></p>
+    <p><a href="https://www.dongjianjun.com" target="_blank">董建军博客</a> 2020 &copy; <a href="https://www.dongjianjun.com" target="_blank">dandh 出品</a></p>
     {#    <a href="http://fly.layui.com/jie/2461/" target="_blank">微信公众号</a>#}
-    </p>
-    <p>京ICP备20000068号-3</p>
+    <p>京ICP备20000068号-2</p>
 
 </div>
  

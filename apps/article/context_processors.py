@@ -1,9 +1,10 @@
-from apps.article.models import Article, ArticleUser
+from apps.article.models import Article, ArticleUser, Category
 from apps.users.models import User, Profile
 from django.db.models import Count
 
 
 def add_variable_to_context(request):
+    categories = Category.objects.all()
     # vm = VisitNumber.objects.first()
 
     # hot_articles = ArticleUser.objects.filter(article__category='scripture').values('article_id').annotate(num_articles=Count('article_id')).order_by('-num_articles')[:10]

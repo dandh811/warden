@@ -1,6 +1,6 @@
 {% extends 'super.html' %}
 
-{% block title %}诵经网{% endblock %}
+{% block title %}董建军博客{% endblock %}
 
 {% block content %}
     <div class="layui-col-md8">
@@ -12,12 +12,12 @@
             {% for p in particles %}
 
                 <li>
-                <a href="{% url 'articles:article_detail' p.id %}" class="fly-avatar">
-                  <img src="{{ p.article_image_url }}" alt="{{ p.name }}">
+                <a href="{% url 'articles:article_detail' p.title %}" class="fly-avatar">
+                  <img src="{{ p.article_image_url }}" alt="">
                 </a>
                     <h2>
-                        <a class="layui-badge">{{ p.get_category_display }}</a>
-                        <a href="{% url 'articles:article_detail' p.id %}">{{ p.title }}</a>
+                        <a class="layui-badge">{{ p.category }}</a>
+                        <a href="{% url 'articles:article_detail' p.title %}">{{ p.title }}</a>
                     </h2>
                     <div class="fly-list-info">
 {#                        <cite>{{ p.get_category_display }}</cite>#}

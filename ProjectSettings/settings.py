@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'apps.article',
     'apps.users',
     'captcha',
+    'ckeditor',
     # 'social_django',
 ]
 
@@ -125,7 +126,7 @@ EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.163.com'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'dandh811@163.com'
-EMAIL_HOST_PASSWORD = 'OYRCZLYNDLGOFRLD'
+EMAIL_HOST_PASSWORD = 'BFIVASCXBHJSFDBL'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # 注册有效期天数

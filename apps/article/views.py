@@ -14,7 +14,9 @@ from loguru import logger
 @csrf_exempt
 def index(request):
     update_access_nums(request)
-    articles = Article.objects.filter(status='published')
+    articles = Article.objects.filter(status='published').order_by('-id')
+    if request.user.is_superuser:
+        articles = Article.objects.order_by('-id')
     types = Article.type_choice
     paginator = Paginator(articles, 10)
     page = request.GET.get('page')
@@ -30,7 +32,7 @@ def index(request):
 
 @csrf_exempt
 def articles_category(request, category):
-    articles = Article.objects.filter(category=category, status='published')
+    articles = Article.objects.filter(category__name=category, status='published')
     types = Article.type_choice
     paginator = Paginator(articles, 10)
     page = request.GET.get('page')
@@ -45,35 +47,18 @@ def articles_category(request, category):
 
 
 @csrf_exempt
-def article_detail(request, article_id):
+def article_detail(request, title):
     try:
-        article = Article.objects.get(id=article_id)
+        article = Article.objects.get(Q(title=title) & Q(status='published'))
+        if request.user.is_superuser:
+            article = Article.objects.get(title=title)
         blog_times = ArticleUser.objects.filter()
         article.viewed()
 
-        comments = ArticleUser.objects.filter(article_id=article_id).exclude(comment=None)
-        if article.category == 'music':
-            return render(request, 'article/music_detail.html', locals())
-        else:
-            return render(request, 'article/article_detail.html', locals())
+        comments = ArticleUser.objects.filter(article__title=title).exclude(comment=None)
+        return render(request, 'article/article_detail.html', locals())
     except Exception as e:
         logger.critical(e)
-
-
-@csrf_exempt
-def wikis(request):
-    wikis = Wiki.objects.all()
-    blog_times = ArticleUser.objects.filter()
-
-    return render(request, 'article/wikis_list.html', locals())
-
-
-@csrf_exempt
-def wiki_detail(request, wiki_id):
-    wiki = Wiki.objects.get(id=wiki_id)
-    wiki.viewed()
-
-    return render(request, 'article/wiki_detail.html', locals())
 
 
 def article_type(request, type):
@@ -196,7 +181,9 @@ def article_collected(request):
 @csrf_exempt
 def article_search(request):
     q = request.POST.get('q')
-    ks = Article.objects.filter(title__icontains=q)
+    ks = Article.objects.filter(Q(title__icontains=q) & Q(status='published'))
+    if request.user.is_superuser:
+        ks = Article.objects.filter(title__icontains=q)
     paginator = Paginator(ks, 15)
     page = request.GET.get('page')
     particles = paginator.get_page(page)
@@ -207,27 +194,6 @@ def article_search(request):
             p.article_image_url = '/media/article_images/%s.jpg' % (random.randint(0, 20))
 
     return render(request, 'article/article_index.html', locals())
-
-
-# def category(request, pk):
-#     """
-#     :param request:
-#     :param pk:
-#     :return:
-#     相应分类下的窍门检索
-#     """
-#     try:
-#         cate = Category.objects.get(pk=pk)
-#     except Category.DoesNotExist:  # 读取分类，如果不存在，则引发错误，并404
-#         raise Http404
-#
-#     ks = cate.c.all()  ## 获取分类下的所有文章
-#     # return render_to_response('blog/index.html', ## 使用首页的文章列表模版，但加入了的一个`is_category`开关
-#     #     {"posts": posts,
-#     #     "is_category": True,
-#     #     "cate_name": cate.name,
-#     #     "categories": Category.objects.all()},
-#     # context_instance=RequestContext(request))
 
 
 @csrf_exempt
@@ -253,31 +219,6 @@ def add_blog_times(request):
         except Exception as e:
             logger.critical(e)
             return HttpResponse('{"status":"fail"}', content_type='application/json')
-
-
-@csrf_exempt
-def add_merit_to(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        age = request.POST.get('age')
-        content = request.POST.get('content')
-        article_id = request.POST.get('article_id')
-        try:
-            MeritTo.objects.create(name=name, age=age, content=content, article_id=article_id)
-            return HttpResponse('{"status":"success"}', content_type='application/json')
-        except Exception as e:
-            logger.critical(e)
-            return HttpResponse('{"status":"fail"}', content_type='application/json')
-
-
-@csrf_exempt
-def merit_to_index(request):
-    all_mts = MeritTo.objects.order_by('-id')
-    paginator = Paginator(all_mts, 15)
-    page = request.GET.get('page')
-    mts = paginator.get_page(page)
-
-    return render(request, 'article/merit_to_index.html', locals())
 
 
 @csrf_exempt
