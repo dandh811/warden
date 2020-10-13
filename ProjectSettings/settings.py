@@ -2,7 +2,7 @@ import os
 import sys
 from loguru import logger
 
-logger.add('/var/log/chanting/chanting.log',
+logger.add('/var/log/blog/blog.log',
            colorize=True,
            format="<green>[{time:YYYY-MM-DD HH:mm:ss}]</green> <level>{message}</level>",
            rotation="500 MB")
@@ -68,7 +68,7 @@ WSGI_APPLICATION = 'ProjectSettings.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bodhi',
+        'NAME': 'blog',
         'USER': 'root',
         'PASSWORD': 'Sihun2016812',
         'HOST': '106.12.22.125',
@@ -150,4 +150,4 @@ SOCIAL_AUTH_WECHAT_SECRET = '51a8b59a178960c38f554e9f47d5223d'
 # 登录成功后跳转页面
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 
-logger.warning('chanting started')
+logger.warning('blog started')

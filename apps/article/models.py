@@ -74,7 +74,7 @@ class ArticleUser(models.Model):
     comment = models.TextField(verbose_name='评论', default=None, null=True)
     c_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     collect = models.BooleanField(db_column='collect', default=False, verbose_name='收藏')
-    chanting_times = models.IntegerField(verbose_name='诵经次数', default=0, blank=True, null=True)
+    blog_times = models.IntegerField(verbose_name='诵经次数', default=0, blank=True, null=True)
 
     class Meta:
         verbose_name = '支持对应用户的中间表'

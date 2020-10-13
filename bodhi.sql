@@ -122,7 +122,7 @@ CREATE TABLE `article_user_relationship` (
   `collect` tinyint(1) NOT NULL,
   `article_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `chanting_times` int(11),
+  `blog_times` int(11),
   PRIMARY KEY (`id`),
   KEY `article_user_relatio_article_id_96d7dec4_fk_article_a` (`article_id`),
   KEY `article_user_relationship_user_id_c8f75388_fk_auth_user_id` (`user_id`),

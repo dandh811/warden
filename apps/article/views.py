@@ -48,7 +48,7 @@ def articles_category(request, category):
 def article_detail(request, article_id):
     try:
         article = Article.objects.get(id=article_id)
-        chanting_times = ArticleUser.objects.filter()
+        blog_times = ArticleUser.objects.filter()
         article.viewed()
 
         comments = ArticleUser.objects.filter(article_id=article_id).exclude(comment=None)
@@ -63,7 +63,7 @@ def article_detail(request, article_id):
 @csrf_exempt
 def wikis(request):
     wikis = Wiki.objects.all()
-    chanting_times = ArticleUser.objects.filter()
+    blog_times = ArticleUser.objects.filter()
 
     return render(request, 'article/wikis_list.html', locals())
 
@@ -238,17 +238,17 @@ def about(request):
 
 @csrf_exempt
 @login_required
-def add_chanting_times(request):
+def add_blog_times(request):
     if request.method == 'POST':
         article_id = request.POST.get('article_id')
         try:
-            cur_chanting_times = ArticleUser.objects.get(Q(article_id=article_id) & Q(user=request.user)).chanting_times
+            cur_blog_times = ArticleUser.objects.get(Q(article_id=article_id) & Q(user=request.user)).blog_times
         except Exception as e:
-            cur_chanting_times = 0
+            cur_blog_times = 0
             logger.critical(e)
-        new_chanting_times = cur_chanting_times + 1
+        new_blog_times = cur_blog_times + 1
         try:
-            ArticleUser.objects.update_or_create(article_id=article_id, user_id=request.user.id, defaults={'chanting_times': new_chanting_times})
+            ArticleUser.objects.update_or_create(article_id=article_id, user_id=request.user.id, defaults={'blog_times': new_blog_times})
             return HttpResponse('{"status":"success"}', content_type='application/json')
         except Exception as e:
             logger.critical(e)
