@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'apps.article',
     'apps.users',
     'captcha',
-    'social_django',
+    # 'social_django',
 ]
 
 MIDDLEWARE = [
