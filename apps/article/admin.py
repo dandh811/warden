@@ -5,7 +5,7 @@ from .models import Article, Category
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ['title', 'category', 'status', 'c_time']
-    list_filter = ['title', 'category']
+    list_filter = ['category', 'status']
     search_fields = ('title', 'category',)
     readonly_fields = ['support', 'c_time', 'views']
     list_editable = ['category', 'status']
