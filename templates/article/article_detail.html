@@ -163,7 +163,7 @@
                         </div>
                   </form>
                 {% else %}
-                    <p>请<a href="{% url 'users:login' %}?next={% url 'articles:article_detail' article_id %}" style="color:red"> 登录 </a>后再添加评论。</p>
+                    <p>请<a href="{% url 'users:login' %}?next={% url 'articles:article_detail' article.title %}" style="color:red"> 登录 </a>后再添加评论。</p>
                 {% endif %}
             </div>
           </div>
