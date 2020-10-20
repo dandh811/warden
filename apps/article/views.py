@@ -14,9 +14,10 @@ from loguru import logger
 @csrf_exempt
 def index(request):
     update_access_nums(request)
-    articles = Article.objects.filter(status='published').order_by('-id')
     if request.user.is_superuser:
         articles = Article.objects.order_by('-id')
+    else:
+        articles = Article.objects.filter(status='published').order_by('-id')
     types = Article.type_choice
     paginator = Paginator(articles, 10)
     page = request.GET.get('page')
@@ -49,9 +50,10 @@ def articles_category(request, category):
 @csrf_exempt
 def article_detail(request, title):
     try:
-        article = Article.objects.get(Q(title=title) & Q(status='published'))
         if request.user.is_superuser:
             article = Article.objects.get(title=title)
+        else:
+            article = Article.objects.get(Q(title=title) & Q(status='published'))
         blog_times = ArticleUser.objects.filter()
         article.viewed()
 
@@ -181,9 +183,11 @@ def article_collected(request):
 @csrf_exempt
 def article_search(request):
     q = request.POST.get('q')
-    ks = Article.objects.filter(Q(title__icontains=q) & Q(status='published'))
     if request.user.is_superuser:
         ks = Article.objects.filter(title__icontains=q)
+    else:
+        ks = Article.objects.filter(Q(title__icontains=q) & Q(status='published'))
+
     paginator = Paginator(ks, 15)
     page = request.GET.get('page')
     particles = paginator.get_page(page)
