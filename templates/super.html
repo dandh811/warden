@@ -4,7 +4,7 @@
     <div class="layui-container">
       <div class="layui-row layui-col-space15">
         {% block content %}{% endblock %}
-        <div class="layui-col-md4">
+{#        <div class="layui-col-md4">#}
 {#          <div class="fly-panel fly-signin">#}
 {#            <div class="fly-panel-title">#}
 {#              签到#}
@@ -26,16 +26,16 @@
 {#              -->#}
 {#            </div>#}
 {#          </div>#}
-
-        <dl class="fly-panel fly-list-one">
-            <dt class="fly-panel-title">热门经典</dt>
+{##}
+{#        <dl class="fly-panel fly-list-one">#}
+{#            <dt class="fly-panel-title">热门经典</dt>#}
 {#            {% for h in hot_articles %}#}
 {#                <dd>#}
 {#                  <a href="{% url 'articles:article_detail' h.id %}">{{ h.title }}</a>#}
 {#                  <span><i class="iconfont">&#xe60b;</i>{{ h.views }}</span>#}
 {#                </dd>#}
 {#            {% endfor %}#}
-        </dl>
+{#        </dl>#}
 {#        <div class="fly-panel fly-rank fly-rank-reply" id="LAY_replyRank">#}
 {#            <h3 class="fly-panel-title">积分排行</h3>#}
 {#            <dl>#}
@@ -71,7 +71,7 @@
 {#                {% endfor %}#}
 {#            </dl>#}
 {#          </div>#}
-
+{##}
 {#          <div class="fly-panel" style="padding: 20px 0; text-align: center;">#}
 {#            <div class="fly-panel-title">#}
 {#              支持我#}
@@ -80,20 +80,20 @@
 {#                <img src="{% static 'images/dashang.png' %}" alt="打赏">#}
 {#            </div>#}
 {#          </div>#}
-
-          <div class="fly-panel fly-link">
-              <dl class="fly-panel fly-list-one">
-                  <dt class="fly-panel-title">站点统计</dt>
+{##}
+{#          <div class="fly-panel fly-link">#}
+{#              <dl class="fly-panel fly-list-one">#}
+{#                  <dt class="fly-panel-title">站点统计</dt>#}
 {#                  <dd>发布经文：{{scriptures|length}}</dd>#}
 {#                  <dd>音乐：{{musices|length}}</dd>#}
 {#                  <dd>用户数：{{users|length}}</dd>#}
 {#                  <dd>评论数：{{comments|length}}</dd>#}
 {#                  <dd>访问量：{{visitnum}}</dd>#}
-
-              </dl>
-          </div>
-
-        </div>
+{##}
+{#              </dl>#}
+{#          </div>#}
+{##}
+{#        </div>#}
       </div>
     </div>
 {% endblock %}
