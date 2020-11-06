@@ -18,6 +18,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.article.urls', namespace='articles')),
     path('user/', include('apps.users.urls', namespace='users')),
+    path('cases/', include('apps.cases.urls', namespace='cases')),
+
     path('captcha', include('captcha.urls')),
     re_path(r'^media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
     path('robots.txt', lambda r: HttpResponse('User-agent: *\nDisallow: /admin', content_type='text/plain')),

@@ -89,6 +89,7 @@
 <div class="fly-panel fly-column">
   <div class="layui-container">
     <ul class="layui-clear">
+        <li><a href="{% url 'cases:cases_index' %}">测试用例库</a></li>
         {% for c in categories %}
             <li><a href="{% url 'articles:articles_category' c.name %}">{{ c.name }}</a></li>
         {% endfor %}
