@@ -1,29 +1,49 @@
 {% extends 'super.html' %}
-{% block title %}资产列表{% endblock %}
+{% block title %}安全测试用例库{% endblock %}
 {% block content %}
     <div class="layui-col-md12 content detail">
         <div class="fly-panel detail-box">
-            <div class="layui-card">
                 <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-list">
                     <div class="layui-form-item">
-                        <form class="layui-form" action="{% url 'cases:cases_index' %}" method="post">
+                        <form class="layui-form" action="{% url 'cases:cases_search' %}" method="post">
                             <div class="layui-inline">
-                                <label class="layui-form-label">IP</label>
-                                <div class="layui-input-inline">
-                                  <input type="text" name="ip_search" placeholder="请输入" class="layui-input">
-                                </div>
-                            </div>
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">安全领域</label>
+                                    <div class="layui-input-block">
+                                        <select name="field">
+                                            <option></option>
+                                          {% for f in fields %}
+                                              <option value="{{ f.name }}">{{ f.name }}</option>
+                                          {% endfor %}
+                                        </select>
+                                    </div>
+                                  </div>
+                              </div>
                             <div class="layui-inline">
-                                <label class="layui-form-label">服务</label>
-                                <div class="layui-input-inline">
-                                  <input type="text" name="service_search" placeholder="请输入" class="layui-input">
+                                  <div class="layui-form-item">
+                                    <label class="layui-form-label">漏洞类型</label>
+                                    <div class="layui-input-block">
+                                        <select name="vul">
+                                            <option></option>
+                                          {% for v in vuls %}
+                                              <option value="{{ v.name }}">{{ v.name }}</option>
+                                          {% endfor %}
+                                        </select>
+                                    </div>
+                                  </div>
+                              </div>
+                            <div class="layui-inline">
+                                <div class="layui-form-item">
+                                    <div class="layui-input-inline">
+                                      <input type="text" name="cases_search" placeholder="请输入" class="layui-input">
+                                    </div>
                                 </div>
                             </div>
 
                               <div class="layui-inline">
-                                <button class="layui-btn" lay-submit="" lay-filter="submit" value="搜索" data-type="reload">
-                                  <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
-                                </button>
+                                  <div class="layui-form-item">
+                                    <button class="layui-btn layuiadmin-btn-useradmin">搜索用例</button>
+                                  </div>
                               </div>
                         </form>
                     </div>
@@ -72,7 +92,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 {% endblock %}
 {% block script %}
