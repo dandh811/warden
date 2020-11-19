@@ -1,0 +1,30 @@
+{% extends 'super.html' %}
+{% block title %}在线工具{% endblock %}
+{% block content %}
+    <div class="layui-col-md12 content detail">
+        <div class="fly-panel detail-box">
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-list">
+                <div class="layui-form-item">
+                          <a class="layui-btn" href="{% url 'tools:tools_category' 'unicode2zh' %}">unicode转中文</a>
+
+                  </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+        //Demo
+        layui.use('form', function(){
+          var form = layui.form;
+
+          //监听提交
+          form.on('submit(searchSubmit)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+          });
+        });
+    </script>
+{% endblock %}

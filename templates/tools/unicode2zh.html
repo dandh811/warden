@@ -1,0 +1,43 @@
+{% extends 'super.html' %}
+{% block title %}在线工具{% endblock %}
+{% block content %}
+    <div class="layui-col-md12">
+    <div class="layui-col-md6 content detail">
+        <div class="fly-panel detail-box">
+            <div class="layui-form-item layui-form-text">
+                <textarea id="unicode_text" placeholder="请输入Unicode编码" class="layui-textarea" style="height: 390px"></textarea>
+            </div>
+            <button class="layui-btn" id="unicode2zh_p">unicode转中文</button>
+        </div>
+    </div>
+    <div class="layui-col-md6 content detail">
+        <div class="fly-panel detail-box">
+            <div class="layui-form-item layui-form-text">
+                <textarea id="zh_text" placeholder="请输入中文" class="layui-textarea" style="height: 390px"></textarea>
+            </div>
+            <a class="layui-btn" onclick="{% url 'tools:tools_category' 'unicode2zh' %}">中文转unicode</a>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+      $('#unicode2zh_p').click(function(){
+          var content = $("#unicode_text").val();
+        $.ajax({
+            url: "{% url 'tools:unicode2zh_p' %}",
+            data: {'content': content},
+            type: 'post',
+            dataType: 'json',
+            success: function(data) {
+                  if(data.status == 'success'){
+                      $('#zh_text').html(data.msg);
+                  }else {
+                      $('#jsCompanyTips').html(data.msg);
+                      alert("提交失败！");
+                  }
+              },
+        })
+        });
+    </script>
+{% endblock %}
