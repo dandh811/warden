@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+import json
 
 
 def tools_index(request):
@@ -17,4 +18,12 @@ def tools_category(request, category):
 def unicode2zh_p(request):
     content = request.POST.get('content')
     msg = content.encode('utf-8').decode('unicode_escape')
+    return HttpResponse('{"status": "success", "msg": "%s"}' % msg, content_type='application/json')
+
+
+@csrf_exempt
+def unicode2zh_n(request):
+    content = request.POST.get('content')
+    msg = str(content.encode('unicode_escape')).strip("b").strip("'")
+    # msg = json.dumps(content)
     return HttpResponse('{"status": "success", "msg": "%s"}' % msg, content_type='application/json')

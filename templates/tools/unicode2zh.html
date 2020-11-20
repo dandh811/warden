@@ -15,7 +15,7 @@
             <div class="layui-form-item layui-form-text">
                 <textarea id="zh_text" placeholder="请输入中文" class="layui-textarea" style="height: 390px"></textarea>
             </div>
-            <a class="layui-btn" onclick="{% url 'tools:tools_category' 'unicode2zh' %}">中文转unicode</a>
+            <button class="layui-btn" id="unicode2zh_n">中文转unicode</button>
         </div>
     </div>
     </div>
@@ -31,9 +31,25 @@
             dataType: 'json',
             success: function(data) {
                   if(data.status == 'success'){
-                      $('#zh_text').html(data.msg);
+                      $('#zh_text').val(data.msg);
                   }else {
-                      $('#jsCompanyTips').html(data.msg);
+                      alert("提交失败！");
+                  }
+              },
+        })
+        });
+
+      $('#unicode2zh_n').click(function(){
+          var content = $("#zh_text").val();
+        $.ajax({
+            url: "{% url 'tools:unicode2zh_n' %}",
+            data: {'content': content},
+            type: 'post',
+            dataType: 'json',
+            success: function(data) {
+                  if(data.status == 'success'){
+                      $('#unicode_text').val(data.msg);
+                  }else {
                       alert("提交失败！");
                   }
               },

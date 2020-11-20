@@ -158,27 +158,6 @@
 {#    <li class="layui-icon layui-fixbar-top" lay-type="top" style="background-color: rgb(0, 150, 136); display: list-item;"></li>#}
 {#    <button onclick="topFunction()" id="back-to-top" title="回顶部">返回顶部</button>#}
 {#</ul>#}
-<script>
-    function topFunction() {
-        document.getElementsByClassName('layui-body')[0].scrollTop = 0;
-    }
-
-    function scrollFun() {
-        var layuiBodyScrollTop = document.getElementsByClassName('layui-fixbar-top')[0].scrollTop
-        console.log(layuiBodyScrollTop)
-        if (layuiBodyScrollTop > 1000) {
-            document.getElementById("back-to-top").style.display = "block";
-        } else {
-            document.getElementById("back-to-top").style.display = "none";
-        }
-    }
-
-    /*注册事件*/
-    if (document.addEventListener) {
-        document.addEventListener('DOMMouseScroll', scrollFun, false);
-    }//W3C
-    window.onmousewheel = document.onmousewheel = scrollFun;//IE/Opera/Chrome
-</script>
 
 {% block js %}{% endblock %}
 
