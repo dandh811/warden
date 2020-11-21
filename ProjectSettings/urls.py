@@ -14,6 +14,10 @@ info_dict = {
     'queryset': Article.objects.filter(status='published'),
 }
 
+def t1280977330000(request):
+    HttpResponse('')
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.article.urls', namespace='articles')),
@@ -25,4 +29,5 @@ urlpatterns = [
     path('robots.txt', lambda r: HttpResponse('User-agent: *\nDisallow: /admin', content_type='text/plain')),
     path('sitemap.xml', sitemap, {'sitemaps': {'article': GenericSitemap(info_dict, priority=0.6)}},
          name='django.contrib.sitemaps.views.sitemap'),
+    path('t1280977330000', t1280977330000)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
