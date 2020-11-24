@@ -1,0 +1,63 @@
+{% extends 'super.html' %}
+{% block title %}XSS编码{% endblock %}
+{% block content %}
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+              <div class="layui-form" lay-filter="">
+                <div class="layui-form-item">
+                  <label class="layui-form-label">原字符串</label>
+                  <div class="layui-input-block">
+                    <input type="text" id="source_str" value="" class="layui-input">
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">URL编码</label>
+                  <div class="layui-input-block">
+                    <input type="text" id="url_encoding" value="" class="layui-input">
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">HTML编码</label>
+                  <div class="layui-input-block">
+                    <input type="text" id="html_encoding" value="" class="layui-input">
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <div class="layui-input-block">
+                    <button class="layui-btn" id="submit">确认提交</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        $('#submit').click(function(){
+              var source_str = $("#source_str").val();
+
+              $.ajax({
+                  type: "post",
+                  url:"{% url 'tools:xss_encoding' %}",
+                  data:{
+                      'source_str': source_str,
+                  },
+                  dateType:"json",
+                  async: true,
+                  success: function(data) {
+                      var JsonObjs = eval("(" + data + ")");
+                      if (JsonObjs == null){
+                          alert('提交失败');
+                      }
+                      else {
+                          alert(JsonObjs);
+                          $('#url_encoding').val(JsonObjs["url_encoding"]);
+                      }
+                  },
+              });
+            return false;
+          });
+    </script>
+{% endblock %}

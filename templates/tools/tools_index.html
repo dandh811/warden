@@ -1,0 +1,25 @@
+{% extends 'super.html' %}
+{% block title %}在线工具{% endblock %}
+{% block content %}
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <a class="layui-btn" href="{% url 'tools:tools_category' 'unicode2zh' %}">unicode转中文</a>
+                <a class="layui-btn" href="{% url 'tools:tools_category' 'xss_encoding' %}">XSS编码</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+        layui.use('form', function(){
+          var form = layui.form;
+
+          //监听提交
+          form.on('submit(searchSubmit)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+          });
+        });
+    </script>
+{% endblock %}
