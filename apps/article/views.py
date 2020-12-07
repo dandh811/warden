@@ -22,11 +22,6 @@ def index(request):
     paginator = Paginator(articles, 10)
     page = request.GET.get('page')
     particles = paginator.get_page(page)
-    for p in particles:
-        if p.cover:
-            p.article_image_url = p.cover
-        else:
-            p.article_image_url = '/media/article_images/%s.jpg' % (random.randint(0, 25))
 
     return render(request, 'article/article_index.html', locals())
 
