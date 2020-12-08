@@ -23,7 +23,7 @@ def index(request):
     page = request.GET.get('page')
     particles = paginator.get_page(page)
 
-    return render(request, 'article/article_index.html', locals())
+    return render(request, 'jpress/index.html', locals())
 
 
 @csrf_exempt

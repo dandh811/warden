@@ -74,7 +74,7 @@ DATABASES = {
         'NAME': 'blog',
         'USER': 'root',
         'PASSWORD': 'Sihun2016812',
-        'HOST': '106.12.22.125',
+        'HOST': '81.70.89.72',
         'PORT': '3306',
         'OPTIONS': {
                 "init_command": "SET foreign_key_checks = 0;",  # 取消外键检查
