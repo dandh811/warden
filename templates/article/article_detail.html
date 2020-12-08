@@ -78,37 +78,14 @@
             </div>
 
             <br>
-            <div class="functional-area-left sticky-top d-none d-xl-flex">
-                <div class="text-center">
-                    <div class="btn-group like-group " role="group">
-                        <button class="func-btn mainLike like-btn btn btn-outline-primary" onclick="setExcerpt()">摘录</button>
-                        <button class="func-btn mainLike like-btn btn btn-outline-primary" onclick="setIdea()">想法</button>
-                    </div>
-                </div>
-            </div>
-          <div style="font-size: 15px; line-height: 200%" onclick="copyTxt()">{{ article.content|safe }}</div>
-        <br>
-        <div class="jieda-reply">
-          {% if res.support %}
-              <span class="jieda-zan zanok" type="zan" id="unzan-article">
-          {% else %}
-              <span class="jieda-zan" type="zan" id="zan-article">
-          {% endif %}
-            <i class="iconfont icon-zan"></i>
-            <em>{{ article.support }}</em>
-          </span>
 
-
-{#                        <span onclick="shareTo('qq')">#}
-{#                <img src="http://zixuephp.net/static/images/qqshare.png" width="32">#}
-{#            </span>#}
-{#                        <span onclick="shareTo('sina')">#}
-{#                <img src="http://zixuephp.net/static/images/sinaweiboshare.png" width="36">#}
-{#            </span>#}
-{#                        <span onclick="shareTo('wechat')">#}
-{#                <img src="{% static 'images/wechat_logo.png' %}" width="32">#}
-{#            </span>#}
+          <div style="font-size: 15px; line-height: 200%">
+              {{ article.content|safe }}
+          </div>
+        <div style="text-align:center">
+            <img src="{% static 'images/pay.png' %}" height="300px" width="300px">
         </div>
+        <br>
 
           <div class="fly-panel detail-box" id="flyReply">
             <fieldset class="layui-elem-field layui-field-title" style="text-align: center;">
@@ -118,13 +95,6 @@
                 {% for c in comments %}
                     <li data-id="111">
                 <div class="detail-about detail-about-reply">
-                  <a class="fly-avatar" href="">
-                      {% if c.user.profile.avatar %}
-                        <img src="/media/{{ c.user.profile.avatar }}" alt="">
-                    {% else %}
-                        <img src="/media/avatar/default.png">
-                    {% endif %}
-                  </a>
                   <div class="fly-detail-user">
                     <a href="{% url 'users:user_home' c.user.id %}" class="fly-link">
                       <cite>{{ c.user }}</cite>
@@ -201,40 +171,6 @@
           return false;
             });
           });
-
-        $('#zan-article').click(function(){
-        $.ajax({
-            url: '{% url 'articles:article_support' %}',
-            data: {'article_id': {{ article.id }}, 'action': 'support'},
-            type: 'post',
-            dataType: 'json',
-            success: function(data) {
-                  if(data.status == 'success'){
-                      window.location.reload();//刷新当前页面.
-                  }else {
-                      $('#jsCompanyTips').html(data.msg);
-                      alert("提交失败！");
-                  }
-              },
-        })
-        });
-
-        $('#unzan-article').click(function(){
-        $.ajax({
-            url: '{% url 'articles:article_support' %}',
-            data: {'article_id': {{ article.id }}, 'action': 'unsupport'},
-            type: 'post',
-            dataType: 'json',
-            success: function(data) {
-                  if(data.status == 'success'){
-                      window.location.reload();//刷新当前页面.
-                  }else {
-                      $('#jsCompanyTips').html(data.msg)
-                      alert("提交失败！");
-                  }
-              },
-        })
-        });
 
         $('#collect').click(function(){
         $.ajax({
