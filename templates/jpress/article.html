@@ -31,13 +31,8 @@
 				<span class="appreciate-tip">如果觉得我的文章对你有用，请随意赞赏</span>
 			</div>
 			<div id="appreciate-content">
-				<div class="appreciate-content-tip">扫一扫支付</div>
-				<img src="#option('perfree_alipay' ??)" id="appreciate-content-aLiImg">
-				<img src="#option('perfree_wechat' ??)" id="appreciate-content-wechatImg">
-				<div class="appreciate-content-btn-box">
-					<button class="layui-btn layui-btn-normal" onclick="changeImg(1);">支付宝支付</button>
-					<button class="layui-btn" onclick="changeImg(2);">微信支付</button>
-				</div>
+				<div class="appreciate-content-tip">微信打赏</div>
+				<img src="{% static 'images/wechat_pay.png' %}" id="appreciate-content-aLiImg">
 			</div>
 
 		</div>
@@ -52,65 +47,33 @@
 					<input type="hidden" name="articleId" value="#(article.id)" id="articleId">
 					<input type="hidden" name="pid" id="pid">
 					<textarea id="revert" style="display: none;" name="content" lay-verify="content"></textarea>
-					#if(option('article_comment_vcode_enable'))
-						<img src="/commons/captcha" style="height: 25px" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" class="comment-verify">
-						<input placeholder="请输入验证码" autocomplete="off" required class="layui-input captcha" name="captcha" type="text" lay-verify="required">
-					#end
+{#						<img src="/commons/captcha" style="height: 25px" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" class="comment-verify">#}
+{#						<input placeholder="请输入验证码" autocomplete="off" required class="layui-input captcha" name="captcha" type="text" lay-verify="required">#}
 					<button class="layui-btn layui-btn-normal revert-submit" lay-submit lay-filter="comment">发表评论</button>
 				</form>
 			</div>
 			<!-- 评论框end -->
 			<!-- 评论列表start -->
 			<div class="revert-list" id="allComment">
-				#commentPage(pageSize=5)
-					#for(comment : commentPage.list)
+				{% for c in comments %}
 					<div class="revert-content-box">
 						<div class="revert-user">
 							<img src="#(comment.user.avatar ?? 'static/img/avatar.png')" width="40px" height="40px"/>
 							<span class="revert-user-msg">
-								<span class="revert-user-name">#(comment.author ?? '匿名用户')</span>
+								<span class="revert-user-name">{{c.user}}</span>
 								<br>
-								<span class="revert-user-time">#date(comment.created, "yyyy-MM-dd HH:mm:ss")</span>
+								<span class="revert-user-time">{{ c.c_time|date:"Y-m-j G:i" }}</span>
 							</span>
 						</div>
 						<div class="revert-content">
-							#(comment.text ??)
+                            {{c.comment}}
 						</div>
-						#if(comment.parent)
-						<div class="revert-comment-content-box">
-							<div class="revert-user">
-								<img src="#(comment.parent.user.avatar ?? 'static/img/avatar.png')" width="40px" height="40px"/>
-								<span class="revert-user-msg">
-									<span class="revert-user-name">#(comment.parent.author ?? '匿名用户')</span>
-									<br>
-									<span class="revert-user-time">#date(comment.parent.created, "yyyy-MM-dd HH:mm:ss")</span>
-								</span>
-							</div>
-							<div class="revert-content">
-								#(comment.parent.text ??)
-							</div>
-						</div>
-						#end
+
 						<a class="toReply" href="javascript:;" data-cid="#(comment.id)" data-author="#(comment.author ?? '匿名用户')">回复</a>
 					</div>
 					<hr class="layui-bg-gray">
-					#else
-						<div class="no-comment">
-							<i class="fa fa-volume-up" aria-hidden="true"></i> 还没有人评论哦~赶快抢占沙发吧~
-						</div>
-					#end
-					#commentPaginate(anchor="allComment")
-						<div class="layui-card">
-							<div class="layui-card-body">
-								<div class="perfree-page-box">
-									#for(page : pages)
-									<a class="page-item #(page.style)" href="#(WEB_DOMAIN ??)#(page.url ??)">#(page.text ??)</a>
-									#end
-								</div>
-							</div>
-						</div>
-					#end
-				#end
+
+                {% endfor %}
 			</div>
 			<!-- 评论列表end -->
 		</div>
@@ -154,17 +117,7 @@
 				content: $('#appreciate-content')
 			});
 		}
-		function changeImg(type) {
-			if(type == 1){
-				$(".layui-layer-wrap > #appreciate-content-wechatImg").hide();
-				$(".layui-layer-wrap > #appreciate-content-aLiImg").show();
-			}else{
-				$(".layui-layer-wrap > #appreciate-content-aLiImg").hide();
-				$(".layui-layer-wrap > #appreciate-content-wechatImg").show();
-			}
-		}
 	</script>
-	#if(option('page_code_line') == null || option('page_code_line') != '不开启')
 	<script>
 		$('pre code').each(function(){
 			var edit = $("#edit-model").text();
@@ -182,6 +135,5 @@
 			}
 		});
 	</script>
-	#end
 </div>
 {% endblock %}

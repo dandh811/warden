@@ -50,14 +50,12 @@
 
             {% if request.user.is_authenticated %}
                 <li class="layui-nav-item">
-                    <a><img src="/media/{{ user.profile.avatar }}" class="layui-nav-img">{{ user }}</a>
+                    <a>{{ user }}</a>
                     <dl class="layui-nav-child">
                         <dd lay-unselect>
                             <a href="{% url 'users:user_home' request.user.id %}" target="_blank">个人中心</a>
                         </dd>
-                        <dd lay-unselect>
-                            <a href="/ucenter/pwd" target="_blank">修改密码</a>
-                        </dd>
+
                         <dd class="header-logout" lay-unselect>
                             <a href="{% url 'users:logout' %}"> 退出登录 </a>
                         </dd>
