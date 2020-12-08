@@ -33,13 +33,8 @@ def articles_category(request, category):
     paginator = Paginator(articles, 10)
     page = request.GET.get('page')
     particles = paginator.get_page(page)
-    for p in particles:
-        if p.cover:
-            p.article_image_url = p.cover
-        else:
-            p.article_image_url = '/media/article_images/%s.jpg' % (random.randint(0, 25))
 
-    return render(request, 'article/article_index.html', locals())
+    return render(request, 'jpress/index.html', locals())
 
 
 @csrf_exempt
@@ -53,7 +48,7 @@ def article_detail(request, title):
         article.viewed()
 
         comments = ArticleUser.objects.filter(article__title=title).exclude(comment=None)
-        return render(request, 'article/article_detail.html', locals())
+        return render(request, 'jpress/article.html', locals())
     except Exception as e:
         logger.critical(e)
 
@@ -65,7 +60,7 @@ def article_type(request, type):
     page = request.GET.get('page')
     pks = paginator.get_page(page)
 
-    return render(request, 'article/article_index.html', locals())
+    return render(request, 'jpress/index.html', locals())
 
 
 @csrf_exempt
@@ -172,7 +167,7 @@ def article_collected(request):
     page = request.GET.get('page')
     particles = paginator.get_page(page)
 
-    return render(request, 'article/article_index.html', locals())
+    return render(request, 'jpress/index.html', locals())
 
 
 @csrf_exempt
@@ -186,13 +181,8 @@ def article_search(request):
     paginator = Paginator(ks, 15)
     page = request.GET.get('page')
     particles = paginator.get_page(page)
-    for p in particles:
-        if p.cover:
-            p.article_image_url = p.cover
-        else:
-            p.article_image_url = '/media/article_images/%s.jpg' % (random.randint(0, 20))
 
-    return render(request, 'article/article_index.html', locals())
+    return render(request, 'jpress/index.html', locals())
 
 
 @csrf_exempt

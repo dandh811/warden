@@ -3,9 +3,9 @@
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <title>董建军博客</title>
-    <meta name="keywords" content="#(SEO_KEYWORDS ??)">
-    <meta name="description" content="#(SEO_DESCRIPTION ??)">
+    <title>哼哼</title>
+    <meta name="keywords" content="信息安全，博客">
+    <meta name="description" content="信息安全">
     <meta name="template" content="Perfree-Simple">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <!-- 引入资源文件 -->
@@ -34,22 +34,19 @@
         <!-- 导航栏logo及文字start -->
         <a class="logo-box pjax" href="/">
             <i class="fa fa-#option('page_logo_icon' ??) fa-lg"></i>
-            <span>xxx</span>
+            <span>哼哼</span>
         </a>
         <!-- 导航栏logo及文字end -->
 
         <!-- 导航栏菜单start -->
         <ul class="layui-nav layui-bg-cyan" lay-filter="">
+            <li class="layui-nav-item"><a href="{% url 'cases:cases_index' %}">测试用例库</a></li>
+            <li class="layui-nav-item"><a href="{% url 'tools:tools_index' %}">在线工具</a></li>
+            {% for c in categories %}
                 <li class="layui-nav-item" lay-unselect>
-                    <a href="#(menu.url == null ? 'javascript:;':menu.url)" class="pjax"><i class="fa fa-#(menu.icon ??)"></i>文章分类</a>
-                        <dl class="layui-nav-child">
-                            {% for c in categories %}
-                                <dd lay-unselect>
-                                    <a href="{% url 'articles:articles_category' c.name %}" class="pjax">{{ c.name }}</a>
-                                </dd>
-                            {% endfor %}
-                        </dl>
+                    <a href="{% url 'articles:articles_category' c.name %}" class="pjax">{{ c.name }}</a>
                 </li>
+            {% endfor %}
 
             {% if request.user.is_authenticated %}
                 <li class="layui-nav-item">
@@ -84,7 +81,7 @@
     <!-- 导航栏logo及文字start -->
     <a class="logo-box pjax" href="/">
         <i class="fa fa-#option('page_logo_icon' ??) fa-lg"></i>
-        <span> #(WEB_NAME ??)</span>
+        <span> </span>
     </a>
     <!-- 导航栏logo及文字end -->
 
@@ -137,12 +134,12 @@
         <div class="layui-card phone-yiyan-box">
             <div class="layui-card-body page-title-body">
                 <h2>#(WEB_NAME ??)</h2>
-                <div>
-                    <script type="text/javascript" src="https://api.lwl12.com/hitokoto/v1?encode=js&charset=utf-8"></script>
-                    <span id="lwlhitokoto">
-                    <script>lwlhitokoto()</script>
-                </span>
-                </div>
+{#                <div>#}
+{#                    <script type="text/javascript" src="https://api.lwl12.com/hitokoto/v1?encode=js&charset=utf-8"></script>#}
+{#                    <span id="lwlhitokoto">#}
+{#                    <script>lwlhitokoto()</script>#}
+{#                </span>#}
+{#                </div>#}
             </div>
         </div>
         <!-- 一言组件手机端，电脑端不展示end -->
@@ -153,13 +150,13 @@
     <!-- 一言组件 -->
     <div class="layui-card yiyan-box">
         <div class="layui-card-body page-title-body">
-            <h2 class="right-name-title">#(WEB_NAME ??)</h2>
-            <div>
-                <script type="text/javascript" src="https://api.lwl12.com/hitokoto/v1?encode=js&charset=utf-8"></script>
-                    <span id="lwlhitokoto">
-                        <script>lwlhitokoto()</script>
-                    </span>
-            </div>
+            <h2 class="right-name-title">你的问题在于，读书不多想得太多</h2>
+{#            <div>#}
+{#                <script type="text/javascript" src="https://api.lwl12.com/hitokoto/v1?encode=js&charset=utf-8"></script>#}
+{#                    <span id="lwlhitokoto">#}
+{#                        <script>lwlhitokoto()</script>#}
+{#                    </span>#}
+{#            </div>#}
         </div>
     </div>
     <!-- 一言组件 -->
@@ -180,58 +177,40 @@
         </div>
     </div>
     <!-- 搜索end -->
-    <!-- 音乐start -->
-    #if(option('music_server') != null && option('music_type') != null && option('music_id') != null)
-    <div class="layui-card music-card">
-        <div class="layui-card-header">
-            <i class="fa fa-music"></i>
-            <span style="margin-left: 3px;">音乐推荐</span>
-        </div>
-        <div class="layui-card-body music-body">
-            <meting-js server="#option('music_server' ??)" type="#option('music_type' ??)" id="#option('music_id' ??)" list-max-height="240px" list-folded="true"></meting-js>
-        </div>
-    </div>
-    #end
-    <!-- 音乐end -->
 
     <!-- 热门start -->
-    #articles(orderBy="view_count DESC",count=5)
         <div class="layui-card right-hot-article-box">
             <div class="layui-card-header">
                 <i class="fa fa-fire"></i>
                 <span style="margin-left: 3px;">热门文章</span>
             </div>
             <div class="layui-card-body hot-article-body">
-                #for(article : articles)
-                    <a class="hot-article-box pjax" href="#(WEB_DOMAIN ??)#(article.url)">
-                        #if(for.odd)
-                            <img src="#(article.thumbnail ?? 'static/img/3.jpg')" width="20%" height="50px" class="hot-article-img"/>
-                        #else
-                            <img src="#(article.thumbnail ?? 'static/img/2.jpg')" width="20%" height="50px" class="hot-article-img"/>
-                        #end
-                        <span class="hot-article-title">#(article.title)</span><br>
-                        <span class="hot-article-msg"><i class="fa fa-clock-o"></i> #date(article.created, "yyyy-MM-dd")&nbsp;&nbsp;<i class="fa fa-eye"></i> #(article.view_count ??)</span>
-                    </a>
-                #end
+{#                #for(article : articles)#}
+{#                    <a class="hot-article-box pjax" href="#(WEB_DOMAIN ??)#(article.url)">#}
+{#                        #if(for.odd)#}
+{#                            <img src="#(article.thumbnail ?? 'static/img/3.jpg')" width="20%" height="50px" class="hot-article-img"/>#}
+{#                        #else#}
+{#                            <img src="#(article.thumbnail ?? 'static/img/2.jpg')" width="20%" height="50px" class="hot-article-img"/>#}
+{#                        #end#}
+{#                        <span class="hot-article-title">#(article.title)</span><br>#}
+{#                        <span class="hot-article-msg"><i class="fa fa-clock-o"></i> #date(article.created, "yyyy-MM-dd")&nbsp;&nbsp;<i class="fa fa-eye"></i> #(article.view_count ??)</span>#}
+{#                    </a>#}
             </div>
         </div>
-    #end
     <!-- 热门end -->
 
     <!-- 标签start -->
-    #tags(orderBy="count DESC")
         <div class="layui-card right-hot-tag">
             <div class="layui-card-header">
                 <i class="fa fa-tags"></i>
                 <span style="margin-left: 3px;">热门标签</span>
             </div>
             <div class="layui-card-body tag-body">
-                #for(tag : tags)
-                    <a href="#(WEB_DOMAIN ??)#(tag.url)" class="layui-btn layui-btn-normal tag pjax" title="共#(tag.count ??)篇文章">#(tag.title)</a>
-                #end
+{#                #for(tag : tags)#}
+{#                    <a href="#(WEB_DOMAIN ??)#(tag.url)" class="layui-btn layui-btn-normal tag pjax" title="共#(tag.count ??)篇文章">#(tag.title)</a>#}
+{#                #end#}
             </div>
         </div>
-    #end
     <!-- 标签end -->
 
     <!-- 广告start -->
@@ -241,7 +220,7 @@
             <span style="margin-left: 3px;">广告</span>
         </div>
         <div class="layui-card-body tag-body">
-            #option('page_ad_code' ??)
+{#            #option('page_ad_code' ??)#}
         </div>
     </div>
     <!-- 广告end -->
@@ -279,7 +258,6 @@
         return '#'+(Math.random()*0xffffff<<0).toString(16);
     }
 </script>
-#if(option('page_pjax') == null || option('page_pjax') == true)
 <script>
     //设置pjax
     var pjax = new Pjax({
@@ -310,9 +288,6 @@
         layer.msg("系统出现问题,请刷新网页");
     });
 </script>
-#end
 <!-- 自定义js代码 -->
-#option('page_js_code' ??)
 </body>
 </html>
-#end

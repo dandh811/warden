@@ -1,30 +1,29 @@
-#include("./_inc/_layout.html")
-#@layout()
-#define content()
+{% extends 'jpress/_layout.html' %}
+{% load static %}
+{% load article_tag %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
 <div class="layui-col-xs12 layui-col-sm7 layui-col-md8 perfree-content-left">
-	<link rel="stylesheet" href="../../static/jpress/static/plugin/vue-markdown/vue.css" media="all">
-	<link rel="stylesheet" href="../../static/jpress/static/css/article.css" media="all">
-	<script src="../../static/jpress/static/js/article.js"></script>
+	<link rel="stylesheet" href="{% static 'jpress/static/plugin/vue-markdown/vue.css' %}" media="all">
+	<link rel="stylesheet" href="{% static 'jpress/static/css/article.css' %}" media="all">
+	<script src="{% static 'jpress/static/js/article.js' %}"></script>
 	<!-- 文章start -->
 	<div class="layui-card">
 		<div class="layui-card-header article-title">
-			<h2>#(article.title ??)</h2>
+			<h2>{{ article.title }}</h2>
 			<p>
-				<i class="fa fa-user-o"></i> #(article.user.nickname ??)&nbsp;
-				<i class="fa fa-eye"></i> #(article.view_count ??)浏览&nbsp;
-				<i class="fa fa-comment-o"></i> #(article.comment_count ??)评论&nbsp;
-				<i class="fa fa-clock-o"></i> #date(article.created, "yyyy-MM-dd")
+{#				<i class="fa fa-user-o"></i> &nbsp;#}
+				<i class="fa fa-eye"></i> {{article.views}}浏览&nbsp;
+{#				<i class="fa fa-comment-o"></i> 评论&nbsp;#}
+				<i class="fa fa-clock-o"></i> {{article.c_time}}
 			</p>
 		</div>
 		<div class="layui-card-body article-body">
 			<span id="edit-model" style="display: none">#(article.edit_mode)</span>
 			<div class="perfree-article-content">
-				#(article.content ??)
+                {{ article.content|safe }}
 			</div>
-			<div class="article-content-bottom">
-				<span class="article-content-bottom-left"><i class="fa fa-clock-o"></i> 最后修改于 #date(article.created, "yyyy-MM-dd HH:mm:ss")</span>
-			</div>
-			#if(option('page_appreciate') == null || option('page_appreciate') == true)
+            <br>
 			<div class="appreciate-box">
 				<button class="layui-btn layui-btn-radius layui-btn-normal" onclick="appreciate();">
 					<i class="layui-icon">&#xe65e;</i>赞赏
@@ -40,42 +39,9 @@
 					<button class="layui-btn" onclick="changeImg(2);">微信支付</button>
 				</div>
 			</div>
-			#end
-			<div class="switch-article">
-				#previousArticle()
-				<a href="#(WEB_DOMAIN ??)#(previous.url)" title="#(previous.title)" class="pre-article pjax">
-					<i class="fa fa-angle-double-left" aria-hidden="true"></i> 上一篇
-				</a>
-				#end
-				#nextArticle()
-				<a href="#(WEB_DOMAIN ??)#(next.url)" title="#(next.title)" class="next-article pjax">
-					下一篇 <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-				</a>
-				#end
-			</div>
+
 		</div>
 	</div>
-	<!-- 文章end -->
-	#relevantArticles(article)
-		<div class="layui-card">
-			<div class="layui-card-header" style="padding: 0 20px;">推荐文章</div>
-			<div class="layui-card-body relevant-body">
-				#for(article :relevantArticles)
-					<a href="#(WEB_DOMAIN ??)#(article.url)" title="#(article.title)" class="relevant-box">
-						#if(article.showImage == null)
-							<img src="../../static/jpress/static/img/#(for.count).jpg" class="relevant-img">
-						#else
-							<img src="#(article.showImage)" class="relevant-img">
-						#end
-						<div class="relevant-right">
-							<h2 class="relevant-title">#(article.title)</h2>
-							<span class="relevant-article-msg"><i class="fa fa-clock-o"></i> #date(article.created, "yyyy-MM-dd")&nbsp;&nbsp;<i class="fa fa-eye"></i> #(article.view_count ??)</span>
-						</div>
-					</a>
-				#end
-			</div>
-		</div>
-	#end
 
 	<div class="layui-card">
 		<div class="layui-card-header" style="padding: 0 20px;">发表评论</div>
@@ -218,4 +184,4 @@
 	</script>
 	#end
 </div>
-#end
+{% endblock %}
