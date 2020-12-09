@@ -1,5 +1,5 @@
 //加载代码高亮js
-loadscript("/templates/jpress-perfree-simple/static/plugin/highlight/highlight.pack.js",function () {
+loadscript("https://www.dongjianjun.com/static/jpress/static/plugin/highlight/highlight.pack.js",function () {
     hljs.initHighlighting();
 });
 //加载js

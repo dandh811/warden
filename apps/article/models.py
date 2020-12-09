@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.urls import reverse
-from ckeditor.fields import RichTextField
+from markdown import markdown
+from django.utils.html import mark_safe
 
 
 class Category(models.Model):
@@ -38,7 +39,7 @@ class Article(models.Model):
     category = models.ForeignKey(Category, verbose_name='分类', max_length=20, default='', on_delete=models.CASCADE)
     c_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     support = models.IntegerField(default=0, verbose_name='点赞数', null=True, blank=True)
-    content = RichTextField('内容', default='', blank=True, null=True)
+    content = models.TextField('内容', default='', blank=True, null=True)
     status = models.CharField(choices=status_choice, null=True, blank=True, verbose_name='状态', max_length=20, default='published')
     views = models.PositiveIntegerField('浏览量', default=0)
     cover = models.ImageField(upload_to='./article_images', default='', blank=True, null=True)
@@ -56,6 +57,9 @@ class Article(models.Model):
     def viewed(self):
         self.views += 1
         self.save(update_fields=['views'])
+
+    def get_message_as_markdown(self):
+        return mark_safe(markdown(self.content, safe_mode='escape'))
 
 
 class ArticleUser(models.Model):
