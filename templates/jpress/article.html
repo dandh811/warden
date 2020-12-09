@@ -16,6 +16,7 @@
 				<i class="fa fa-eye"></i> {{article.views}}浏览&nbsp;
 {#				<i class="fa fa-comment-o"></i> 评论&nbsp;#}
 				<i class="fa fa-clock-o"></i> {{article.c_time}}
+                <i class="fa fa-edit"></i><a href="/admin/article/article/{{ article.id }}/change/" target="_blank">编辑</a>
 			</p>
 		</div>
 		<div class="layui-card-body article-body">
@@ -31,10 +32,8 @@
 				<span class="appreciate-tip">如果觉得我的文章对你有用，请随意赞赏</span>
 			</div>
 			<div id="appreciate-content">
-				<div class="appreciate-content-tip">微信打赏</div>
-				<img src="{% static 'images/wechat_pay.png' %}" id="appreciate-content-aLiImg">
+				<img src="{% static 'images/pay.jpg' %}" width="300px" height="300px">
 			</div>
-
 		</div>
 	</div>
 
@@ -111,7 +110,7 @@
 		function appreciate() {
 			layer.open({
 				type: 1,
-				title:'赞赏作者',
+				title:'微信赞赏',
 				shade: 0.6,
 				shadeClose:true,
 				content: $('#appreciate-content')
