@@ -5,6 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 import json
 from urllib import parse
+from random import choice
+import string
 
 
 def tools_index(request):
@@ -40,4 +42,15 @@ def xss_encoding(request):
     url_encoding = parse.quote(source_str)
     html_encoding = parse.quote(source_str)
     msg = {"url_encoding": url_encoding, "html_encoding": html_encoding}
+    return HttpResponse('{"status": "success", "msg": "%s"}' % msg, content_type='application/json')
+
+
+@csrf_exempt
+def gen_password(request):
+    pass_list = []
+    length = request.POST.get('source_str')
+    for i in range(int(length)):
+        pass_list.append(choice(string.ascii_letters+string.digits))
+    msg = ''.join(pass_list)
+
     return HttpResponse('{"status": "success", "msg": "%s"}' % msg, content_type='application/json')
