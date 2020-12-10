@@ -9,6 +9,7 @@ urlpatterns = [
     path('unicode2zh_p', views.unicode2zh_p, name="unicode2zh_p"),
     path('unicode2zh_n', views.unicode2zh_n, name="unicode2zh_n"),
     path('xss_encoding', views.xss_encoding, name="xss_encoding"),
+    path('gen_password', views.gen_password, name="gen_password"),
 
     # path('unicode2zh', views.unicode2zh, name="unicode2zh"),
 

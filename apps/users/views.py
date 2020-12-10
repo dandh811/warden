@@ -42,9 +42,9 @@ def send_email(email, code):
 
     from django.core.mail import EmailMultiAlternatives
 
-    subject = '来自董建军博客(www.dongjianjun.com)的注册确认邮件'
+    subject = '来自哼哼博客(www.dongjianjun.com)的注册确认邮件'
 
-    text_content = '''感谢注册董建军博客！'''
+    text_content = '''感谢注册哼哼博客！'''
 
     html_content = '''
                     <p>感谢注册, <a href="https://{}/user/confirm/?code={}" target=blank>确认链接</a>！</p>
@@ -85,7 +85,7 @@ def register(request):
                 send_email(email, code)
 
                 wechat = WeChatPub()
-                title = '【董建军博客】新用户注册成功通知'
+                title = '【哼哼博客】新用户注册成功通知'
                 content = "<div class=\"normal\">新用户注册成功，邮箱名：%s </div>" % email
                 wechat.send_msg(title, content)
 
