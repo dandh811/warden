@@ -34,7 +34,7 @@
                                     <p class="article-content">{{ p.content|safe|truncatechars:100 }}</p>
                                     <hr class="layui-bg-gray">
                                     <span class="article-msg">
-{#                                        <i class="fa fa-user-o"></i> #(article.user.nickname ??)&nbsp;#}
+                                        <i class="fa fa-tag"></i>{{ p.category }}&nbsp;
                                         <i class="fa fa-eye"></i> {{ p.views }}&nbsp;
 {#                                        <i class="fa fa-comment-o"></i> #(article.comment_count ??)&nbsp;#}
                                         <i class="fa fa-clock-o"></i> {{ p.c_time }}

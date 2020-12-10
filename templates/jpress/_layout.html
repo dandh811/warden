@@ -166,9 +166,9 @@
             <span style="margin-left: 3px;">搜索</span>
         </div>
         <div class="layui-card-body search-body">
-            <form class="layui-form" action="/article/search">
+            <form class="layui-form" action="{% url 'articles:article_search' %}" method="post">
                 <div class="layui-form-item">
-                    <input type="text" name="keyword" required  lay-verify="required" placeholder="请输入关键字" autocomplete="off" class="layui-input search-input">
+                    <input type="text" name="q" required  lay-verify="required" placeholder="请输入关键字" autocomplete="off" class="layui-input search-input">
                     <button class="layui-btn layui-btn-normal search-btn" type="submit"><i class="fa fa-search"></i></button>
                 </div>
             </form>
