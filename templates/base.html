@@ -6,15 +6,24 @@
     <meta name="baidu-site-verification" content="SvevRkso3g" />
     <meta name="360-site-verification" content="01a9f809d588136e009e900aa2d9fda4" />
     <meta name="baidu_union_verify" content="f3382f2e9fcab1574ea9b54966418c3b">
-    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <title>{% block title %}{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="博客，哼哼博客">
-  <meta name="description" content="哼哼博客">
+  <meta name="keywords" content="博客，小猪哼哼博客">
+  <meta name="description" content="小猪哼哼博客">
   <link rel="stylesheet" href="{% static 'layui/css/layui.css' %}">
   <link rel="stylesheet" href="{% static 'css/global.css' %}">
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
     {% block css %}{% endblock %}
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?cfc730754178c91dcd902ab6104fa706";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body>
 

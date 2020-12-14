@@ -175,7 +175,7 @@ def article_collected(request):
 
 @csrf_exempt
 def article_search(request):
-    q = request.POST.get('q')
+    q = request.GET.get('q')
     if request.user.is_superuser:
         ks = Article.objects.filter(title__icontains=q)
     else:

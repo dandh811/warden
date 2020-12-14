@@ -2,8 +2,8 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <meta charset="UTF-8">
-    <title>哼哼</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>小猪哼哼</title>
     <meta name="keywords" content="信息安全，博客">
     <meta name="description" content="信息安全">
     <meta name="template" content="Perfree-Simple">
@@ -22,270 +22,280 @@
     <script src="{% static 'jpress/static/plugin/pjax/pjax.js' %}"></script>
     <script src="{% static 'jpress/static/js/perfree.js' %}"></script>
     <script src="{% static 'jpress/static/plugin/music/Meting.min.js' %}"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?cfc730754178c91dcd902ab6104fa706";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body id="web-body">
     <script>$("#web-body").css("background-color","#option('page_background_color')");</script>
     <script>$("#web-body").css("background-image","url(#option('page_bacground-img'))");</script>
-<div style="overflow-x: hidden;min-height: 100%;">
-    <!-- 引入顶部导航栏 -->
-<div class="header layui-bg-cyan pc-header">
-    <div class="layui-container">
+    <div style="overflow-x: hidden;min-height: 100%;">
+        <!-- 引入顶部导航栏 -->
+        <div class="header layui-bg-cyan pc-header">
+            <div class="layui-container">
 
-        <!-- 导航栏logo及文字start -->
-        <a class="logo-box pjax" href="/">
-            <i class="fa fa-#option('page_logo_icon' ??) fa-lg"></i>
-            <span>哼哼</span>
-        </a>
-        <!-- 导航栏logo及文字end -->
+                <!-- 导航栏logo及文字start -->
+                <a class="logo-box pjax" href="/">
+                    <i class="fa fa-#option('page_logo_icon' ??) fa-lg"></i>
+                    <span>小猪哼哼</span>
+                </a>
+                <!-- 导航栏logo及文字end -->
 
-        <!-- 导航栏菜单start -->
-        <ul class="layui-nav layui-bg-cyan" lay-filter="">
-            <li class="layui-nav-item"><a href="{% url 'cases:cases_index' %}">测试用例库</a></li>
-            <li class="layui-nav-item"><a href="{% url 'tools:tools_index' %}">在线工具</a></li>
-            {% for c in categories %}
-                <li class="layui-nav-item" lay-unselect>
-                    <a href="{% url 'articles:articles_category' c.name %}" class="pjax">{{ c.name }}</a>
-                </li>
-            {% endfor %}
+                <!-- 导航栏菜单start -->
+                <ul class="layui-nav layui-bg-cyan" lay-filter="">
+                    <li class="layui-nav-item"><a href="{% url 'cases:cases_index' %}">测试用例库</a></li>
+                    <li class="layui-nav-item"><a href="{% url 'tools:tools_index' %}">在线工具</a></li>
+                    {% for c in categories %}
+                        <li class="layui-nav-item" lay-unselect>
+                            <a href="{% url 'articles:articles_category' c.name %}" class="pjax">{{ c.name }}</a>
+                        </li>
+                    {% endfor %}
 
-            {% if request.user.is_authenticated %}
-                <li class="layui-nav-item">
-                    <a>{{ user }}</a>
-                    <dl class="layui-nav-child">
-                        <dd lay-unselect>
-                            <a href="{% url 'users:user_home' request.user.id %}" target="_blank">个人中心</a>
-                        </dd>
+                    {% if request.user.is_authenticated %}
+                        <li class="layui-nav-item">
+                            <a>{{ user }}</a>
+                            <dl class="layui-nav-child">
+                                <dd lay-unselect>
+                                    <a href="{% url 'users:user_home' request.user.id %}" target="_blank">个人中心</a>
+                                </dd>
 
-                        <dd class="header-logout" lay-unselect>
-                            <a href="{% url 'users:logout' %}"> 退出登录 </a>
-                        </dd>
-                    </dl>
-                </li>
-            {% else %}
-                <li class="layui-nav-item login-box" lay-unselect>
-                    <a href="{% url 'users:login' %}" class="login-btn pjax"> 登录</a>|
-                    <a href="{% url 'users:register' %}" class="register-btn pjax"> 注册</a>
-                </li>
-            {% endif %}
-        </ul>
-        <!-- 导航栏菜单end -->
-    </div>
-</div>
-<!--移动端header-->
-<div class="phone-header layui-bg-cyan">
-    <a href="javascript:;" class="phone-open-nav-btn">
-        <i class="fa fa-bars" aria-hidden="true"></i>
-    </a>
-    <!-- 导航栏logo及文字start -->
-    <a class="logo-box pjax" href="/">
-        <i class="fa fa-#option('page_logo_icon' ??) fa-lg"></i>
-        <span> </span>
-    </a>
-    <!-- 导航栏logo及文字end -->
-
-    <a class="phone-setting-btn">
-        <i class="fa fa-cog" aria-hidden="true"></i>
-    </a>
-    <!--移动端设置容器-->
-    <div class="phone-setting-box">
-        <div class="phone-search-form">
-            <form action="/article/search">
-                <input type="text" name="keyword" required placeholder="请输入关键字" autocomplete="off">
-                <button type="submit"><i class="fa fa-search"></i></button>
-            </form>
-        </div>
-        <div class="phone-my-message-box">
-            #if(USER == null)
-                <a href="#(WEB_DOMAIN ??)/user/login" class="login-btn"> 登录</a>
-                <span class="my-message-tarde">|</span>
-                <a href="#(WEB_DOMAIN ??)/user/register" class="register-btn"> 注册</a>
-            #else
-                <a href="#(WEB_DOMAIN ??)/ucenter" class="my-name-img"><img src="#(USER.avatar??)" class="layui-nav-img">#(USER.nickname??)</a>
-            #end
-        </div>
-    </div>
-</div>
-<!--移动端菜单-->
-<div class="phone-nav-box">
-    <ul class="layui-nav layui-nav-tree layui-nav-side layui-bg-cyan" lay-filter="">
-        #for(menu : MENUS)
-        <li class="layui-nav-item" lay-unselect>
-            #if(menu.hasChild())
-            <a href="#(menu.url == null ? 'javascript:;':menu.url)" class="pjax"><i class="fa fa-#(menu.icon ??)"></i> #(menu.text ??)</a>
-            #else
-            <a href="#(menu.url == null ? 'javascript:;':menu.url)" class="pjax nav-link"><i class="fa fa-#(menu.icon ??)"></i> #(menu.text ??)</a>
-            #end
-            #if(menu.hasChild())
-            <dl class="layui-nav-child">
-                #for(childMenu : menu.getChilds())
-                <dd lay-unselect><a href="#(WEB_DOMAIN ??)#(childMenu.url ??)" class="pjax nav-link"> #(childMenu.text ??)</a></dd>
-                #end
-            </dl>
-            #end
-        </li>
-        #end
-    </ul>
-</div>
-    <!-- 内容部分start -->
-    <div class="layui-container perfree-content layui-anim-up">
-        <!-- 一言组件手机端，电脑端不展示start -->
-        <div class="layui-card phone-yiyan-box">
-            <div class="layui-card-body page-title-body">
-                <h2>#(WEB_NAME ??)</h2>
-{#                <div>#}
-{#                    <script type="text/javascript" src="https://api.lwl12.com/hitokoto/v1?encode=js&charset=utf-8"></script>#}
-{#                    <span id="lwlhitokoto">#}
-{#                    <script>lwlhitokoto()</script>#}
-{#                </span>#}
-{#                </div>#}
+                                <dd class="header-logout" lay-unselect>
+                                    <a href="{% url 'users:logout' %}"> 退出登录 </a>
+                                </dd>
+                            </dl>
+                        </li>
+                    {% else %}
+                        <li class="layui-nav-item login-box" lay-unselect>
+                            <a href="{% url 'users:login' %}" class="login-btn pjax"> 登录</a>|
+                            <a href="{% url 'users:register' %}" class="register-btn pjax"> 注册</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <!-- 导航栏菜单end -->
             </div>
         </div>
-        <!-- 一言组件手机端，电脑端不展示end -->
-        <!-- 引入内容 -->
-        {% block content %}{% endblock %}
-        <!-- 引入右侧边栏 -->
-        <div class="layui-col-sm5 layui-col-md4 perfree-content-right">
-    <!-- 一言组件 -->
-    <div class="layui-card yiyan-box">
-        <div class="layui-card-body page-title-body">
-            <h2 class="right-name-title">你的问题在于，读书不多想得太多</h2>
-{#            <div>#}
-{#                <script type="text/javascript" src="https://api.lwl12.com/hitokoto/v1?encode=js&charset=utf-8"></script>#}
-{#                    <span id="lwlhitokoto">#}
-{#                        <script>lwlhitokoto()</script>#}
-{#                    </span>#}
-{#            </div>#}
-        </div>
-    </div>
-    <!-- 一言组件 -->
+        <!--移动端header-->
+        <div class="phone-header layui-bg-cyan">
+            <a href="javascript:;" class="phone-open-nav-btn">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </a>
+            <!-- 导航栏logo及文字start -->
+            <a class="logo-box pjax" href="/">
+                <i class="fa fa-#option('page_logo_icon' ??) fa-lg"></i>
+                <span> </span>
+            </a>
+            <!-- 导航栏logo及文字end -->
 
-    <!-- 搜索start -->
-   <div class="layui-card search-box">
-        <div class="layui-card-header">
-            <i class="fa fa-search"></i>
-            <span style="margin-left: 3px;">搜索</span>
-        </div>
-        <div class="layui-card-body search-body">
-            <form class="layui-form" action="{% url 'articles:article_search' %}" method="post">
-                <div class="layui-form-item">
-                    <input type="text" name="q" required  lay-verify="required" placeholder="请输入关键字" autocomplete="off" class="layui-input search-input">
-                    <button class="layui-btn layui-btn-normal search-btn" type="submit"><i class="fa fa-search"></i></button>
+            <a class="phone-setting-btn">
+                <i class="fa fa-cog" aria-hidden="true"></i>
+            </a>
+            <!--移动端设置容器-->
+            <div class="phone-setting-box">
+                <div class="phone-search-form">
+                    <form action="/article/search">
+                        <input type="text" name="keyword" required placeholder="请输入关键字" autocomplete="off">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    </form>
                 </div>
-            </form>
-        </div>
-    </div>
-    <!-- 搜索end -->
-
-    <!-- 热门start -->
-        <div class="layui-card right-hot-article-box">
-            <div class="layui-card-header">
-                <i class="fa fa-fire"></i>
-                <span style="margin-left: 3px;">热门文章</span>
-            </div>
-            <div class="layui-card-body hot-article-body">
-{#                #for(article : articles)#}
-{#                    <a class="hot-article-box pjax" href="#(WEB_DOMAIN ??)#(article.url)">#}
-{#                        #if(for.odd)#}
-{#                            <img src="#(article.thumbnail ?? 'static/img/3.jpg')" width="20%" height="50px" class="hot-article-img"/>#}
-{#                        #else#}
-{#                            <img src="#(article.thumbnail ?? 'static/img/2.jpg')" width="20%" height="50px" class="hot-article-img"/>#}
-{#                        #end#}
-{#                        <span class="hot-article-title">#(article.title)</span><br>#}
-{#                        <span class="hot-article-msg"><i class="fa fa-clock-o"></i> #date(article.created, "yyyy-MM-dd")&nbsp;&nbsp;<i class="fa fa-eye"></i> #(article.view_count ??)</span>#}
-{#                    </a>#}
+                <div class="phone-my-message-box">
+                    #if(USER == null)
+                        <a href="#(WEB_DOMAIN ??)/user/login" class="login-btn"> 登录</a>
+                        <span class="my-message-tarde">|</span>
+                        <a href="#(WEB_DOMAIN ??)/user/register" class="register-btn"> 注册</a>
+                    #else
+                        <a href="#(WEB_DOMAIN ??)/ucenter" class="my-name-img"><img src="#(USER.avatar??)" class="layui-nav-img">{{ user }}</a>
+                    #end
+                </div>
             </div>
         </div>
-    <!-- 热门end -->
-
-    <!-- 标签start -->
-        <div class="layui-card right-hot-tag">
-            <div class="layui-card-header">
-                <i class="fa fa-tags"></i>
-                <span style="margin-left: 3px;">热门标签</span>
+        <!--移动端菜单-->
+        <div class="phone-nav-box">
+            <ul class="layui-nav layui-nav-tree layui-nav-side layui-bg-cyan" lay-filter="">
+                #for(menu : MENUS)
+                <li class="layui-nav-item" lay-unselect>
+                    #if(menu.hasChild())
+                    <a href="#(menu.url == null ? 'javascript:;':menu.url)" class="pjax"><i class="fa fa-#(menu.icon ??)"></i> #(menu.text ??)</a>
+                    #else
+                    <a href="#(menu.url == null ? 'javascript:;':menu.url)" class="pjax nav-link"><i class="fa fa-#(menu.icon ??)"></i> #(menu.text ??)</a>
+                    #end
+                    #if(menu.hasChild())
+                    <dl class="layui-nav-child">
+                        #for(childMenu : menu.getChilds())
+                        <dd lay-unselect><a href="#(WEB_DOMAIN ??)#(childMenu.url ??)" class="pjax nav-link"> #(childMenu.text ??)</a></dd>
+                        #end
+                    </dl>
+                    #end
+                </li>
+                #end
+            </ul>
+        </div>
+        <!-- 内容部分start -->
+        <div class="layui-container perfree-content layui-anim-up">
+            <!-- 一言组件手机端，电脑端不展示start -->
+            <div class="layui-card phone-yiyan-box">
+                <div class="layui-card-body page-title-body">
+                    <h2>小猪哼哼</h2>
+    {#                <div>#}
+    {#                    <script type="text/javascript" src="https://api.lwl12.com/hitokoto/v1?encode=js&charset=utf-8"></script>#}
+    {#                    <span id="lwlhitokoto">#}
+    {#                    <script>lwlhitokoto()</script>#}
+    {#                </span>#}
+    {#                </div>#}
+                </div>
             </div>
-            <div class="layui-card-body tag-body">
-{#                #for(tag : tags)#}
-{#                    <a href="#(WEB_DOMAIN ??)#(tag.url)" class="layui-btn layui-btn-normal tag pjax" title="共#(tag.count ??)篇文章">#(tag.title)</a>#}
-{#                #end#}
+            <!-- 一言组件手机端，电脑端不展示end -->
+            <!-- 引入内容 -->
+            {% block content %}{% endblock %}
+            <!-- 引入右侧边栏 -->
+            <div class="layui-col-sm5 layui-col-md4 perfree-content-right">
+                <!-- 一言组件 -->
+                <div class="layui-card yiyan-box">
+                    <div class="layui-card-body page-title-body">
+                        <h2 class="right-name-title">你的问题在于，读书不多想得太多</h2>
+            {#            <div>#}
+            {#                <script type="text/javascript" src="https://api.lwl12.com/hitokoto/v1?encode=js&charset=utf-8"></script>#}
+            {#                    <span id="lwlhitokoto">#}
+            {#                        <script>lwlhitokoto()</script>#}
+            {#                    </span>#}
+            {#            </div>#}
+                    </div>
+                </div>
+                <!-- 一言组件 -->
+
+                <!-- 搜索start -->
+               <div class="layui-card search-box">
+                    <div class="layui-card-header">
+                        <i class="fa fa-search"></i>
+                        <span style="margin-left: 3px;">搜索</span>
+                    </div>
+                    <div class="layui-card-body search-body">
+                        <form class="layui-form" action="{% url 'article:article_search' %}">
+                            <div class="layui-form-item">
+                                <input type="text" name="q" required  lay-verify="required" placeholder="请输入关键字" autocomplete="off" class="layui-input search-input">
+                                <button class="layui-btn layui-btn-normal search-btn" type="submit"><i class="fa fa-search"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- 搜索end -->
+
+                <!-- 热门start -->
+                <div class="layui-card right-hot-article-box">
+                        <div class="layui-card-header">
+                            <i class="fa fa-fire"></i>
+                            <span style="margin-left: 3px;">热门文章</span>
+                        </div>
+                        <div class="layui-card-body hot-article-body">
+            {#                #for(article : articles)#}
+            {#                    <a class="hot-article-box pjax" href="#(WEB_DOMAIN ??)#(article.url)">#}
+            {#                        #if(for.odd)#}
+            {#                            <img src="#(article.thumbnail ?? 'static/img/3.jpg')" width="20%" height="50px" class="hot-article-img"/>#}
+            {#                        #else#}
+            {#                            <img src="#(article.thumbnail ?? 'static/img/2.jpg')" width="20%" height="50px" class="hot-article-img"/>#}
+            {#                        #end#}
+            {#                        <span class="hot-article-title">#(article.title)</span><br>#}
+            {#                        <span class="hot-article-msg"><i class="fa fa-clock-o"></i> #date(article.created, "yyyy-MM-dd")&nbsp;&nbsp;<i class="fa fa-eye"></i> #(article.view_count ??)</span>#}
+            {#                    </a>#}
+                        </div>
+                    </div>
+                <!-- 热门end -->
+
+                <!-- 标签start -->
+                <div class="layui-card right-hot-tag">
+                    <div class="layui-card-header">
+                        <i class="fa fa-tags"></i>
+                        <span style="margin-left: 3px;">热门标签</span>
+                    </div>
+                    <div class="layui-card-body tag-body">
+        {#                #for(tag : tags)#}
+        {#                    <a href="#(WEB_DOMAIN ??)#(tag.url)" class="layui-btn layui-btn-normal tag pjax" title="共#(tag.count ??)篇文章">#(tag.title)</a>#}
+        {#                #end#}
+                    </div>
+                </div>
+                <!-- 标签end -->
+
+                <!-- 广告start -->
+                <div class="layui-card #if(option('page_ad_code') == null) perfree-hide #end" style="margin-bottom: 20px;">
+                    <div class="layui-card-header">
+                        <i class="fa fa-bullhorn"></i>
+                        <span style="margin-left: 3px;">广告</span>
+                    </div>
+                    <div class="layui-card-body tag-body">
+            {#            #option('page_ad_code' ??)#}
+                    </div>
+                </div>
+                <!-- 广告end -->
             </div>
         </div>
-    <!-- 标签end -->
+        <!-- 引入底栏 -->
+        <div class="layui-footer">
+            <div class="layui-container">
+                <!-- 网页底部左侧信息start -->
+                <div class="footer-left">
+                    <span></span>
+                </div>
 
-    <!-- 广告start -->
-    <div class="layui-card #if(option('page_ad_code') == null) perfree-hide #end" style="margin-bottom: 20px;">
-        <div class="layui-card-header">
-            <i class="fa fa-bullhorn"></i>
-            <span style="margin-left: 3px;">广告</span>
-        </div>
-        <div class="layui-card-body tag-body">
-{#            #option('page_ad_code' ??)#}
+                <!-- 网页底部右侧信息start -->
+                <div class="footer-right">
+                    <a href="https://www.dongjianjun.com" style="font-size: 12px;color: #657180;">董建军博客</a> | 京ICP备20000068号
+                </div>
+            </div>
         </div>
     </div>
-    <!-- 广告end -->
-</div>
-    </div>
-    <!-- 引入底栏 -->
-    <div class="layui-footer">
-    <div class="layui-container">
-        <!-- 网页底部左侧信息start -->
-        <div class="footer-left">
-            <span></span>
-        </div>
+    <!-- 内容部分end -->
+    <!-- 遮罩start -->
+    <div class="mask"></div>
+    <!-- 遮罩end -->
+    <script id="load-js-code">
+        //初始化layui,返回顶部按钮
+        layui.use(['util','element'], function(){
+            var util = layui.util,element = layui.element;
+            util.fixbar({});
+        });
+        $('.tag').each(function(){
+            $(this).css("background-color",getRandomColor());
+        })
+        function getRandomColor(){
+            return '#'+(Math.random()*0xffffff<<0).toString(16);
+        }
+    </script>
 
-        <!-- 网页底部右侧信息start -->
-        <div class="footer-right">
-            <a href="https://www.dongjianjun.com" style="font-size: 12px;color: #657180;">董建军博客</a> | 京ICP备20000068号
-        </div>
-    </div>
-</div>
-</div>
-<!-- 内容部分end -->
-<!-- 遮罩start -->
-<div class="mask"></div>
-<!-- 遮罩end -->
-<script id="load-js-code">
-    //初始化layui,返回顶部按钮
-    layui.use(['util','element'], function(){
-        var util = layui.util,element = layui.element;
-        util.fixbar({});
-    });
-    $('.tag').each(function(){
-        $(this).css("background-color",getRandomColor());
-    })
-    function getRandomColor(){
-        return '#'+(Math.random()*0xffffff<<0).toString(16);
-    }
-</script>
-<script>
-    //设置pjax
-    var pjax = new Pjax({
-        elements: ".pjax,form",
-        cacheBust: false,
-        debug: false,
-        selectors: [
-            "title",
-            "meta[name=description]",
-            "meta[name=keywords]",
-            ".loadJs",
-            ".perfree-content-left",
-            ".right-hot-article-box",
-            ".right-hot-tag",
-            ".layui-footer",
-            ".header-logout",
-            "#load-js-code"
-        ]
-    })
-    var index;
-    document.addEventListener('pjax:send', function () {
-        index = layer.load();
-    });
-    document.addEventListener('pjax:success', function() {
-        layer.close(index);
-    });
-    document.addEventListener('pjax:error', function() {
-        layer.msg("系统出现问题,请刷新网页");
-    });
-</script>
-<!-- 自定义js代码 -->
+    <script>
+        //设置pjax
+        var pjax = new Pjax({
+            elements: ".pjax,form",
+            cacheBust: false,
+            debug: false,
+            selectors: [
+                "title",
+                "meta[name=description]",
+                "meta[name=keywords]",
+                ".loadJs",
+                ".perfree-content-left",
+                ".right-hot-article-box",
+                ".right-hot-tag",
+                ".layui-footer",
+                ".header-logout",
+                "#load-js-code"
+            ]
+        })
+        var index;
+        document.addEventListener('pjax:send', function () {
+            index = layer.load();
+        });
+        document.addEventListener('pjax:success', function() {
+            layer.close(index);
+        });
+        document.addEventListener('pjax:error', function() {
+            layer.msg("系统出现问题,请刷新网页");
+        });
+    </script>
+    <!-- 自定义js代码 -->
 </body>
 </html>

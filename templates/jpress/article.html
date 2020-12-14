@@ -22,7 +22,7 @@
 		<div class="layui-card-body article-body">
 			<span id="edit-model" style="display: none">#(article.edit_mode)</span>
 			<div class="perfree-article-content">
-                {{ article.get_message_as_markdown |safe }}
+                {{ article.get_message_as_markdown | truncatechars }}
 			</div>
             <br>
 			<div class="appreciate-box">
@@ -32,7 +32,7 @@
 				<span class="appreciate-tip">如果觉得我的文章对你有用，请随意赞赏</span>
 			</div>
 			<div id="appreciate-content">
-				<img src="{% static 'images/pay.png' %}" width="330px" height="280px">
+				<img src="{% static 'images/pay.png' %}" width="330px" height="260px">
 			</div>
 		</div>
 	</div>
