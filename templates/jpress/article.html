@@ -22,7 +22,7 @@
 		<div class="layui-card-body article-body">
 			<span id="edit-model" style="display: none">#(article.edit_mode)</span>
 			<div class="perfree-article-content">
-                {{ article.get_message_as_markdown | truncatechars }}
+                {{ article.get_message_as_markdown | truncatechars:100 }}
 			</div>
             <br>
 			<div class="appreciate-box">
