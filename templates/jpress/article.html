@@ -42,13 +42,11 @@
 		<div class="layui-card-body revert-body">
 			<!-- 评论框start -->
 			<div class="revert-box">
-				<form class="layui-form" action="#(CPATH)/article/postComment" id="commentForm" method="post">
-					<input type="hidden" name="articleId" value="#(article.id)" id="articleId">
+				<form class="layui-form" action="{% url 'articles:article_comment' %}" id="L_content" method="post">
+					<input type="hidden" name="articleId" value="{{article.id}}" id="articleId">
 					<input type="hidden" name="pid" id="pid">
-					<textarea id="revert" style="display: none;" name="content" lay-verify="content"></textarea>
-{#						<img src="/commons/captcha" style="height: 25px" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" class="comment-verify">#}
-{#						<input placeholder="请输入验证码" autocomplete="off" required class="layui-input captcha" name="captcha" type="text" lay-verify="required">#}
-					<button class="layui-btn layui-btn-normal revert-submit" lay-submit lay-filter="comment">发表评论</button>
+                    <textarea id="L_content" name="content" required lay-verify="required" placeholder="请输入内容"  class="layui-textarea fly-editor" style="height: 150px;"></textarea>
+					<button class="layui-btn layui-btn-normal revert-submit" lay-submit lay-filter="add-comment">发表评论</button>
 				</form>
 			</div>
 			<!-- 评论框end -->
@@ -57,7 +55,6 @@
 				{% for c in comments %}
 					<div class="revert-content-box">
 						<div class="revert-user">
-							<img src="#(comment.user.avatar ?? 'static/img/avatar.png')" width="40px" height="40px"/>
 							<span class="revert-user-msg">
 								<span class="revert-user-name">{{c.user}}</span>
 								<br>
@@ -67,9 +64,7 @@
 						<div class="revert-content">
                             {{c.comment}}
 						</div>
-
-						<a class="toReply" href="javascript:;" data-cid="#(comment.id)" data-author="#(comment.author ?? '匿名用户')">回复</a>
-					</div>
+                    </div>
 					<hr class="layui-bg-gray">
 
                 {% endfor %}
@@ -133,6 +128,31 @@
 				$numbering.append($('<li/>').text(i+"."));
 			}
 		});
+
+		layui.use(['layer','form'], function(){
+        var layer = layui.layer
+           ,form = layui.form;
+          form.on('submit(add-comment)', function(data){
+              var content = $("#L_content").text();
+          $.ajax({
+              type: "post",
+              url:"{% url 'articles:article_comment' %}",
+              data:{'article_id': {{ article.id }}, 'content': content},
+              dateType:"json",
+              async: false,
+              success: function(data) {
+                  if(data.status == 'success'){
+                      alert("提交成功");
+                      window.location.reload();//刷新当前页面.
+                  }else {
+                      $('#jsCompanyTips').html(data.msg)
+                      alert("提交失败！");
+                  }
+              },
+          });
+          return false;
+            });
+          });
 	</script>
 </div>
 {% endblock %}

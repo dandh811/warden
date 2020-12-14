@@ -65,6 +65,9 @@ def article_type(request, type):
 
 @csrf_exempt
 def article_comment(request):
+    """
+    文章评论
+    """
     if request.method == 'POST':
         content = request.POST.get('content')
         article_id = request.POST.get('article_id')

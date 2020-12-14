@@ -62,7 +62,6 @@ layui.use(['element','layedit','form','layer','jquery'], function() {
             alert('请填写评论内容');
             return false;
         }
-        var captcha = $(".captcha").val();
         var str = '回复 @' + $(".toReply").attr('data-author') + " ：";
         var revertContent = $("#revert").val();
         //判断回复是否存在
@@ -72,8 +71,8 @@ layui.use(['element','layedit','form','layer','jquery'], function() {
             revertContent = revertContent.replace(str,'');
         }
         $.post({
-            url:"/article/postComment",
-            data: {articleId:$("#articleId").val(),pid: $("#pid").val(),content: revertContent,captcha:captcha},
+            url:"/comment",
+            data: {article_id:$("#articleId").val(),pid: $("#pid").val(),content: revertContent,captcha:captcha},
             success:function(result){
                 if(result.state == "ok"){
                     console.log(result);
