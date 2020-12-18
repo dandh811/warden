@@ -56,7 +56,10 @@
                                 {% if request.user.is_authenticated %}
                                 <li>
                                     <a>{{ user }}</a>
-                                    <a href="{% url 'users:user_home' request.user.id %}" target="_blank">个人中心</a>
+{#                                    <a href="{% url 'users:user_home' request.user.id %}" target="_blank">个人中心</a>#}
+                                    {% if request.user.is_superuser %}
+                                        <a href="/admin/" target="_blank">后台管理</a>
+                                    {% endif %}
                                     <a href="{% url 'users:logout' %}"> 退出登录 </a>
                                     </dl>
                                 </li>

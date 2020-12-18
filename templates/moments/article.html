@@ -17,6 +17,8 @@
                     <span><i class="fa fa-clock-o"></i> {{article.c_time}}</span>
                     <span><i class="fa fa-bookmark"></i> {{article.category}}</span>
                     <span><i class="fa fa-eye"></i> {{article.views}}</span>
+                    <span><i class="fa fa-edit"></i><a href="/admin/article/article/{{ article.id }}/change/" target="_blank">编辑</a></span>
+
 {#                        <span><i class="fa fa-comments"></i> <?php comments_popup_link('0 comments', '1 comment', ' % comments'); ?></span>#}
                 </div>
                 <!-- postmeta -->
@@ -25,7 +27,7 @@
                 <div class="entry-content clearfix">
                 <div class="entry-colors"><div class="color_col_1"></div><div class="color_col_2"></div><div class="color_col_3"></div></div>
                     <div class="icon"><i class="fa fa-pencil fa-2x"></i></div>
-                    {{ article.get_message_as_markdown|safe }}
+                    {{ article.get_message_as_markdown }}
                 </div>
                 <!-- entry-content -->
 
@@ -33,46 +35,33 @@
             <!-- standart article -->
             <section id="respond" class="respond-form">
 
-                <div id="comment-form-title"><h3>Post a comment</h3></div>
+                <div id="comment-form-title"><h3>评论</h3></div>
 
-                <div id="cancel-comment-reply">
-                    <p class="small"><a rel="nofollow" id="cancel-comment-reply-link" href="index.html#respond" style="display:none;">Click here to cancel reply.</a></p>
-                </div>
+                <form action="{% url 'articles:article_comment' %}" method="post" id="commentform">
+                    <ul id="comment-form-elements">
+                        <li>
+                            <label for="comment">评论内容: </label>
+                            <textarea name="content" id="content" tabindex="4" rows="7" cols="100%"></textarea>
+                        </li>
 
-
-                <form action="http://demo.s5themes.com/moments/wp-comments-post.php" method="post" id="commentform">
-
-                <ul id="comment-form-elements">
-
-
-                    <li>
-                      <label for="author">Your Name*:</label>
-                      <input type="text" name="author" id="author" value="" tabindex="1" aria-required="true">
-                    </li>
-
-                    <li>
-                      <label for="email">Your Mail*:</label>
-                      <input type="email" name="email" id="email" value="" tabindex="2" aria-required="true">
-                    </li>
-
-                    <li>
-                      <label for="url">Your Website*:</label>
-                      <input type="url" name="url" id="url" value="" tabindex="3">
-                    </li>
-
-
-                    <li>
-                        <label for="comment">Your comment*: </label>
-                        <textarea name="comment" id="comment" tabindex="4" rows="7" cols="100%"></textarea>
-                    </li>
-
-
-                  <input name="submit" type="submit" id="submitcomment" class="submitbutton" tabindex="5" value="POST COMMENT">
-                  <input type="hidden" name="comment_post_ID" value="82" id="comment_post_ID">
-            <input type="hidden" name="comment_parent" id="comment_parent" value="0">
-
-                <p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="ddacecf175"></p><p style="display: none;"></p>	</ul>
-                <input type="hidden" id="ak_js" name="ak_js" value="1608268211072"></form>
+                        <input name="submit" type="submit" id="submitcomment" class="submitbutton" tabindex="5" value="提交评论">
+                        <input type="hidden" name="article_id" value="{{ article.id }}" id="comment_post_ID">
+                    </ul>
+                </form>
+                <div class="revert-list" id="allComment">
+				{% for c in comments %}
+					<div class="revert-content-box">
+						<div class="revert-user">
+                            <span class="fa fa-user"> {{c.user}}</span>
+                            <span class="fa fa-clock-o"> {{ c.c_time|date:"Y-m-j G:i" }}</span>
+						</div>
+						<div class="fa">
+                            {{c.comment}}
+						</div>
+                    </div>
+					<hr class="layui-bg-gray">
+                {% endfor %}
+			</div>
 
             </section>
 

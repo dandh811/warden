@@ -6,7 +6,9 @@
 
         <!-- section content -->
         <section class="content">
-
+            {% if not particles %}
+                未找到搜索的内容
+            {% endif %}
             {% for article in particles %}
 
                 <!-- standart article -->
@@ -19,6 +21,7 @@
                         <span><i class="fa fa-clock-o"></i> {{article.c_time}}</span>
                         <span><i class="fa fa-bookmark"></i> {{article.category}}</span>
                         <span><i class="fa fa-eye"></i> {{article.views}}</span>
+                        <span><i class="fa fa-edit"></i><a href="/admin/article/article/{{ article.id }}/change/" target="_blank">编辑</a></span>
 {#                        <span><i class="fa fa-comments"></i> <?php comments_popup_link('0 comments', '1 comment', ' % comments'); ?></span>#}
                     </div>
                     <!-- postmeta -->
@@ -27,7 +30,7 @@
                     <div class="entry-content clearfix">
                     <div class="entry-colors"><div class="color_col_1"></div><div class="color_col_2"></div><div class="color_col_3"></div></div>
                         <div class="icon"><i class="fa fa-pencil fa-2x"></i></div>
-                        {{ article.get_message_as_markdown|safe|truncatechars:100 }}
+                        {{ article.get_message_as_markdown|truncatechars:100 }}
                         <p> <a href="{% url 'articles:article_detail' article.title %}" class="more-link">阅读全文</a></p>
                     </div>
                     <!-- entry-content -->

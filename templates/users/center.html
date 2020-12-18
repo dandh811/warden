@@ -46,7 +46,6 @@
             <ul class="layui-tab-title" id="LAY_mine">
                 <li data-type="mine-jie" lay-id="index" class="layui-this">我收藏的经文（<span>{{scriptures|length}}</span>）</li>
                 <li data-type="collection" lay-id="collection">我收藏的音乐（<span>{{musics|length}}</span>）</li>
-                <li data-type="collection" lay-id="collection">我的摘录（<span>{{excerpts|length}}</span>）</li>
 
             </ul>
             <div class="layui-tab-content" style="padding: 20px 0;">
@@ -73,15 +72,7 @@
                     <div id="LAY_page1"></div>
                 </div>
                 <div class="layui-tab-item">
-                    <ul class="mine-view jie-row">
-                        {% for e in excerpts %}
-                            <li>
-                                <a>{{ e.content }}</a>
-                                <i style="text-align: right">摘录自：{{ e.source }}  |  {{ e.c_time }}</i>
 
-                            </li>
-                        {% endfor %}
-                    </ul>
                     <div id="LAY_page1"></div>
                 </div>
             </div>

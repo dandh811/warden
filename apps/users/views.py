@@ -14,7 +14,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from apps.users.models import Profile
 from django.contrib.auth.hashers import make_password
-from apps.article.models import Article, ArticleUser, Excerpt
+from apps.article.models import Article, ArticleUser
 from utils.notice import WeChatPub
 from captcha.models import CaptchaStore
 from captcha.helpers import captcha_image_url
@@ -326,9 +326,6 @@ def user_center(request):
     scriptures = []
     musics = []
     collections = ArticleUser.objects.filter(Q(user=user) & Q(collect=1))
-    excerpts = Excerpt.objects.filter(user=user)
-    for e in excerpts:
-        e.source = Article.objects.get(id=e.article_id).title
 
     for c in collections:
         article = c.article

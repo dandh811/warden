@@ -12,9 +12,6 @@ urlpatterns = [
     path('type/<str:type>', views.article_type, name="article_type"),
     path('category/<str:category>', views.articles_category, name="articles_category"),
     path('add/message', views.add_message, name="add_message"),
-    path('add/excerpt', views.add_excerpt, name="add_excerpt"),
-    path('add/idea', views.add_idea, name="add_idea"),
-
     path('support', views.article_support, name="article_support"),
     path('collect', views.article_collect, name="article_collect"),
     path('collected', views.article_collected, name="article_collected"),

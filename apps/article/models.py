@@ -80,23 +80,6 @@ class ArticleUser(models.Model):
         verbose_name = '支持对应用户的中间表'
         verbose_name_plural = verbose_name
         db_table = "article_user_relationship"
-        # unique_together = (("article", "user"),)  # 设置联合主键
-        # permissions = (
-        #     ('port_vuls_list', u'资产对应漏洞信息中间表'),
-        # )
-
-
-# 访问网站的ip地址和次数
-class UserIp(models.Model):
-    ip = models.CharField(verbose_name='IP地址', max_length=35)
-    count = models.IntegerField(verbose_name='访问次数', default=0)  # 该ip访问次数
-
-    class Meta:
-        verbose_name = '访问用户信息'
-        verbose_name_plural = verbose_name
-
-    def __str__(self):
-        return self.ip
 
 
 class VisitNumber(models.Model):
@@ -121,27 +104,3 @@ class DayNumber(models.Model):
 
     def __str__(self):
         return str(self.day)
-
-
-class Excerpt(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default='')
-    content = models.TextField(verbose_name='内容', default='')
-    c_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
-    article_id = models.IntegerField(default=0)
-
-    class Meta:
-        verbose_name = '摘抄'
-        verbose_name_plural = verbose_name
-
-
-class Idea(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default='')
-    s_content = models.TextField(verbose_name='源内容', default='')
-    i_content = models.TextField(verbose_name='想法内容', default='')
-
-    c_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
-    article_id = models.IntegerField(default=0)
-
-    class Meta:
-        verbose_name = '批注'
-        verbose_name_plural = verbose_name

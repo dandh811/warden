@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from utils.visit_info import update_access_nums
@@ -72,16 +72,14 @@ def article_comment(request):
     if request.method == 'POST':
         content = request.POST.get('content')
         article_id = request.POST.get('article_id')
-
+        article = Article.objects.get(id=article_id)
         try:
             user_profile = Profile.objects.get(user=request.user)
-            try:
-                ArticleUser.objects.update_or_create(article_id=article_id, user=request.user, defaults={'comment': content})
-                user_profile.point = int(user_profile.point) + 1
-                user_profile.save()
-                return HttpResponse('{"status":"success"}', content_type='application/json')
-            except Exception as e:
-                return HttpResponse('{"status":"fail"}', content_type='application/json')
+            ArticleUser.objects.update_or_create(article_id=article_id, user=request.user, defaults={'comment': content})
+            user_profile.point = int(user_profile.point) + 1
+            user_profile.save()
+            # return HttpResponse('{"status":"success"}', content_type='application/json')
+            return HttpResponseRedirect(reverse('article:article_detail', args=[article.title]))
         except Exception as e:
             logger.critical(e)
 
@@ -209,25 +207,6 @@ def add_blog_times(request):
         try:
             ArticleUser.objects.update_or_create(article_id=article_id, user_id=request.user.id, defaults={'blog_times': new_blog_times})
             return HttpResponse('{"status":"success"}', content_type='application/json')
-        except Exception as e:
-            logger.critical(e)
-            return HttpResponse('{"status":"fail"}', content_type='application/json')
-
-
-@csrf_exempt
-@login_required
-def add_excerpt(request):
-    """摘录"""
-    if request.method == 'POST':
-
-        try:
-            article_id = request.POST['article_id']
-            content = request.POST.get('content')
-            if not content:
-                return HttpResponse('{"status":"fail"}', content_type='application/json')
-            else:
-                Excerpt.objects.update_or_create(article_id=article_id, content=content, user=request.user)
-                return HttpResponse('{"status":"success"}', content_type='application/json')
         except Exception as e:
             logger.critical(e)
             return HttpResponse('{"status":"fail"}', content_type='application/json')
