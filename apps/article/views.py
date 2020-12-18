@@ -22,8 +22,9 @@ def index(request):
     paginator = Paginator(articles, 10)
     page = request.GET.get('page')
     particles = paginator.get_page(page)
+    new_article = Article.objects.latest('c_time')
 
-    return render(request, 'jpress/index.html', locals())
+    return render(request, 'moments/index.html', locals())
 
 
 @csrf_exempt
@@ -34,7 +35,7 @@ def articles_category(request, category):
     page = request.GET.get('page')
     particles = paginator.get_page(page)
 
-    return render(request, 'jpress/index.html', locals())
+    return render(request, 'moments/category.html', locals())
 
 
 @csrf_exempt
@@ -48,7 +49,7 @@ def article_detail(request, title):
         article.viewed()
 
         comments = ArticleUser.objects.filter(article__title=title).exclude(comment=None)
-        return render(request, 'jpress/article.html', locals())
+        return render(request, 'moments/article.html', locals())
     except Exception as e:
         logger.critical(e)
 
@@ -60,7 +61,7 @@ def article_type(request, type):
     page = request.GET.get('page')
     pks = paginator.get_page(page)
 
-    return render(request, 'jpress/index.html', locals())
+    return render(request, 'moments/index.html', locals())
 
 
 @csrf_exempt
@@ -170,7 +171,7 @@ def article_collected(request):
     page = request.GET.get('page')
     particles = paginator.get_page(page)
 
-    return render(request, 'jpress/index.html', locals())
+    return render(request, 'moments/index.html', locals())
 
 
 @csrf_exempt
@@ -185,7 +186,7 @@ def article_search(request):
     page = request.GET.get('page')
     particles = paginator.get_page(page)
 
-    return render(request, 'jpress/index.html', locals())
+    return render(request, 'moments/index.html', locals())
 
 
 @csrf_exempt
