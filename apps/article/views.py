@@ -35,7 +35,7 @@ def articles_category(request, category):
     page = request.GET.get('page')
     particles = paginator.get_page(page)
 
-    return render(request, 'moments/category.html', locals())
+    return render(request, 'moments/index.html', locals())
 
 
 @csrf_exempt

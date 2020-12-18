@@ -1,9 +1,6 @@
 {% include 'moments/header.html' %}
     <div class="topbar"> </div>
 
-    <?php endif; wp_reset_query();?>
-
-
     <!-- .main_content-->
     <div class="main_content">
 
@@ -31,7 +28,7 @@
                     <div class="entry-colors"><div class="color_col_1"></div><div class="color_col_2"></div><div class="color_col_3"></div></div>
                         <div class="icon"><i class="fa fa-pencil fa-2x"></i></div>
                         {{ article.get_message_as_markdown|safe|truncatechars:100 }}
-                        <p> <a href="{% url 'articles:article_detail' article.title %}" class="more-link">Read More</a></p>
+                        <p> <a href="{% url 'articles:article_detail' article.title %}" class="more-link">阅读全文</a></p>
                     </div>
                     <!-- entry-content -->
 

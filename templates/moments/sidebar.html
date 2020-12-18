@@ -3,24 +3,15 @@
 <aside>
 
     	<!-- Sidebar Widgets Area -->
-            		<div id="recent-posts-2" class="widget_sidebar widget_recent_entries">		<h3 class="widget-title">Recent Posts</h3>		<ul>
-					<li>
-				<a href="2014/01/27/vimeo-example/index.html">Vimeo Example</a>
-						</li>
-					<li>
-				<a href="2014/01/27/video-of-content/index.html">Video Of Content</a>
-						</li>
-					<li>
-				<a href="2013/12/13/soundcloud-test/index.html">Soundcloud Test</a>
-						</li>
-					<li>
-				<a href="2013/12/13/standart-post-examples/index.html">Standart Post Examples</a>
-						</li>
-					<li>
-				<a href="2013/12/06/creating-great-experiences-for-web-and-mobile/index.html">CREATING GREAT EXPERIENCES FOR WEB AND MOBILE</a>
-						</li>
-				</ul>
-		</div><div id="recent-comments-3" class="widget_sidebar widget_recent_comments"><h3 class="widget-title">Recent Comments</h3><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link">johnsmith</span> on <a href="2013/12/03/audio-post/index.html#comment-5">Audio Post</a></li><li class="recentcomments"><span class="comment-author-link">johnsmith</span> on <a href="2013/12/03/audio-post/index.html#comment-4">Audio Post</a></li><li class="recentcomments"><span class="comment-author-link">johnsmith</span> on <a href="2013/12/03/audio-post/index.html#comment-3">Audio Post</a></li><li class="recentcomments"><span class="comment-author-link">Anonymous</span> on <a href="2013/11/05/standart-post-example/index.html#comment-2">Standart Post Example</a></li></ul></div><div id="archives-2" class="widget_sidebar widget_archive"><h3 class="widget-title">Archives</h3>		<ul>
+        <div id="recent-posts-2" class="widget_sidebar widget_recent_entries">		<h3 class="widget-title">Recent Posts</h3>
+            <ul>
+            {% for c in categories %}
+                <li><a href="{% url 'articles:articles_category' c.name %}">{{ c.name }}</a></li>
+            {% endfor %}
+            </ul>
+    </div>
+
+    <div id="recent-comments-3" class="widget_sidebar widget_recent_comments"><h3 class="widget-title">Recent Comments</h3><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link">johnsmith</span> on <a href="2013/12/03/audio-post/index.html#comment-5">Audio Post</a></li><li class="recentcomments"><span class="comment-author-link">johnsmith</span> on <a href="2013/12/03/audio-post/index.html#comment-4">Audio Post</a></li><li class="recentcomments"><span class="comment-author-link">johnsmith</span> on <a href="2013/12/03/audio-post/index.html#comment-3">Audio Post</a></li><li class="recentcomments"><span class="comment-author-link">Anonymous</span> on <a href="2013/11/05/standart-post-example/index.html#comment-2">Standart Post Example</a></li></ul></div><div id="archives-2" class="widget_sidebar widget_archive"><h3 class="widget-title">Archives</h3>		<ul>
 	<li><a href="2014/01/index.html">January 2014</a></li>
 	<li><a href="2013/12/index.html">December 2013</a></li>
 	<li><a href="2013/11/index.html">November 2013</a></li>

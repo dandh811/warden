@@ -40,46 +40,43 @@
 
 					<!-- begin logo -->
 					<h1 class="textlogo" title="xxx">
-                        <a href="/" ></a>
+                        <a href="/" >小猪哼哼</a>
 					</h1>
-					<h2 class="description">Collection of things to remember</h2>
+                    <h2 class="description">专注信息安全、web漏洞挖掘</h2>
+
+{#					<h2 class="description">Collection of things to remember</h2>#}
 					<!-- end logo -->
 
                		<div class="mini_divider"></div>
                         <nav class="menu-mainmenu-container">
                             <ul id="menu-mainmenu" class="menu">
-                                <li id="menu-item-10" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-10"><a href="/">首页</a></li>
-                                {% for c in categories %}
-                                    <li id="menu-item-18" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18"><a href="{% url 'articles:articles_category' c.name %}">{{ c.name }}</a></li>
-                                {% endfor %}
-                                <li id="menu-item-18" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18"><a href="{% url 'cases:cases_index' %}">测试用例库</a></li>
-                                <li id="menu-item-18" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18"><a href="{% url 'tools:tools_index' %}">在线工具</a></li>
-                                {% if request.user.is_authenticated %}
-                                    <li class="layui-nav-item">
-                                        <a>{{ user }}</a>
-                                        <dl class="layui-nav-child">
-                                            <dd lay-unselect>
-                                                <a href="{% url 'users:user_home' request.user.id %}" target="_blank">个人中心</a>
-                                            </dd>
 
-                                            <dd class="header-logout" lay-unselect>
-                                                <a href="{% url 'users:logout' %}"> 退出登录 </a>
-                                            </dd>
-                                        </dl>
-                                    </li>
-                                {% else %}
-                                    <li class="layui-nav-item login-box" lay-unselect>
-                                        <a href="{% url 'users:login' %}" class="login-btn pjax"> 登录</a>|
-                                        <a href="{% url 'users:register' %}" class="register-btn pjax"> 注册</a>
-                                    </li>
-                                {% endif %}
+                                <li id="menu-item-17"><a href="{% url 'cases:cases_index' %}">测试用例库</a></li>
+                                <li id="menu-item-18"><a href="{% url 'tools:tools_index' %}">在线工具</a></li>
+                                {% if request.user.is_authenticated %}
+                                <li>
+                                    <a>{{ user }}</a>
+                                    <a href="{% url 'users:user_home' request.user.id %}" target="_blank">个人中心</a>
+                                    <a href="{% url 'users:logout' %}"> 退出登录 </a>
+                                    </dl>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{% url 'users:login' %}"> 登录</a>|
+                                    <a href="{% url 'users:register' %}"> 注册</a>
+                                </li>
+                            {% endif %}
                             </ul>
                         </nav>
 
 	                <div class="mini_divider"></div>
 
 	                <!-- begin search form -->
-	                	{% include 'moments/searchform.html' %}
+                    <div class="search_box">
+                        <form method="get" id="searchform" action="{% url 'article:article_search' %}">
+                            <input type="text" class="field" name="q" id="s" placeholder="" />
+                        </form>
+                    </div>
                 	<!-- end search form -->
 
 	                <div class="mini_divider"></div>
