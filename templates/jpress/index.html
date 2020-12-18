@@ -30,7 +30,7 @@
                         <h2 class="article-title">
                             <a href="{% url 'articles:article_detail' p.title %}" class="pjax">{{ p.title }}</a>
                         </h2>
-                        <p class="article-content">{{ p.content|safe|truncatechars:100 }}</p>
+                        <p class="article-content">{{ p.get_message_as_markdown|safe|truncatechars:100 }}</p>
                         <hr class="layui-bg-gray">
                         <span class="article-msg">
 {#                                        <i class="fa fa-user-o"></i> #(article.user.nickname ??)&nbsp;#}
