@@ -51,8 +51,8 @@
                         <nav class="menu-mainmenu-container">
                             <ul id="menu-mainmenu" class="menu">
 
-                                <li id="menu-item-17"><a href="{% url 'cases:cases_index' %}">测试用例库</a></li>
-                                <li id="menu-item-18"><a href="{% url 'tools:tools_index' %}">在线工具</a></li>
+                                <li id="menu-item-17"><a href="{% url 'cases:cases_index' %}" target="_blank">测试用例库</a></li>
+                                <li id="menu-item-18"><a href="{% url 'tools:tools_index' %}" target="_blank">在线工具</a></li>
                                 {% if request.user.is_authenticated %}
                                 <li>
                                     <a>{{ user }}</a>

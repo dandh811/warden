@@ -28,9 +28,9 @@
         <a href="{% url 'articles:about' %}">关于我</a>
       </li>
     </ul>
-    
+
     <ul class="layui-nav fly-nav-user">
-      
+
       <!-- 登入后的状态 -->
         {% if request.user.is_authenticated %}
             <li class="layui-nav-item">
@@ -63,7 +63,7 @@
 {#      <li class="layui-nav-item layui-hide-xs">#}
 {#        <a href="/app/weibo/" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" title="微博登入" class="iconfont icon-weibo"></a>#}
 {#      </li>#}
-      
+
       <!-- 未登入的状态 -->
         {% else %}
           <li class="layui-nav-item">
@@ -90,14 +90,14 @@
             <li><a href="{% url 'articles:articles_category' c.name %}">{{ c.name }}</a></li>
         {% endfor %}
         <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li>
-      
+
       <!-- 用户登入后显示 -->
         {% if request.user.is_authenticated %}
             <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="{% url 'users:user_home' request.user.id %}">我的主页</a></li>
         {% endif %}
-    </ul> 
-    
-    <div class="fly-column-right layui-hide-xs"> 
+    </ul>
+
+    <div class="fly-column-right layui-hide-xs">
       <span class="fly-search" id="article-search"><i class="layui-icon"></i></span>
       <a href="{% url 'articles:add_message' %}" class="layui-btn">留言</a>
     </div>
