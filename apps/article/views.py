@@ -9,6 +9,7 @@ from apps.article.models import *
 import random
 from django.db.models import Q
 from loguru import logger
+import markdown
 
 
 @csrf_exempt
@@ -22,12 +23,11 @@ def index(request):
     paginator = Paginator(articles, 10)
     page = request.GET.get('page')
     particles = paginator.get_page(page)
+
     for article in particles:
-        article.content = markdown(article.content,
+        article.content = markdown.markdown(article.content,
                                   extensions=[
                                       'markdown.extensions.extra',
-                                      'markdown.extensions.codehilite',
-                                      'markdown.extensions.toc',
                                   ])
 
     return render(request, 'moments/index.html', locals())
@@ -53,12 +53,17 @@ def article_detail(request, title):
             article = Article.objects.get(Q(title=title) & Q(status='published'))
         blog_times = ArticleUser.objects.filter()
         article.viewed()
-        article.content = markdown(article.content,
-                                   extensions=[
-                                       'markdown.extensions.extra',
-                                       'markdown.extensions.codehilite',
-                                       'markdown.extensions.toc',
-                                   ])
+        md = markdown.Markdown(
+            extensions=[
+                'markdown.extensions.extra',
+                'markdown.extensions.codehilite',
+                'markdown.extensions.toc',
+            ]
+        )
+        article.content = md.convert(article.content)
+
+        # context = {'article': article, 'toc': md.toc}
+
         comments = ArticleUser.objects.filter(article__title=title).exclude(comment=None)
         return render(request, 'moments/article.html', locals())
     except Exception as e:

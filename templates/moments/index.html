@@ -30,7 +30,7 @@
                     <div class="entry-content clearfix">
                     <div class="entry-colors"><div class="color_col_1"></div><div class="color_col_2"></div><div class="color_col_3"></div></div>
                         <div class="icon"><i class="fa fa-pencil fa-2x"></i></div>
-                        {{ article.get_message_as_markdown|truncatechars:100 }}
+                        {{ article.content|safe|truncatechars:100 }}...
                         <p> <a href="{% url 'articles:article_detail' article.title %}" class="more-link">阅读全文</a></p>
                     </div>
                     <!-- entry-content -->

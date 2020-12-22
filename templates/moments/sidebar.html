@@ -1,7 +1,10 @@
 {% load static %}
 <!-- begin aside -->
 <aside>
-    <!-- Sidebar Widgets Area -->
+    <div id="archives-2" class="widget_sidebar widget_archive">
+        <h3 class="widget-title">目录</h3>
+        {{ md.toc|safe }}
+    </div>
     <div id="recent-posts-2" class="widget_sidebar widget_recent_entries">
         <h3 class="widget-title">分类</h3>
         <ul>
@@ -15,22 +18,17 @@
         <h3 class="widget-title">打赏</h3>
         <img src="{% static 'images/pay.png' %}" width="200px" height="180px">
     </div>
-    <div id="archives-2" class="widget_sidebar widget_archive">
-    <h3 class="widget-title">Archives</h3>
-        <ul>
-	<li><a href="2014/01/index.html">January 2014</a></li>
-	<li><a href="2013/12/index.html">December 2013</a></li>
-	<li><a href="2013/11/index.html">November 2013</a></li>
-		</ul>
-</div><div id="categories-2" class="widget_sidebar widget_categories"><h3 class="widget-title">Categories</h3>		<ul>
-	<li class="cat-item cat-item-2"><a href="category/thoughts/index.html" title="this is thoughts category and this is category decription...">Thoughts</a>
-</li>
-	<li class="cat-item cat-item-1"><a href="category/uncategorized/index.html">Uncategorized</a>
-</li>
-	<li class="cat-item cat-item-3"><a href="category/wordpress/index.html" title="wordpress category description. you can edit simply this message from category description section, thats it!">Wordpress</a>
-</li>
-		</ul>
-</div>        <!-- END Sidebar Widgets Area -->
+
+{##}
+{#    <div id="categories-2" class="widget_sidebar widget_categories"><h3 class="widget-title">Categories</h3>		<ul>#}
+{#	<li class="cat-item cat-item-2"><a href="category/thoughts/index.html" title="this is thoughts category and this is category decription...">Thoughts</a>#}
+{#</li>#}
+{#	<li class="cat-item cat-item-1"><a href="category/uncategorized/index.html">Uncategorized</a>#}
+{#</li>#}
+{#	<li class="cat-item cat-item-3"><a href="category/wordpress/index.html" title="wordpress category description. you can edit simply this message from category description section, thats it!">Wordpress</a>#}
+{#</li>#}
+{#		</ul>#}
+{#</div>        <!-- END Sidebar Widgets Area -->#}
 
 </aside>
 <!-- end aside -->
