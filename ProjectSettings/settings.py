@@ -28,7 +28,6 @@ INSTALLED_APPS = [
     'apps.article',
     'apps.users',
     'captcha',
-    'ckeditor',
     'apps.cases',
     'apps.tools'
     # 'social_django',

@@ -18,6 +18,38 @@
     <link rel="stylesheet" href="{% static 'moments/css/font-awesome.css' %}" media="all">
     <link rel="stylesheet" href="{% static 'moments/css/main.css' %}" media="all">
     <link rel="stylesheet" href="{% static 'moments/css/normalize.min.css' %}" media="all">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.8/styles/github.min.css" rel="stylesheet">
+    <style>
+    .codehilite {
+      padding: 0;
+    }
+
+    /* for block of numbers */
+    .hljs-ln-numbers {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+
+      text-align: center;
+      color: #ccc;
+      border-right: 1px solid #CCC;
+      vertical-align: top;
+      padding-right: 5px;
+    }
+
+    .hljs-ln-n {
+      width: 30px;
+    }
+
+    /* for block of code */
+    .hljs-ln .hljs-ln-code {
+      padding-left: 10px;
+      white-space: pre;
+    }
+  </style>
     <!-- 代码样式 -->
     <script src="{% static 'moments/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js' %}"></script>
     <script src="{% static 'moments/js/custom.js' %}"></script>

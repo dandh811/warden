@@ -22,7 +22,13 @@ def index(request):
     paginator = Paginator(articles, 10)
     page = request.GET.get('page')
     particles = paginator.get_page(page)
-    new_article = Article.objects.latest('c_time')
+    for article in particles:
+        article.content = markdown(article.content,
+                                  extensions=[
+                                      'markdown.extensions.extra',
+                                      'markdown.extensions.codehilite',
+                                      'markdown.extensions.toc',
+                                  ])
 
     return render(request, 'moments/index.html', locals())
 
@@ -47,7 +53,12 @@ def article_detail(request, title):
             article = Article.objects.get(Q(title=title) & Q(status='published'))
         blog_times = ArticleUser.objects.filter()
         article.viewed()
-
+        article.content = markdown(article.content,
+                                   extensions=[
+                                       'markdown.extensions.extra',
+                                       'markdown.extensions.codehilite',
+                                       'markdown.extensions.toc',
+                                   ])
         comments = ArticleUser.objects.filter(article__title=title).exclude(comment=None)
         return render(request, 'moments/article.html', locals())
     except Exception as e:

@@ -10,7 +10,7 @@
             <!-- standart article -->
             <article class="post-88 post type-post status-publish format-video hentry category-uncategorized">
 
-                <h3><span class="post_title_icon"></span>{{article.title}}</h3>
+                <h2><span class="post_title_icon"></span>{{article.title}}</h2>
 
                 <!-- postmeta -->
                 <div class="postmeta">
@@ -27,7 +27,7 @@
                 <div class="entry-content clearfix">
                 <div class="entry-colors"><div class="color_col_1"></div><div class="color_col_2"></div><div class="color_col_3"></div></div>
                     <div class="icon"><i class="fa fa-pencil fa-2x"></i></div>
-                    {{ article.get_message_as_markdown }}
+                    {{ article.content|safe }}
                 </div>
                 <!-- entry-content -->
 

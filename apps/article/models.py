@@ -58,8 +58,8 @@ class Article(models.Model):
         self.views += 1
         self.save(update_fields=['views'])
 
-    def get_message_as_markdown(self):
-        return mark_safe(markdown(self.content, safe_mode='escape'))
+    # def get_message_as_markdown(self):
+    #     return mark_safe(markdown(self.content, safe_mode='escape'))
 
 
 class ArticleUser(models.Model):
