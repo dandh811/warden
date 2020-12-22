@@ -13,7 +13,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>{% block title %}{% endblock %}{{ SITE_NAME }}</title>
-    <link rel="icon" type="image/png" href="https://image.3001.net/images/20191031/15724874583730.png">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
 
     <link rel="stylesheet" type="text/css" href="{% static 'hexo/css/all.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'hexo/css/materialize.min.css' %}">
@@ -32,8 +32,8 @@
             <div id="navContainer" class="nav-wrapper head-container">
                 <div class="brand-logo">
                     <a href="/" class="waves-effect waves-light">
-                        <img src="https://image.3001.net/images/20191031/15724874583730.png" class="logo-img" alt="LOGO">
-                        <span class="logo-span">小猪哼哼</span>
+                        <img src="{% static 'images/logo.png' %}" class="logo-img" alt="LOGO">
+                        <span class="logo-span">{{ SITE_NAME }}</span>
                     </a>
                 </div>
                 <a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
@@ -47,25 +47,13 @@
 
                     {% for category in active_categories %}
                     <li class="hide-on-med-and-down nav-item">
-                        <a href="{% url 'article_category' category.id %}" class="waves-effect waves-light">
+                        <a href="{% url 'article:articles_category' category.name %}" class="waves-effect waves-light">
                           <i class="{{ category.icon }}" style="zoom: 0.6;"></i>
                           <span>{{ category.name }}</span>
                         </a>
                     </li>
                     {% endfor %}
 
-                    <li class="hide-on-med-and-down nav-item">
-                        <a href="http://ctf.njupt.edu.cn/members" target="_blank" rel="noopener" class="waves-effect waves-light">
-                          <i class="fab fa-xing" style="zoom: 0.6;"></i>
-                          <span>X1cT34m</span>
-                        </a>
-                    </li>
-                    <li class="hide-on-med-and-down nav-item">
-{#                        <a href="{% url '' %}" class="waves-effect waves-light">#}
-                          <i class="fab fa-ravelry" style="zoom: 0.6;"></i>
-                          <span>友情链接</span>
-                        </a>
-                    </li>
                     <li class="hide-on-med-and-down nav-item">
                         <a href="/about/" class="waves-effect waves-light">
                             <i class="fab fa-gg" style="zoom: 0.6;"></i><span>关于</span>
@@ -82,7 +70,7 @@
                 <div id="mobile-nav" class="side-nav sidenav">
                     <div class="mobile-head bg-color">
                         <img src="https://image.3001.net/images/20191031/15724874583730.png" class="logo-img circle responsive-img">
-                        <div class="logo-name">小猪哼哼</div>
+                        <div class="logo-name">{{ SITE_NAME }}</div>
                         <div class="logo-desc">
                             专注web安全
                         </div>
@@ -97,7 +85,7 @@
 
                         {% for category in active_categories %}
                             <li class="m-nav-item">
-		                    <a href="{% url 'article_category' category.id %}" class="waves-effect waves-light">
+		                    <a href="{% url 'article:articles_category' category.name %}" class="waves-effect waves-light">
 			                    <i class="fa-fw {{ category.icon }}"></i>
                                 {{ category.name }}
                             </a>
@@ -212,11 +200,11 @@
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             <span id="year">年份</span>
-            <a href="https://www.sqlsec.com" target="_blank">国光</a>
+            <a href="https://www.sqlsec.com" target="_blank">{{ SITE_TITLE }}</a>
             |&nbsp;Powered by&nbsp;<a href="https://www.djangoproject.com/" target="_blank" rel="nofollow">Django</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank" rel="nofollow">Matery</a>
             <br>
-            <span id="icp"><img src="{% static 'medias/icp.png' %}" style="vertical-align: text-bottom;" />
+            <span id="icp"><img src="{% static 'images/icp.png' %}" style="vertical-align: text-bottom;" />
                 <a href="{{ SITE_ICP_URL }}" target="_blank" rel="nofollow">{{ SITE_ICP }}</a>
             </span>
 
@@ -224,11 +212,11 @@
         <div class="col s12 m4 l4 social-link social-statis">
 
 
-    <a href="mailto:admin@sqlsec.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:{{ SITE_MAIL }}" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
-    <a href="/avs/" class="tooltipped" target="_blank" data-tooltip="文章更新动态" data-position="top" data-delay="50">
+    <a href="/" class="tooltipped" target="_blank" data-tooltip="文章更新动态" data-position="top" data-delay="50">
         <i class="far fa-calendar-alt"></i>
     </a>
 
@@ -252,7 +240,7 @@
         </div>
     </div>
 
-    <script src="{% static 'js/search.js' %}"></script>
+    <script src="{% static 'hexo/js/search.js' %}"></script>
     <script type="text/javascript">
         $(function () {
             searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
@@ -265,14 +253,14 @@
         </a>
     </div>
 
-    <script src="{% static '/js/materialize.min.js' %}"></script>
-    <script src="{% static '/js/masonry.pkgd.min.js' %}"></script>
-    <script src="{% static '/js/aos.js' %}"></script>
-    <script src="{% static '/js/scrollProgress.min.js' %}"></script>
-    <script src="{% static '/js/lightgallery-all.min.js' %}"></script>
-    <script src="{% static '/js/matery.js' %}"></script>
-    <script src="{% static '/js/clicklove.js' %}" async="async"></script>
-    <script src="{% static '/js/instantpage.js' %}" type="module"></script>
-    <script src="{% static 'js/prism.js' %}"></script>
+    <script src="{% static 'hexo/js/materialize.min.js' %}"></script>
+    <script src="{% static 'hexo/js/masonry.pkgd.min.js' %}"></script>
+    <script src="{% static 'hexo/js/aos.js' %}"></script>
+    <script src="{% static 'hexo/js/scrollProgress.min.js' %}"></script>
+    <script src="{% static 'hexo/js/lightgallery-all.min.js' %}"></script>
+    <script src="{% static 'hexo/js/matery.js' %}"></script>
+    <script src="{% static 'hexo/js/clicklove.js' %}" async="async"></script>
+    <script src="{% static 'hexo/js/instantpage.js' %}" type="module"></script>
+    <script src="{% static 'hexo/js/prism.js' %}"></script>
 </body>
 </html>

@@ -6,10 +6,31 @@ from utils.visit_info import update_access_nums
 from django.core.paginator import Paginator
 from apps.users.models import Profile
 from apps.article.models import *
-import random
 from django.db.models import Q
 from loguru import logger
 import markdown
+from django.conf import settings
+from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+import mistune
+
+
+def global_setting(request):
+    """
+    将settings里面的变量 注册为全局变量
+    """
+    active_categories = Category.objects.all()
+    return {
+        'SITE_NAME': settings.SITE_NAME,
+        'SITE_DESC': settings.SITE_DESCRIPTION,
+        'SITE_KEY': settings.SECRET_KEY,
+        'SITE_MAIL': settings.SITE_MAIL,
+        'SITE_ICP': settings.SITE_ICP,
+        'SITE_ICP_URL': settings.SITE_ICP_URL,
+        'SITE_TITLE': settings.SITE_TITLE,
+        'SITE_TYPE_CHINESE': settings.SITE_TYPE_CHINESE,
+        'SITE_TYPE_ENGLISH': settings.SITE_TYPE_ENGLISH,
+        'active_categories': active_categories
+    }
 
 
 @csrf_exempt
@@ -19,16 +40,24 @@ def index(request):
         articles = Article.objects.order_by('-id')
     else:
         articles = Article.objects.filter(status='published').order_by('-id')
-    types = Article.type_choice
-    paginator = Paginator(articles, 10)
-    page = request.GET.get('page')
-    particles = paginator.get_page(page)
+    is_recommend = models.BooleanField(default=False, verbose_name='是否推荐')
 
-    for article in particles:
-        article.content = markdown.markdown(article.content,
-                                  extensions=[
-                                      'markdown.extensions.extra',
-                                  ])
+    types = Article.type_choice
+    # paginator = Paginator(articles, 10)
+    # page = request.GET.get('page')
+    # particles = paginator.get_page(page)
+    try:
+        page = request.GET.get('page', 1)
+    except PageNotAnInteger:
+        page = 1
+    p = Paginator(articles, 9, request=request)
+    articles = p.page(page)
+
+    # for article in particles:
+    #     article.content = markdown.markdown(article.content,
+    #                               extensions=[
+    #                                   'markdown.extensions.extra',
+    #                               ])
 
     return render(request, 'hexo/index.html', locals())
 
@@ -41,7 +70,7 @@ def articles_category(request, category):
     page = request.GET.get('page')
     particles = paginator.get_page(page)
 
-    return render(request, 'moments/index.html', locals())
+    return render(request, 'hexo/index.html', locals())
 
 
 @csrf_exempt
@@ -51,21 +80,23 @@ def article_detail(request, title):
             article = Article.objects.get(title=title)
         else:
             article = Article.objects.get(Q(title=title) & Q(status='published'))
-        blog_times = ArticleUser.objects.filter()
+        # blog_times = ArticleUser.objects.filter()
         article.viewed()
-        md = markdown.Markdown(
-            extensions=[
-                'markdown.extensions.extra',
-                'markdown.extensions.codehilite',
-                'markdown.extensions.toc',
-            ]
-        )
-        article.content = md.convert(article.content)
+        mk = mistune.Markdown()
+        output = mk(article.content)
+        # md = markdown.Markdown(
+        #     extensions=[
+        #         'markdown.extensions.extra',
+        #         'markdown.extensions.codehilite',
+        #         'markdown.extensions.toc',
+        #     ]
+        # )
+        # article.content = md.convert(article.content)
 
         # context = {'article': article, 'toc': md.toc}
 
         comments = ArticleUser.objects.filter(article__title=title).exclude(comment=None)
-        return render(request, 'moments/article.html', locals())
+        return render(request, 'hexo/detail.html', locals())
     except Exception as e:
         logger.critical(e)
 
@@ -77,7 +108,7 @@ def article_type(request, type):
     page = request.GET.get('page')
     pks = paginator.get_page(page)
 
-    return render(request, 'moments/index.html', locals())
+    return render(request, 'hexo/index.html', locals())
 
 
 @csrf_exempt
@@ -185,7 +216,7 @@ def article_collected(request):
     page = request.GET.get('page')
     particles = paginator.get_page(page)
 
-    return render(request, 'moments/index.html', locals())
+    return render(request, 'hexo/index.html', locals())
 
 
 @csrf_exempt
@@ -200,7 +231,7 @@ def article_search(request):
     page = request.GET.get('page')
     particles = paginator.get_page(page)
 
-    return render(request, 'moments/index.html', locals())
+    return render(request, 'hexo/index.html', locals())
 
 
 @csrf_exempt

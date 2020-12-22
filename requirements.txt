@@ -8,4 +8,6 @@ google-cloud-storage
 loguru
 social-auth-app-django
 requests
-markdown
+django-mdeditor
+django-pure-pagination
+mistune

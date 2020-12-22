@@ -20,9 +20,9 @@
 {% endblock %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/tocbot.css' %}">
-<link rel="stylesheet" href="{% static 'css/prism-a11y-dark.css' %}">
-<link rel="stylesheet" href="{% static 'css/monokai.css' %}">
+<link rel="stylesheet" href="{% static 'hexo/css/tocbot.css' %}">
+<link rel="stylesheet" href="{% static 'hexo/css/prism-a11y-dark.css' %}">
+<link rel="stylesheet" href="{% static 'hexo/css/monokai.css' %}">
 {% endblock %}
 
 {% block custom_style %}
@@ -210,18 +210,18 @@
                     <div class="card-content article-info">
                         <div class="row tag-cate">
                             <div class="col s7">
-                                <div class="article-tag">
-                                    {% for tag in  article.tag.all %}
-                                    <a href="{% url 'article_tag' tag.id %}">
-                                        <span class="chip tag-color">{{ tag }}</span>
-                                    </a>
-                                    {% endfor %}
-                                </div>
+{#                                <div class="article-tag">#}
+{#                                    {% for tag in  article.tag.all %}#}
+{#                                    <a href="{% url 'article_tag' tag.id %}">#}
+{#                                        <span class="chip tag-color">{{ tag }}</span>#}
+{#                                    </a>#}
+{#                                    {% endfor %}#}
+{#                                </div>#}
                             </div>
                             <div class="col s5 right-align">
                                 <div class="post-cate">
                                     <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                        <a href="{% url 'article_category' article.category_id %}" class="post-category">
+                                        <a href="{% url 'article:articles_category' article.category_id %}" class="post-category">
                                             {{ article.category }}
                                         </a>
                                 </div>
@@ -230,22 +230,22 @@
                         <div class="post-info">
                             <div class="post-date info-break-policy">
                                 <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                                {{ article.add_time | date:'Y-m-d'}}
+                                {{ article.c_time | date:'Y-m-d'}}
                             </div>
-                            <div class="post-date info-break-policy">
-                                <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                                {{ article.update_time | date:'Y-m-d' }}
-                            </div>
+{#                            <div class="post-date info-break-policy">#}
+{#                                <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;#}
+{#                                {{ article.update_time | date:'Y-m-d' }}#}
+{#                            </div>#}
                             <div class="info-break-policy">
                                 <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
-                                {{ article.click_count }}
+                                {{ article.c_time }}
                             </div>
                         </div>
                     </div>
                     <hr class="clearfix">
                     <div class="card-content article-card-content">
                         <div id="articleContent">
-                            {{ detail_html | custom_markdown| safe}}
+                            {{ output | custom_markdown| safe}}
                         </div>
                         <hr/>
                         <div class="reprint" id="reprint-statement">
@@ -481,13 +481,13 @@
                 });
             </script>
             <!-- 代码块功能依赖 -->
-            <script type="text/javascript" src="{% static 'codeBlock/codeBlockFuction.js' %}"></script>
+            <script type="text/javascript" src="{% static 'hexo/codeBlock/codeBlockFuction.js' %}"></script>
             <!-- 代码语言 -->
-            <script type="text/javascript" src="{% static 'codeBlock/codeLang.js' %}"></script>
+            <script type="text/javascript" src="{% static 'hexo/codeBlock/codeLang.js' %}"></script>
             <!-- 代码块复制 -->
-            <script type="text/javascript" src="{% static 'codeBlock/codeCopy.js' %}"></script>
+            <script type="text/javascript" src="{% static 'hexo/codeBlock/codeCopy.js' %}"></script>
             <!-- 代码块收缩 -->
-            <script type="text/javascript" src="{% static 'codeBlock/codeShrink.js' %}"></script>
+            <script type="text/javascript" src="{% static 'hexo/codeBlock/codeShrink.js' %}"></script>
             <!-- 代码块折行 -->
         </div>
         <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
@@ -504,7 +504,7 @@
             <i class="fas fa-list-ul"></i>
         </a>
     </div>
-    <script src="{% static 'js/tocbot.min.js' %}"></script>
+    <script src="{% static 'hexo/js/tocbot.min.js' %}"></script>
     <script>
         $(function () {
             tocbot.init({

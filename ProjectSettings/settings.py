@@ -29,7 +29,9 @@ INSTALLED_APPS = [
     'apps.users',
     'captcha',
     'apps.cases',
-    'apps.tools'
+    'apps.tools',
+    'mdeditor'
+    # 'pure_pagination'
     # 'social_django',
 ]
 
@@ -60,6 +62,7 @@ TEMPLATES = [
                 'apps.article.context_processors.add_variable_to_context',
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
+                'apps.article.views.global_setting'
             ],
         },
     },
@@ -151,5 +154,16 @@ SOCIAL_AUTH_WECHAT_SECRET = '51a8b59a178960c38f554e9f47d5223d'
 
 # 登录成功后跳转页面
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+
+# 网站的基本信息配置
+SITE_NAME = '小猪哼哼'  # 站点名称
+SITE_DESCRIPTION = '小猪哼哼'  # 站点描述
+SITE_KEYWORDS = '小猪哼哼,信息安全,Web安全,极客'  # 站点关键词
+SITE_TITLE = '信息安全学习记录'  # 博客标题
+SITE_TYPE_CHINESE = '宁静致远'  # 打字效果 中文内容
+SITE_TYPE_ENGLISH = 'The quieter you become, the more you are able to hear'  # 打字效果 英文内容
+SITE_MAIL = 'dandh811@163.com'  # 我的邮箱
+SITE_ICP = '京ICP备20000068号'  # 网站备案号
+SITE_ICP_URL = 'http://beian.miit.gov.cn'  # 备案号超链接地址
 
 logger.warning('blog started')

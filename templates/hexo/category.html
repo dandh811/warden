@@ -65,7 +65,7 @@
             </div>
             <div class="tag-chips">
                 {% for category in categories %}
-                <a href="{% url 'article_category' category.id %}" title="Others: 29">
+                <a href="{% url 'article:articles_category' category.id %}" title="Others: 29">
                     <span class="chip center-align waves-effect waves-light
                              chip-default category-{% random_num %}">{{ category.name }}
                         <span class="tag-length">{{ category.article_set.all | length }}</span>
@@ -91,7 +91,7 @@
     </div>
 </div>
 
-<script type="text/javascript" src="{% static 'js/echarts.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'hexo/js/echarts.min.js' %}"></script>
 <script type="text/javascript">
     let radarChart = echarts.init(document.getElementById('category-radar'));
 
