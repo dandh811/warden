@@ -1,10 +1,12 @@
 {% load static %}
 <!-- begin aside -->
 <aside>
-    <div id="archives-2" class="widget_sidebar widget_archive">
-        <h3 class="widget-title">目录</h3>
-        {{ md.toc|safe }}
-    </div>
+    {% if article %}
+        <div id="archives-2" class="widget_sidebar widget_archive">
+            <h3 class="widget-title">目录</h3>
+            {{ md.toc|safe }}
+        </div>
+    {% endif %}
     <div id="recent-posts-2" class="widget_sidebar widget_recent_entries">
         <h3 class="widget-title">分类</h3>
         <ul>

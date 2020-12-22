@@ -30,7 +30,7 @@ def index(request):
                                       'markdown.extensions.extra',
                                   ])
 
-    return render(request, 'moments/index.html', locals())
+    return render(request, 'hexo/index.html', locals())
 
 
 @csrf_exempt
