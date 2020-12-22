@@ -1,5 +1,5 @@
 {% extends 'hexo/base.html' %}
-{% load custom_tag %}
+{% load article_extras %}
 {% load static %}
 {% block title %}{{ article.title }} | {% endblock %}
 
@@ -245,7 +245,7 @@
                     <hr class="clearfix">
                     <div class="card-content article-card-content">
                         <div id="articleContent">
-                            {{ output | custom_markdown| safe}}
+                            {{ output|custom_markdown_my | safe}}
                         </div>
                         <hr/>
                         <div class="reprint" id="reprint-statement">
@@ -256,7 +256,7 @@
                                     </i>
                                 </span>
                                 <span class="reprint-info">
-                                    <a href="https://www.sqlsec.com" rel="external nofollow noreferrer">国光</a>
+                                    <a href="https://www.dongjianjun.com" rel="external nofollow noreferrer">{{ SITE_NAME }}</a>
                                 </span>
                             </div>
                             <div class="reprint__type">
@@ -266,7 +266,7 @@
                                     </i>
                                 </span>
                                 <span class="reprint-info">
-                                    <a href="https://www.sqlsec.com/2019/11/kode.html">https://www.sqlsec.com/2019/11/kode.html</a>
+                                    <a href="{% url 'article:article_detail' article.title %}">{% url 'article:article_detail' article.title %}</a>
                                 </span>
                             </div>
                             <div class="reprint__notice">
@@ -279,7 +279,7 @@
                                         本博客所有文章除特別声明外，均采用
                                         <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                                         许可协议。转载请注明来源
-                                        <a href="https://www.sqlsec.com" target="_blank">国光</a>
+                                        <a href="https://www.dongjianjun.com" target="_blank">{{ SITE_NAME }}</a>
                                         !
                                     </span>
                                 </div>
@@ -311,16 +311,13 @@
 
                 </div>
                 <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
-                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+                    <link rel="stylesheet" type="text/css" href="{% static 'hexo/css/share.min.css' %}">
 
 <div id="article-share">
 
 
     <div class="social-share" data-sites="qq,wechat,weibo" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
-    <script src="/libs/share/js/social-share.min.js"></script>
-
-
-
+    <script src="{% static 'hexo/js/social-share.min.js' %}"></script>
 
 </div>
 

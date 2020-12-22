@@ -8,7 +8,6 @@ from apps.users.models import Profile
 from apps.article.models import *
 from django.db.models import Q
 from loguru import logger
-import markdown
 from django.conf import settings
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 import mistune
@@ -66,9 +65,12 @@ def index(request):
 def articles_category(request, category):
     articles = Article.objects.filter(category__name=category, status='published')
     types = Article.type_choice
-    paginator = Paginator(articles, 10)
-    page = request.GET.get('page')
-    particles = paginator.get_page(page)
+    try:
+        page = request.GET.get('page', 1)
+    except PageNotAnInteger:
+        page = 1
+    p = Paginator(articles, 9, request=request)
+    articles = p.page(page)
 
     return render(request, 'hexo/index.html', locals())
 
@@ -95,7 +97,7 @@ def article_detail(request, title):
 
         # context = {'article': article, 'toc': md.toc}
 
-        comments = ArticleUser.objects.filter(article__title=title).exclude(comment=None)
+        # comments = ArticleUser.objects.filter(article__title=title).exclude(comment=None)
         return render(request, 'hexo/detail.html', locals())
     except Exception as e:
         logger.critical(e)

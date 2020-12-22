@@ -64,7 +64,12 @@ TEMPLATES = [
                 'social_django.context_processors.login_redirect',
                 'apps.article.views.global_setting'
             ],
+            'libraries': {
+                'article_extras': 'apps.article.templatetags.article_extras',
+
+            }
         },
+
     },
 ]
 

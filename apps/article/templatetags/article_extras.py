@@ -14,7 +14,7 @@ def random_num():
 
 @register.filter(is_safe=True)
 @stringfilter
-def custom_markdown(content):
+def custom_markdown_my(content):
     code_list = re.findall(r'<pre><code class="lang-(.*)">', content, re.M)
     for code in code_list:
         content = re.sub(r'<pre><code class="(.*)">',
