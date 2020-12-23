@@ -34,7 +34,7 @@
                 <div class="brand-logo">
                     <a href="/" class="waves-effect waves-light">
                         <img src="{% static 'images/logo.png' %}" class="logo-img" alt="LOGO">
-                        <span class="logo-span">{{ SITE_NAME }}</span>
+                        <span class="logo-span"> {{ SITE_NAME }}</span>
                     </a>
                 </div>
                 <a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
@@ -42,7 +42,7 @@
                     <li class="hide-on-med-and-down nav-item">
                         <a href="/" class="waves-effect waves-light">
                           <i class="fas fa-home" style="zoom: 0.6;"></i>
-                          <span>首页</span>
+                          <span> 首页</span>
                         </a>
                     </li>
 
@@ -50,16 +50,33 @@
                     <li class="hide-on-med-and-down nav-item">
                         <a href="{% url 'article:articles_category' category.name %}" class="waves-effect waves-light">
                           <i class="{{ category.icon }}" style="zoom: 0.6;"></i>
-                          <span>{{ category.name }}</span>
+                          <span> {{ category.name }}</span>
                         </a>
                     </li>
                     {% endfor %}
 
                     <li class="hide-on-med-and-down nav-item">
                         <a href="/about/" class="waves-effect waves-light">
-                            <i class="fab fa-gg" style="zoom: 0.6;"></i><span>关于</span>
+                            <i class="fab fa-gg" style="zoom: 0.6;"></i><span> 关于</span>
                         </a>
                     </li>
+                    {% if request.user.is_authenticated %}
+                        <li class="m-nav-item">
+                            {% if request.user.is_superuser %}
+                                <a href="/admin/" target="_blank"><i class="fa-fw fas fa-user"></i> 后台管理</a>
+                            {% else %}
+                                <a><i class="fa-fw fas fa-user"></i> {{ user }}</a>
+                            {% endif %}
+
+                        </li>
+                    {% else %}
+                        <li class="m-nav-item">
+                            <a href="{% url 'users:login' %}"> <i class="fa-fw fas fa-user"></i> 登录</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'users:register' %}"><i class="fa-fw fas fa-registered"></i> 注册</a>
+                        </li>
+                    {% endif %}
                     <li>
                         <a href="#searchModal" class="modal-trigger waves-effect waves-light">
                           <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
@@ -92,24 +109,29 @@
                             </a>
                         </li>
                         {% endfor %}
-                        <li class="m-nav-item">
-                            <a href="http://ctf.njupt.edu.cn/members" target="_blank" rel="noopener" class="waves-effect waves-light">
-                                <i class="fa-fw fab fa-xing"></i>
-                                X1cT34m
-                            </a>
-                        </li>
-                        <li class="m-nav-item">
-{#                            <a href="{% url '' %}" class="waves-effect waves-light">#}
-                                <i class="fa-fw fab fa-ravelry"></i>
-                                友情链接
-                            </a>
-                        </li>
-                        <li class="m-nav-item">
-                            <a href="/about/" class="waves-effect waves-light">
-                                <i class="fa-fw fab fa-gg"></i>
-                                关于
-                            </a>
-                        </li>
+
+
+{#                        <li class="m-nav-item">#}
+{#                            <a href="/about/" class="waves-effect waves-light">#}
+{#                                <i class="fa-fw fab fa-gg"></i>#}
+{#                                关于#}
+{#                            </a>#}
+{#                        </li>#}
+                        {% if request.user.is_authenticated %}
+                            <li class="m-nav-item">
+                                <a ><i class="fa-fw fas fa-home"></i>{{ user }}</a>
+{#                                    <a href="{% url 'users:user_home' request.user.id %}" target="_blank">个人中心</a>#}
+                                {% if request.user.is_superuser %}
+                                    <a href="/admin/" target="_blank"><i class="fa-fw fas fa-home"></i>后台管理</a>
+                                {% endif %}
+                                <a href="{% url 'users:logout' %}"> <i class="fa-fw fas fa-home"></i>退出登录 </a>
+                            </li>
+                        {% else %}
+                            <li class="m-nav-item">
+                                <a href="{% url 'users:login' %}"> <i class="fa-fw fas fa-home"></i>登录</a>|
+                                <a href="{% url 'users:register' %}"><i class="fa-fw fas fa-home"></i> 注册</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
