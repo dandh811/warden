@@ -11,6 +11,7 @@ from loguru import logger
 from django.conf import settings
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 import mistune
+import random
 
 
 def global_setting(request):
@@ -40,6 +41,8 @@ def index(request):
     else:
         articles = Article.objects.filter(status='published').order_by('-id')
     is_recommend = models.BooleanField(default=False, verbose_name='是否推荐')
+    for article in articles:
+        article.cover = 'http://81.70.89.72/static/images/covers/%s.jpg' % random.randint(0,20)
 
     types = Article.type_choice
     # paginator = Paginator(articles, 10)
@@ -51,6 +54,7 @@ def index(request):
         page = 1
     p = Paginator(articles, 9, request=request)
     articles = p.page(page)
+
 
     # for article in particles:
     #     article.content = markdown.markdown(article.content,
@@ -64,6 +68,8 @@ def index(request):
 @csrf_exempt
 def articles_category(request, category):
     articles = Article.objects.filter(category__name=category, status='published')
+    for article in articles:
+        article.cover = 'http://81.70.89.72/static/images/covers/%s.jpg' % random.randint(0,20)
     types = Article.type_choice
     try:
         page = request.GET.get('page', 1)
