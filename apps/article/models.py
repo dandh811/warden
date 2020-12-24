@@ -5,6 +5,23 @@ from django.urls import reverse
 from django.utils.html import format_html
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=30, verbose_name='标签名称')
+
+    # 统计文章数 并放入后台
+    def get_items(self):
+        return len(self.article_set.all())
+
+    get_items.short_description = '文章数'
+
+    class Meta:
+        verbose_name = '标签'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
+
+
 class Category(models.Model):
 
     name = models.CharField(max_length=100, default='', verbose_name="分类名称")
@@ -118,27 +135,3 @@ class DayNumber(models.Model):
 
     def __str__(self):
         return str(self.day)
-
-
-class Site(models.Model):
-    """
-    站点配置
-    """
-    desc = models.CharField(max_length=50, verbose_name='网站描述')
-    keywords = models.CharField(max_length=50, verbose_name='网站关键词')
-    title = models.CharField(max_length=50, verbose_name='网站标题')
-    index_title = models.CharField(max_length=50, verbose_name='首页标题')
-    type_chinese = models.CharField(max_length=50, verbose_name='座右铭汉语')
-    type_english = models.CharField(max_length=80, verbose_name='座右铭英语')
-    icp_number = models.CharField(max_length=20, verbose_name='备案号')
-    icp_url = models.CharField(max_length=50, verbose_name='备案链接')
-    site_mail = models.CharField(max_length=50, verbose_name='我的邮箱')
-    site_qq = models.CharField(max_length=50, verbose_name='我的QQ')
-    site_avatar = models.CharField(max_length=200, default='https://himg.bdimg.com/sys/portrait/item/pp.1.102d4e0b.kcf3RFn3qxXFsjWSxZam_Q.jpg', verbose_name='我的头像')
-
-    class Meta:
-        verbose_name = '网站设置'
-        verbose_name_plural = verbose_name
-
-    def __str__(self):
-        return self.title

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article, Category, Site
+from .models import Article, Category
 
 
 @admin.register(Article)
@@ -16,8 +16,3 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'c_time']
     list_filter = ['name', 'c_time']
     search_fields = ('name', 'c_time',)
-
-
-@admin.register(Site)
-class SiteAdmin(admin.ModelAdmin):
-    list_display = ['title']

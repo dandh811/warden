@@ -12,6 +12,7 @@ from django.conf import settings
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 import mistune
 import random
+from django.views.generic.base import View
 
 
 def global_setting(request):
@@ -267,20 +268,9 @@ def add_blog_times(request):
             return HttpResponse('{"status":"fail"}', content_type='application/json')
 
 
-@csrf_exempt
-@login_required
-def add_idea(request):
-    if request.method == 'POST':
-        try:
-            article_id = request.POST['article_id']
-            i_content = request.POST['i_content']
-
-            content = request.POST.get('content')
-            if not content:
-                return HttpResponse('{"status":"fail"}', content_type='application/json')
-            else:
-                Idea.objects.update_or_create(article_id=article_id, s_content=content, user=request.user, i_content=i_content)
-                return HttpResponse('{"status":"success"}', content_type='application/json')
-        except Exception as e:
-            logger.critical(e)
-            return HttpResponse('{"status":"fail"}', content_type='application/json')
+class TagList(View):
+    def get(self, request):
+        tags = Tag.objects.all()
+        return render(request, 'hexo/tag.html', {
+            'tags': tags,
+        })

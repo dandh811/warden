@@ -210,13 +210,13 @@
                     <div class="card-content article-info">
                         <div class="row tag-cate">
                             <div class="col s7">
-{#                                <div class="article-tag">#}
-{#                                    {% for tag in  article.tag.all %}#}
-{#                                    <a href="{% url 'article_tag' tag.id %}">#}
-{#                                        <span class="chip tag-color">{{ tag }}</span>#}
-{#                                    </a>#}
-{#                                    {% endfor %}#}
-{#                                </div>#}
+                                <div class="article-tag">
+                                    {% for tag in  article.tag.all %}
+                                    <a href="{% url 'article_tag' tag.id %}">
+                                        <span class="chip tag-color">{{ tag }}</span>
+                                    </a>
+                                    {% endfor %}
+                                </div>
                             </div>
                             <div class="col s5 right-align">
                                 <div class="post-cate">
