@@ -54,8 +54,6 @@
 {% block contents %}
 <main class="content" style="min-height: 734px;">
 
-
-
 <div id="tags" class="container chip-container">
     <div class="card">
         <div class="card-content">
@@ -64,12 +62,12 @@
             </div>
             <div class="tag-chips">
                 {% for tag in tags %}
-                <a href="{% url 'article_tag' tag.id %}" title="{{ tag.name }}: {{ tag.article_set.all | length }}">
-                    <span class="chip center-align waves-effect waves-light
-                             {% ifequal pk tag.id %}chip-active{% else %}chip-default{% endifequal %} tag-{% random_num %}" data-tagname="{{ tag.name }}">{{ tag.name }}
-                        <span class="tag-length">{{ tag.article_set.all | length }}</span>
-                    </span>
-                </a>
+                    <a href="{% url 'article:articles_tag' tag.name %}" title="{{ tag.name }}: {{ tag.article_set.all | length }}">
+                        <span class="chip center-align waves-effect waves-light
+                                 {% ifequal pk tag.id %}chip-active{% else %}chip-default{% endifequal %} tag-{% random_num %}" data-tagname="{{ tag.name }}">{{ tag.name }}
+                            <span class="tag-length">{{ tag.article_set.all | length }}</span>
+                        </span>
+                    </a>
                 {% endfor %}
             </div>
         </div>
@@ -83,7 +81,7 @@
             {% for article in articles.object_list %}
                 <div class="article tag-post col s12 m6 l4 aos-init" data-aos="zoom-in" style="position: absolute; left: 0px; top: 2411px;">
                 <div class="card">
-                    <a href="{% url 'detail' article.id %}">
+                    <a href="{% url 'article:article_detail' article.title %}">
                         <div class="card-image tag-image">
 
                             <img src="{{ article.cover }}" class="responsive-img" alt="{{ article.title }}">
@@ -115,7 +113,7 @@
 
                     <div class="card-action article-tags">
                         {% for tag in  article.tag.all %}
-                        <a href="{% url 'article_tag' tag.id %}">
+                        <a href="{% url 'article:articles_tag' tag.name %}">
                             <span class="chip tag-color">{{ tag }}</span>
                         </a>
                         {% endfor %}

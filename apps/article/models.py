@@ -49,13 +49,6 @@ class Category(models.Model):
 
 
 class Article(models.Model):
-    type_choice = (
-        ('share', '分享'),
-        ('help', '求助'),
-        ('advice', '建议'),
-        ('notice', '公告'),
-
-    )
 
     status_choice = (
         ('draft', '草稿'),
@@ -72,8 +65,9 @@ class Article(models.Model):
     status = models.CharField(choices=status_choice, null=True, blank=True, verbose_name='状态', max_length=20, default='published')
     views = models.PositiveIntegerField('浏览量', default=0)
     is_recommend = models.BooleanField(default=False, verbose_name='是否推荐')
-    cover = models.CharField(max_length=200, default='https://image.3001.net/images/20200304/15832956271308.jpg', verbose_name='文章封面')
+    cover = models.CharField(max_length=200, default='', verbose_name='文章封面')
     desc = models.TextField(max_length=150, verbose_name='文章描述', default='')
+    tag = models.ManyToManyField(Tag, verbose_name='文章标签')
 
     def __str__(self):
         return self.title

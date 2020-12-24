@@ -43,9 +43,8 @@ def index(request):
         articles = Article.objects.filter(status='published').order_by('-id')
     is_recommend = models.BooleanField(default=False, verbose_name='是否推荐')
     for article in articles:
-        article.cover = 'http://81.70.89.72/static/images/covers/%s.jpg' % random.randint(0,20)
+        article.cover = 'http://www.dongjianjun.com/static/images/covers/%s.jpg' % random.randint(0,20)
 
-    types = Article.type_choice
     # paginator = Paginator(articles, 10)
     # page = request.GET.get('page')
     # particles = paginator.get_page(page)
@@ -70,8 +69,7 @@ def index(request):
 def articles_category(request, category):
     articles = Article.objects.filter(category__name=category, status='published')
     for article in articles:
-        article.cover = 'http://81.70.89.72/static/images/covers/%s.jpg' % random.randint(0,20)
-    types = Article.type_choice
+        article.cover = 'http://www.dongjianjun.com/static/images/covers/%s.jpg' % random.randint(0,20)
     try:
         page = request.GET.get('page', 1)
     except PageNotAnInteger:
@@ -108,16 +106,6 @@ def article_detail(request, title):
         return render(request, 'hexo/detail.html', locals())
     except Exception as e:
         logger.critical(e)
-
-
-def article_type(request, type):
-    ks = Article.objects.filter(type=type)
-    types = Article.type_choice
-    paginator = Paginator(ks, 15)
-    page = request.GET.get('page')
-    pks = paginator.get_page(page)
-
-    return render(request, 'hexo/index.html', locals())
 
 
 @csrf_exempt
@@ -268,9 +256,17 @@ def add_blog_times(request):
             return HttpResponse('{"status":"fail"}', content_type='application/json')
 
 
-class TagList(View):
-    def get(self, request):
-        tags = Tag.objects.all()
-        return render(request, 'hexo/tag.html', {
-            'tags': tags,
-        })
+@csrf_exempt
+def articles_tag(request, tag):
+    tags = Tag.objects.all()
+    articles = Article.objects.filter(tag__name=tag, status='published')
+    for article in articles:
+        article.cover = 'http://www.dongjianjun.com/static/images/covers/%s.jpg' % random.randint(0,20)
+    try:
+        page = request.GET.get('page', 1)
+    except PageNotAnInteger:
+        page = 1
+    p = Paginator(articles, 9, request=request)
+    articles = p.page(page)
+
+    return render(request, 'hexo/article_tag.html', locals())

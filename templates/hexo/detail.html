@@ -1,7 +1,7 @@
 {% extends 'hexo/base.html' %}
 {% load article_extras %}
 {% load static %}
-{% block title %}{{ article.title }} | {% endblock %}
+{% block title %}{{ article.title }}{% endblock %}
 
 {% block banner %}
 <div class="bg-cover pd-header post-cover">
@@ -211,11 +211,12 @@
                         <div class="row tag-cate">
                             <div class="col s7">
                                 <div class="article-tag">
-                                    {% for tag in  article.tag.all %}
-                                    <a href="{% url 'article_tag' tag.id %}">
-                                        <span class="chip tag-color">{{ tag }}</span>
-                                    </a>
+                                    {% for tag in article.tag.all %}
+                                        <a href="{% url 'article:articles_tag' tag.name %}">
+                                            <span class="chip tag-color">{{ tag }}</span>
+                                        </a>
                                     {% endfor %}
+
                                 </div>
                             </div>
                             <div class="col s5 right-align">
@@ -229,16 +230,19 @@
                         </div>
                         <div class="post-info">
                             <div class="post-date info-break-policy">
-                                <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                                {{ article.c_time | date:'Y-m-d'}}
+                                <i class="far fa-calendar-minus fa-fw"></i>发布日期: {{ article.c_time | date:'Y-m-d'}}
                             </div>
 {#                            <div class="post-date info-break-policy">#}
 {#                                <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;#}
 {#                                {{ article.update_time | date:'Y-m-d' }}#}
 {#                            </div>#}
                             <div class="info-break-policy">
-                                <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
-                                {{ article.c_time }}
+                                <i class="far fa-eye fa-fw"></i>阅读次数: {{ article.views }}
+                            </div>
+                            <div class="info-break-policy">
+                                {% if request.user.is_superuser %}
+                                    <span><i class="fa fa-edit"></i><a href="/admin/article/article/{{ article.id }}/change/" target="_blank"> 编辑</a></span>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

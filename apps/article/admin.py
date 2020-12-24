@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article, Category
+from .models import Article, Category, Tag
 
 
 @admin.register(Article)
@@ -16,3 +16,12 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'c_time']
     list_filter = ['name', 'c_time']
     search_fields = ('name', 'c_time',)
+
+
+# 标签
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('name', 'get_items')
+    search_fields = ('name', )
+    readonly_fields = ('get_items',)
+    list_per_page = 20
