@@ -94,6 +94,7 @@ def article_detail(request, title):
         article.viewed()
         mk = mistune.Markdown()
         output = mk(article.content)
+        tags = article.tag.all()
         # md = markdown.Markdown(
         #     extensions=[
         #         'markdown.extensions.extra',

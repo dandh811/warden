@@ -303,14 +303,12 @@
                             <div class="post-meta__tag-list" style="display: inline-block;">
 
                                     <div class="article-tag">
-
-                                            <a href="/tags/macOS/">
-                                                <span class="chip tag-color">macOS</span>
+                                        {% for tag in tags %}
+                                            <a href="{% url 'article:articles_tag' tag.name%}">
+                                                <span class="chip tag-color">{{ tag.name }}</span>
                                             </a>
 
-                                            <a href="/tags/%E6%8A%80%E5%B7%A7/">
-                                                <span class="chip tag-color">技巧</span>
-                                            </a>
+                                        {% endfor %}
 
                                     </div>
 
