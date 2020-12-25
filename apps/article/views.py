@@ -13,6 +13,7 @@ from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 import mistune
 import random
 from django.views.generic.base import View
+from urllib.parse import unquote
 
 
 def global_setting(request):
@@ -30,6 +31,7 @@ def global_setting(request):
         'SITE_TITLE': settings.SITE_TITLE,
         'SITE_TYPE_CHINESE': settings.SITE_TYPE_CHINESE,
         'SITE_TYPE_ENGLISH': settings.SITE_TYPE_ENGLISH,
+        'SITE_DOMAIN': settings.SITE_DOMAIN,
         'active_categories': active_categories
     }
 
@@ -88,6 +90,7 @@ def article_detail(request, title):
         else:
             article = Article.objects.get(Q(title=title) & Q(status='published'))
         # blog_times = ArticleUser.objects.filter()
+        article_url = unquote(article.get_absolute_url(), 'utf-8')
         article.viewed()
         mk = mistune.Markdown()
         output = mk(article.content)
@@ -177,58 +180,19 @@ def article_support(request):
 
 
 @csrf_exempt
-@login_required
-def article_collect(request):
-    # types = models.article.type_choice
-    try:
-        user_profile = Profile.objects.get(user=request.user)
-    except Exception as e:
-        logger.critical(e)
-    if request.method == 'POST':
-        article_id = request.POST.get('article_id')
-        action = request.POST.get('action')
-        if action == 'collect':
-            try:
-                ArticleUser.objects.update_or_create(article_id=article_id, user_id=request.user.id, defaults={'collect': True})
-                return HttpResponse('{"status":"success"}', content_type='application/json')
-            except Exception as e:
-                logger.critical(e)
-                return HttpResponse('{"status":"fail"}', content_type='application/json')
-        else:
-            try:
-                ArticleUser.objects.update_or_create(article_id=article_id, user_id=request.user.id, defaults={'collect': False})
-                return HttpResponse('{"status":"success"}', content_type='application/json')
-            except Exception as e:
-                logger.critical(e)
-                return HttpResponse('{"status":"fail"}', content_type='application/json')
-    else:
-        return render(request, 'article/article_detail.html', locals())
-
-
-@csrf_exempt
-def article_collected(request):
-    # articles = ArticleUser.objects.filter(Q(user=request.user) | Q(collect=1))
-    articles = Article.objects.filter(Q(articleuser__collect=1) | Q(articleuser__user=request.user))
-    paginator = Paginator(articles, 15)
-    page = request.GET.get('page')
-    particles = paginator.get_page(page)
-
-    return render(request, 'hexo/index.html', locals())
-
-
-@csrf_exempt
 def article_search(request):
-    q = request.GET.get('q')
     if request.user.is_superuser:
-        ks = Article.objects.filter(title__icontains=q)
+        articles = Article.objects.all()
     else:
-        ks = Article.objects.filter(Q(title__icontains=q) & Q(status='published'))
-
-    paginator = Paginator(ks, 15)
-    page = request.GET.get('page')
-    particles = paginator.get_page(page)
-
-    return render(request, 'hexo/index.html', locals())
+        articles = Article.objects.filter(status='published')
+    entries = []
+    for article in articles:
+        article_url = unquote(article.get_absolute_url(), 'utf-8')
+        entry = '<entry><title>%s</title><link href="%s"/><url>%s</url><categories><category> %s </category></categories></entry>' % \
+                (article.title, article_url, article_url, article.category)
+        entries.append(entry)
+    datas = '<?xml version="1.0" encoding="utf-8"?><search>' + ''.join(entries) + '</search>'
+    return HttpResponse(datas, content_type="text/xml")
 
 
 @csrf_exempt

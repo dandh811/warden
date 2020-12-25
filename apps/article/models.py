@@ -27,6 +27,7 @@ class Category(models.Model):
     name = models.CharField(max_length=100, default='', verbose_name="分类名称")
     c_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     icon = models.CharField(max_length=30, default='fa-home',verbose_name='菜单图标')
+    active = models.BooleanField(default=True, verbose_name='是否添加到菜单')
 
     def get_items(self):
         return len(self.article_set.all())
@@ -67,13 +68,13 @@ class Article(models.Model):
     is_recommend = models.BooleanField(default=False, verbose_name='是否推荐')
     cover = models.CharField(max_length=200, default='', verbose_name='文章封面')
     desc = models.TextField(max_length=150, verbose_name='文章描述', default='')
-    tag = models.ManyToManyField(Tag, verbose_name='文章标签')
+    tag = models.ManyToManyField(Tag, verbose_name='文章标签', null=True, blank=True)
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('articles:article_detail', kwargs={'article_id': self.id})
+        return reverse('articles:article_detail', kwargs={'title': self.title})
 
     class Meta:
         verbose_name = '博文'
@@ -82,6 +83,18 @@ class Article(models.Model):
     def viewed(self):
         self.views += 1
         self.save(update_fields=['views'])
+
+    def cover_data(self):
+        return format_html(
+            '<img src="{}" width="156px" height="98px"/>',
+            self.cover,
+        )
+
+    def cover_admin(self):
+        return format_html(
+            '<img src="{}" width="440px" height="275px"/>',
+            self.cover,
+        )
 
     # def get_message_as_markdown(self):
     #     return mark_safe(markdown(self.content, safe_mode='escape'))

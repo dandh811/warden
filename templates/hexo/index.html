@@ -108,13 +108,13 @@
                             </span>
                         </div>
                     </div>
-{#                    <div class="card-action article-tags">#}
-{#                        {% for tag in  article.tag.all %}#}
-{#                        <a href="{% url 'article_tag' tag.id %}">#}
-{#                            <span class="chip tag-color">{{ tag }}</span>#}
-{#                        </a>#}
-{#                        {% endfor %}#}
-{#                    </div>#}
+                    <div class="card-action article-tags">
+                        {% for tag in article.tag.all %}
+                            <a href="{% url 'article:articles_tag' tag.name %}">
+                                <span class="chip tag-color">{{ tag }}</span>
+                            </a>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
             {% endfor %}

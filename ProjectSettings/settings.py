@@ -170,5 +170,6 @@ SITE_TYPE_ENGLISH = 'The quieter you become, the more you are able to hear'  # �
 SITE_MAIL = 'dandh811@163.com'  # 我的邮箱
 SITE_ICP = '京ICP备20000068号'  # 网站备案号
 SITE_ICP_URL = 'http://beian.miit.gov.cn'  # 备案号超链接地址
+SITE_DOMAIN = 'http://www.dongjianjun.com'
 
 logger.warning('blog started')
