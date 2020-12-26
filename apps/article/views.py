@@ -69,7 +69,10 @@ def index(request):
 
 @csrf_exempt
 def articles_category(request, category):
-    articles = Article.objects.filter(category__name=category, status='published')
+    if request.user.is_superuser:
+        articles = Article.objects.filter(category__name=category)
+    else:
+        articles = Article.objects.filter(category__name=category, status='published')
     for article in articles:
         article.cover = 'http://www.dongjianjun.com/static/images/covers/%s.jpg' % random.randint(0,20)
     try:

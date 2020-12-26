@@ -26,6 +26,15 @@
     {% block css %}{% endblock %}
     {% block js %}{% endblock %}
     <script src="{% static 'hexo/js/jquery-2.2.0.min.js' %}"></script>
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?506517fab764cc0291540e471a2c6783";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
     </head>
 <body>
     <header class="navbar-fixed">
@@ -57,7 +66,12 @@
 
                     <li class="hide-on-med-and-down nav-item">
                         <a href="/about/" class="waves-effect waves-light">
-                            <i class="fab fa-gg" style="zoom: 0.6;"></i><span> 关于</span>
+                            <i class="fab fa-galactic-republic" style="zoom: 0.6;"></i><span> 测试用例</span>
+                        </a>
+                    </li>
+                    <li class="hide-on-med-and-down nav-item">
+                        <a href="/about/" class="waves-effect waves-light">
+                            <i class="fas fa-tools" style="zoom: 0.6;"></i><span> 在线工具</span>
                         </a>
                     </li>
                     {% if request.user.is_authenticated %}
