@@ -31,7 +31,7 @@ class ArticleAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'c_time']
+    list_display = ['name', 'active', 'icon', 'c_time']
     list_filter = ['name', 'c_time']
     search_fields = ('name', 'c_time',)
 

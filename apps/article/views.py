@@ -20,7 +20,7 @@ def global_setting(request):
     """
     将settings里面的变量 注册为全局变量
     """
-    active_categories = Category.objects.all()
+    active_categories = Category.objects.filter(active=True)
     return {
         'SITE_NAME': settings.SITE_NAME,
         'SITE_DESC': settings.SITE_DESCRIPTION,
