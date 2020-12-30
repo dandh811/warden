@@ -7,10 +7,11 @@ import json
 from urllib import parse
 from random import choice
 import string
+import random
 
 
 def tools_index(request):
-    return render(request, 'tools/tools_index.html', locals())
+    return render(request, 'hexo/tools.html', locals())
 
 
 def test_index(request):

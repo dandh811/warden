@@ -21,10 +21,11 @@ def global_setting(request):
     将settings里面的变量 注册为全局变量
     """
     active_categories = Category.objects.filter(active=True)
+    articles_num = len(Article.objects.all())
     return {
         'SITE_NAME': settings.SITE_NAME,
         'SITE_DESC': settings.SITE_DESCRIPTION,
-        'SITE_KEY': settings.SECRET_KEY,
+        'SITE_KEY': settings.SITE_KEYWORDS,
         'SITE_MAIL': settings.SITE_MAIL,
         'SITE_ICP': settings.SITE_ICP,
         'SITE_ICP_URL': settings.SITE_ICP_URL,
@@ -32,7 +33,8 @@ def global_setting(request):
         'SITE_TYPE_CHINESE': settings.SITE_TYPE_CHINESE,
         'SITE_TYPE_ENGLISH': settings.SITE_TYPE_ENGLISH,
         'SITE_DOMAIN': settings.SITE_DOMAIN,
-        'active_categories': active_categories
+        'active_categories': active_categories,
+        'articles_num': articles_num
     }
 
 

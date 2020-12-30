@@ -35,6 +35,7 @@
       s.parentNode.insertBefore(hm, s);
     })();
     </script>
+    <script data-ad-client="ca-pub-7465116442711959" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     </head>
 <body>
     <header class="navbar-fixed">
@@ -70,7 +71,7 @@
                         </a>
                     </li>
                     <li class="hide-on-med-and-down nav-item">
-                        <a href="/about/" class="waves-effect waves-light">
+                        <a href="{% url 'tools:tools_index' %}" class="waves-effect waves-light">
                             <i class="fas fa-tools" style="zoom: 0.6;"></i><span> 在线工具</span>
                         </a>
                     </li>
@@ -237,9 +238,8 @@
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             <span id="year">2020</span>
-            <a href="http://www.dongjianjun.com" target="_blank">{{ SITE_TITLE }}</a>
-            |&nbsp;Powered by&nbsp;<a href="https://www.djangoproject.com/" target="_blank" rel="nofollow">Django</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank" rel="nofollow">Matery</a>
+            <a href="http://www.dongjianjun.com" target="_blank">{{ SITE_NAME }}</a>
+            <i class="fas fa-chart-area"></i> 文章总数：<span class="white-color">{{ articles_num }}</span> 篇
             <br>
             <span id="icp"><img src="{% static 'images/icp.png' %}" style="vertical-align: text-bottom;" />
                 <a href="{{ SITE_ICP_URL }}" target="_blank" rel="nofollow">{{ SITE_ICP }}</a>
