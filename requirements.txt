@@ -12,3 +12,4 @@ django-mdeditor
 django-pure-pagination
 mistune
 django-import-export
+markdown

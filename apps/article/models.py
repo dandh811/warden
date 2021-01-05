@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.urls import reverse
 from django.utils.html import format_html
+from mdeditor.fields import MDTextField
 
 
 class Tag(models.Model):
@@ -62,7 +63,7 @@ class Article(models.Model):
     category = models.ForeignKey(Category, verbose_name='分类', max_length=20, default='', on_delete=models.CASCADE)
     c_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     support = models.IntegerField(default=0, verbose_name='点赞数', null=True, blank=True)
-    content = models.TextField('内容', default='', blank=True, null=True)
+    content = MDTextField('内容', default='', blank=True, null=True)
     status = models.CharField(choices=status_choice, null=True, blank=True, verbose_name='状态', max_length=20, default='published')
     views = models.PositiveIntegerField('浏览量', default=0)
     is_recommend = models.BooleanField(default=False, verbose_name='是否推荐')

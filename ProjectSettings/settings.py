@@ -127,7 +127,7 @@ STATICFILES_DIRS = [
 
 LOGIN_URL = '/user/login'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
 MEDIA_URL = "/media/"      # 跟STATIC_URL类似，指定用户可以通过这个路径找到文件
 
 # 邮件配置
