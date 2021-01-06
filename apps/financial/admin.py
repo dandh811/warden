@@ -1,10 +1,6 @@
 from django.contrib import admin
 from apps.financial import models
 
-admin.site.site_title = "Warden"  # 页面标签处显示
-admin.site.site_header = "Warden 管理后台"
-admin.site.index_title = ""
-
 
 @admin.register(models.Investors)
 class InvestorsAdmin(admin.ModelAdmin):

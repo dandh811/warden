@@ -42,7 +42,7 @@ def send_email(email, code):
 
     from django.core.mail import EmailMultiAlternatives
 
-    subject = '来自Injection博客(www.dongjianjun.com)的注册确认邮件'
+    subject = '来自Injection博客(www.injection.com)的注册确认邮件'
 
     text_content = '''感谢注册小猪哼哼博客！'''
 
@@ -50,7 +50,7 @@ def send_email(email, code):
                     <p>感谢注册, <a href="https://{}/user/confirm/?code={}" target=blank>确认链接</a>！</p>
                     <p>请点击站点链接完成注册确认！</p>
                     <p>此链接有效期为{}天！</p>
-                    '''.format('www.dongjianjun.com', code, settings.CONFIRM_DAYS)
+                    '''.format('www.injection.com', code, settings.CONFIRM_DAYS)
 
     msg = EmailMultiAlternatives(subject, text_content, settings.EMAIL_HOST_USER, [email])
     msg.attach_alternative(html_content, "text/html")

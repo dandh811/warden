@@ -12,7 +12,6 @@ from loguru import logger
 from multiprocessing.dummy import Pool as ThreadPool
 import time
 from lib.common import check_waf
-from django.conf import settings
 import json
 
 urllib3.disable_warnings()
@@ -162,7 +161,7 @@ def get_subdomains_virustotal(target):
 
 def get_subdomains_subfinder(target):
     subdomains = []
-    c = '/opt/tools/subfinder -o /tmp/%s -d %s' % (target, target)
+    c = 'subfinder -o /tmp/%s -d %s' % (target, target)
     try:
         p = subprocess.Popen(c, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
@@ -177,6 +176,9 @@ def get_subdomains_subfinder(target):
 
 
 def get_subdomain_info(target, subdomain):
+    for s in settings.USELESS_SUBDOMAINS:
+        if s in subdomain:
+            return
     try:
         _subdomain = 'https://' + subdomain
         r = requests.get(_subdomain, headers=settings.HTTP_HEADERS, timeout=30, verify=False, allow_redirects=False)
@@ -190,10 +192,10 @@ def get_subdomain_info(target, subdomain):
         if status_code not in settings.WORTHY_HTTP_CODE:
             logger.error('[%s] %s' % (status_code, subdomain))
             return
-        if status_code == 500:
-            if 'cloudflare' in r.text:
-                logger.error('[%s] %s, cloudflare' % (status_code, subdomain))
-                return
+        # if status_code == 500:
+        #     if 'cloudflare' in r.text:
+        #         logger.error('[%s] %s, cloudflare' % (status_code, subdomain))
+        #         return
         # if status_code in [301, 302]:
         #     location = r.headers['location']
         #     logger.debug('Location: ' + location)

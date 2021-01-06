@@ -2,10 +2,6 @@ from django.contrib import admin
 from apps.assets import models
 from django.utils.html import format_html
 
-admin.site.site_title = "Warden"  # 页面标签处显示
-admin.site.site_header = "Warden 管理后台"
-admin.site.index_title = ""
-
 
 @admin.register(models.Asset)
 class AssetAdmin(admin.ModelAdmin):

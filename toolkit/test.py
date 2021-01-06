@@ -38,7 +38,7 @@ if 'addEventListener' in res:
     driver = webdriver.Chrome(executable_path='/opt/tools/chromedriver', chrome_options=chrome_options)
     # driver.set_page_load_timeout(10)
     try:
-        driver.get('https://www.dongjianjun.com/sectest/postmessage/attack.html')
+        driver.get('/sectest/postmessage/attack.html')
         # time.sleep(5)
         # iframe = driver.find_elements_by_tag_name('iframe')[0]
         # driver.switch_to.frame(iframe)

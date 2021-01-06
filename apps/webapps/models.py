@@ -30,6 +30,7 @@ class Domain(models.Model):
     scanned = models.CharField(max_length=100, null=True, verbose_name='是否已扫描', blank=True, default='not')
     in_scope = models.CharField(choices=yes_or_no, default='yes', max_length=5, verbose_name='是否在测试范围内')
     subdomains_total = models.IntegerField(verbose_name='子域名数量', blank=True, null=True, default=0)
+    is_china = models.CharField(choices=yes_or_no, default='', max_length=5, verbose_name='是否国内系统')
 
     def __str__(self):
         return '%s %s' % (self.domain, self.company)
@@ -52,6 +53,7 @@ class WebApp(models.Model):
     domain = models.CharField(max_length=100, null=True, blank=True)
     subdomain = models.CharField(max_length=200, unique=True, default='')
     manual = models.CharField(choices=yes_or_no, verbose_name='是否已手工分析', default='no', max_length=3)
+    is_china = models.CharField(choices=yes_or_no, default='', max_length=5, verbose_name='是否国内系统')
 
     status_code = models.CharField(default='', verbose_name='状态码', max_length=10)
     m_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
@@ -77,12 +79,13 @@ class WebApp(models.Model):
 
 
 class WebUrls(models.Model):
-    url = models.TextField()
+    url = models.TextField(unique=True)
     webapp = models.ForeignKey(WebApp, on_delete=models.CASCADE)
     manual = models.BooleanField(verbose_name='是否已手工分析', default=False)
 
     m_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
     scanned = models.CharField(max_length=200, null=True, verbose_name='是否已扫描', blank=True, default='not')
+    is_china = models.CharField(choices=yes_or_no, default='', max_length=5, verbose_name='是否国内系统')
 
     def __str__(self):
         return '%s %s' % (self.url, self.webapp.domain)

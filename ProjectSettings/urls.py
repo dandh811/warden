@@ -14,8 +14,8 @@ info_dict = {
     'queryset': Article.objects.filter(status='published'),
 }
 
-admin.site.site_header = '博客后台'
-admin.site.site_title = 'Django Blog 后台'
+admin.site.site_header = 'Injection 后台'
+admin.site.site_title = 'Injection 后台'
 
 
 urlpatterns = [

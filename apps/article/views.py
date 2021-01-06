@@ -47,7 +47,7 @@ def index(request):
         articles = Article.objects.filter(status='published').order_by('-id')
     is_recommend = models.BooleanField(default=False, verbose_name='是否推荐')
     for article in articles:
-        article.cover = 'http://www.dongjianjun.com/static/images/covers/%s.jpg' % random.randint(0,20)
+        article.cover = '/static/images/covers/%s.jpg' % random.randint(0,20)
 
     # paginator = Paginator(articles, 10)
     # page = request.GET.get('page')
@@ -76,7 +76,7 @@ def articles_category(request, category):
     else:
         articles = Article.objects.filter(category__name=category, status='published')
     for article in articles:
-        article.cover = 'http://www.dongjianjun.com/static/images/covers/%s.jpg' % random.randint(0,20)
+        article.cover = '/static/images/covers/%s.jpg' % random.randint(0,20)
     try:
         page = request.GET.get('page', 1)
     except PageNotAnInteger:
@@ -231,7 +231,7 @@ def articles_tag(request, tag):
     tags = Tag.objects.all()
     articles = Article.objects.filter(tag__name=tag, status='published')
     for article in articles:
-        article.cover = 'http://www.dongjianjun.com/static/images/covers/%s.jpg' % random.randint(0,20)
+        article.cover = '/static/images/covers/%s.jpg' % random.randint(0,20)
     try:
         page = request.GET.get('page', 1)
     except PageNotAnInteger:

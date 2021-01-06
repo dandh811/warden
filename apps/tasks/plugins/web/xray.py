@@ -26,7 +26,7 @@ def start(**kwargs):
         logger.debug("[%s] [%s] %s" % (plugin, weburl.id, url))
 
         try:
-            command = '/opt/tools/xray webscan --url %s --html-output /opt/warden/warden/reports/xray/%s.html' % (url, url.split('//')[1])
+            command = '/opt/tools/xray webscan --url %s --html-output /opt/blog/blog/reports/xray/%s.html' % (url, url.split('//')[1])
             p = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE)
 
@@ -45,7 +45,7 @@ def start(**kwargs):
         logger.debug("[%s] [%s] %s" % (plugin, webapp.id, url))
 
         try:
-            command = '/opt/tools/xray webscan --basic-crawler %s --html-output /opt/warden/warden/reports/xray/%s.html' % (url, url.split('//')[1])
+            command = '/opt/tools/xray webscan --basic-crawler %s --html-output /opt/blog/blog/reports/xray/%s.html' % (url, url.split('//')[1])
             c = subprocess.call(command, shell=True)
             # out, err = res.communicate()
             # out = out.decode('utf-8')

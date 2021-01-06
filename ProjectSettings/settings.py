@@ -186,12 +186,14 @@ CELERY_TASK_SERIALIZER = 'pickle'
 CELERY_RESULT_SERIALIZER = 'pickle'
 CELERY_ACCEPT_CONTENT = ['pickle']
 
-PYTHON_PATH = '/opt/warden/bin/python3'
+PYTHON_PATH = '/opt/blog/bin/python3'
 
 SSH_USERS = ['root']
 MYSQL_USERS = ['root', 'mysql']
 
 WORTHY_HTTP_CODE = [200, 500]
+
+USELESS_SUBDOMAINS = ['114.qq.com']
 
 AWVS_HOST = 'https://127.0.0.1:13443/'
 AWVS_API_KEY = '1986ad8c0a5b3df4d7028d5f3c06e936cba16d12b18554b6a96ef70930713c0ba'

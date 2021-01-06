@@ -22,7 +22,7 @@ def start(**kwargs):
         return
     usernames = settings.SSH_USERS
 
-    with open('/opt/warden/warden/brute/passwords.txt', 'r') as f:
+    with open('/opt/blog/blog/brute/passwords.txt', 'r') as f:
         passwords = f.readlines()
 
     for port in ports:

@@ -22,7 +22,7 @@ awvs_scan_rule = {
 
 print('start')
 
-db = pymysql.connect("106.12.22.125", "root", "Sihun2016812", "warden")
+db = pymysql.connect("81.70.89.72", "root", "Sihun2016812", "blog")
 cursor = db.cursor()
 
 

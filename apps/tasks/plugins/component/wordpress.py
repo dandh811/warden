@@ -21,7 +21,7 @@ def start(**kwargs):
         logger.info('-' * 75)
         logger.debug("[%s] [%s] %s" % (plugin, webapp.id, url))
         try:
-            report_path = '/opt/warden/warden/reports/wpscan/' + url.split('//')[1]
+            report_path = '/opt/blog/blog/reports/wpscan/' + url.split('//')[1]
             if os.path.exists(report_path):
                 continue
             else:

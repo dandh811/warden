@@ -36,7 +36,6 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('name', 'c_time',)
 
 
-# 标签
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name', 'get_items')

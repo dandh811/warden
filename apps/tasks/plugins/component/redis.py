@@ -18,7 +18,7 @@ def start(**kwargs):
 
     if not ports:
         logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
-    with open('/opt/warden/warden/brute/passwords.txt', 'r') as f:
+    with open('/opt/blog/blog/brute/passwords.txt', 'r') as f:
         passwords = f.readlines()
     for port in ports:
         ip = port.asset.ip

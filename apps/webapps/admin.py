@@ -4,7 +4,7 @@ from . import models
 
 @admin.register(models.WebApp)
 class WebAPPAdmin(admin.ModelAdmin):
-    list_display = ['id', 'subdomain', 'status_code', 'ip', 'platform', 'manual', 'm_time']
+    list_display = ['subdomain', 'status_code', 'ip', 'platform', 'manual', 'm_time']
     search_fields = ('subdomain', 'ip', 'server', 'status_code')
     readonly_fields = ['status_code', 'm_time', 'server', 'ip', 'port', 'other_info']
     list_filter = ['status_code']
