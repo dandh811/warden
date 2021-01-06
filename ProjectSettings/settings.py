@@ -30,7 +30,14 @@ INSTALLED_APPS = [
     'captcha',
     'apps.cases',
     'apps.tools',
-    'mdeditor'
+    'mdeditor',
+    'apps.assets',
+    'apps.tasks',
+    'apps.webapps',
+    'apps.sectest',
+    'apps.financial',
+    'apps.payloads',
+    'apps.toolkit',
     # 'pure_pagination'
     # 'social_django',
 ]
@@ -161,15 +168,46 @@ SOCIAL_AUTH_WECHAT_SECRET = '51a8b59a178960c38f554e9f47d5223d'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 
 # 网站的基本信息配置
-SITE_NAME = '小猪哼哼'  # 站点名称
-SITE_DESCRIPTION = '小猪哼哼'  # 站点描述
-SITE_KEYWORDS = '小猪哼哼,信息安全,Web安全,极客'  # 站点关键词
+SITE_NAME = 'Injection'  # 站点名称
+SITE_DESCRIPTION = 'Injection'  # 站点描述
+SITE_KEYWORDS = 'Injection,信息安全,Web安全,极客'  # 站点关键词
 SITE_TITLE = '信息安全学习记录'  # 博客标题
 SITE_TYPE_CHINESE = '宁静致远'  # 打字效果 中文内容
 SITE_TYPE_ENGLISH = 'The quieter you become, the more you are able to hear'  # 打字效果 英文内容
 SITE_MAIL = 'dandh811@163.com'  # 我的邮箱
-SITE_ICP = '京ICP备20000068号'  # 网站备案号
-SITE_ICP_URL = 'http://beian.miit.gov.cn'  # 备案号超链接地址
-SITE_DOMAIN = 'http://www.dongjianjun.com'
+SITE_ICP = '京ICP备20000068号-2'  # 网站备案号
+SITE_ICP_URL = 'https://beian.miit.gov.cn'  # 备案号超链接地址
+SITE_DOMAIN = 'http://www.injection.vip/'
+
+# 设置队列存储
+BROKER_URL = 'pyamqp://guest:guest@127.0.0.1:5672//'
+# BROKER_URL = 'amqp://amqpuser:amqppswd@127.0.0.1:5672//amqphost'
+CELERY_TASK_SERIALIZER = 'pickle'
+CELERY_RESULT_SERIALIZER = 'pickle'
+CELERY_ACCEPT_CONTENT = ['pickle']
+
+PYTHON_PATH = '/opt/warden/bin/python3'
+
+SSH_USERS = ['root']
+MYSQL_USERS = ['root', 'mysql']
+
+WORTHY_HTTP_CODE = [200, 500]
+
+AWVS_HOST = 'https://127.0.0.1:13443/'
+AWVS_API_KEY = '1986ad8c0a5b3df4d7028d5f3c06e936cba16d12b18554b6a96ef70930713c0ba'
+AWVS_API_HEADER = {"X-Auth": AWVS_API_KEY, "content-type": "application/json"}
+
+WPSCAN_API_TOKEN = ['nLhxpf7z9cpEHdQjD5bi23l5Dt4fISWqRdjEN9HyxI0']
+
+HTTP_HEADERS = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
+    }
+
+SIMPLEUI_HOME_INFO = True
+SIMPLEUI_ANALYSIS = False
+
+CRONJOBS = [
+    ('30 9 * * *', 'django.core.management.call_command', ['finance']),
+]
 
 logger.warning('blog started')

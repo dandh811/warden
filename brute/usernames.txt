@@ -1,0 +1,11 @@
+root
+ftp
+admin
+anonymous
+tomcat
+manager
+apache
+administrator
+user
+test
+postgres

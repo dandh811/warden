@@ -42,7 +42,7 @@ def send_email(email, code):
 
     from django.core.mail import EmailMultiAlternatives
 
-    subject = '来自小猪哼哼博客(www.dongjianjun.com)的注册确认邮件'
+    subject = '来自Injection博客(www.dongjianjun.com)的注册确认邮件'
 
     text_content = '''感谢注册小猪哼哼博客！'''
 
@@ -203,7 +203,7 @@ def login_site(request):
     return render(request, 'users/login.html', locals())
 
 
-@csrf_protect
+@csrf_exempt
 def find_pass(request):
     error = ''
     if request.method == 'POST':
