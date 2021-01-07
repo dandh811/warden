@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'apps.financial',
     'apps.payloads',
     'apps.toolkit',
+    'django_crontab',
     # 'pure_pagination'
     # 'social_django',
 ]

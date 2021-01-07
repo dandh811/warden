@@ -69,3 +69,4 @@ loguru  # 日志美化
 django-simpleui
 lxml
 simplejson
+django-crontab
