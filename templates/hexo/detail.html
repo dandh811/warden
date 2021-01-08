@@ -1,7 +1,7 @@
 {% extends 'hexo/base.html' %}
 {% load article_extras %}
 {% load static %}
-{% block title %}{{ article.title }}{% endblock %}
+{% block title %}{{ article.title }} | {% endblock %}
 
 {% block banner %}
 <div class="bg-cover pd-header post-cover">
@@ -230,7 +230,7 @@
                         </div>
                         <div class="post-info">
                             <div class="post-date info-break-policy">
-                                <i class="far fa-calendar-minus fa-fw"></i>发布日期: {{ article.c_time | date:'Y-m-d'}}
+                                <i class="far fa-calendar-minus fa-fw"></i>发布日期: {{ article.m_time | date:'Y-m-d'}}
                             </div>
 {#                            <div class="post-date info-break-policy">#}
 {#                                <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;#}

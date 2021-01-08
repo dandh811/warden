@@ -42,9 +42,9 @@ def global_setting(request):
 def index(request):
     update_access_nums(request)
     if request.user.is_superuser:
-        articles = Article.objects.order_by('-id')
+        articles = Article.objects.order_by('-m_time')
     else:
-        articles = Article.objects.filter(status='published').order_by('-id')
+        articles = Article.objects.filter(status='published').order_by('-m_time')
     is_recommend = models.BooleanField(default=False, verbose_name='是否推荐')
     for article in articles:
         article.cover = '/static/images/covers/%s.jpg' % random.randint(0,20)

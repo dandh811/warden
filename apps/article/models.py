@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.urls import reverse
 from django.utils.html import format_html
 from mdeditor.fields import MDTextField
+from datetime import datetime
 
 
 class Tag(models.Model):
@@ -61,7 +62,8 @@ class Article(models.Model):
     )
     title = models.CharField(max_length=100, default='', verbose_name="名称")
     category = models.ForeignKey(Category, verbose_name='分类', max_length=20, default='', on_delete=models.CASCADE)
-    c_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    m_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
     support = models.IntegerField(default=0, verbose_name='点赞数', null=True, blank=True)
     content = MDTextField('内容', default='', blank=True, null=True)
     status = models.CharField(choices=status_choice, null=True, blank=True, verbose_name='状态', max_length=20, default='published')
