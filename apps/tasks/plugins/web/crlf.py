@@ -97,7 +97,7 @@ def check(obj):
             continue
         try:
             if 'dandh811' in res.headers.keys():
-                Risk.objects.update_or_create(webapp=url, risk_type='CRLF注入', defaults={"desc": _url + '\n' + payload})
+                Risk.objects.update_or_create(target=url, risk_type='CRLF注入', defaults={"desc": _url + '\n' + payload})
                 logger.info('success, 该域名存在漏洞')
                 title = '发现HTTP头注入漏洞'
                 content = _url

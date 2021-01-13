@@ -32,7 +32,7 @@ def start(**kwargs):
             if data:
                 logger.info(data)
                 logger.info('+ success, 发现SQL注入漏洞')
-                Risk.objects.update_or_create(webapp=url, risk_type='SQL注入', defaults={'desc': data})
+                Risk.objects.update_or_create(target=url, risk_type='SQL注入', defaults={'desc': data})
 
                 title = '发现SQL注入漏洞'
                 content = ''

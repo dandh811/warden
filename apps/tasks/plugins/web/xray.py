@@ -52,7 +52,7 @@ def start(**kwargs):
             # if data:
             #     logger.info(data)
             #     logger.info('+ success, 发现%s漏洞' % plugin_name)
-            #     Risk.objects.update_or_create(webapp=url, risk_type=plugin_name, defaults={'desc': data})
+            #     Risk.objects.update_or_create(target=url, risk_type=plugin_name, defaults={'desc': data})
             #
             #     title = '发现%s漏洞' % plugin_name
             #     content = ''

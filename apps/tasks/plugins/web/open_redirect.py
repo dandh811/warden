@@ -117,7 +117,7 @@ def start(**kwargs):
                 cur_url = 'error'
             if 'www.baidu' in cur_url:
                 logger.info('[$$$] success, 发现漏洞')
-                Risk.objects.update_or_create(webapp=url, risk_type='开放重定向', defaults={"desc": url})
+                Risk.objects.update_or_create(target=url, risk_type='开放重定向', defaults={"desc": url})
 
                 title = '发现开放重定向漏洞'
                 content = url

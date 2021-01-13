@@ -142,7 +142,7 @@ def check_s3_acl(bucket):
             logger.info(res.strip())
         else:
             logger.info('[$$] bucket: %s 允许访问ACL！！！' % bucket)
-            # Risk.objects.update_or_create(webapp=command, risk_type='AWS S3允许访问ACL', defaults={'desc': res})
+            # Risk.objects.update_or_create(target=command, risk_type='AWS S3允许访问ACL', defaults={'desc': res})
     except Exception as e:
         logger.critical(e)
 

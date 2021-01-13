@@ -34,7 +34,7 @@ def start(**kwargs):
                     if 'mismatch' in res:
                         logger.info(res)
                         logger.info('[$$$] success, 发现%s漏洞' % url)
-                        Risk.objects.update_or_create(webapp=url, risk_type=plugin, defaults={'desc': url})
+                        Risk.objects.update_or_create(target=url, risk_type=plugin, defaults={'desc': url})
 
                         title = '发现%s漏洞' % plugin
                         content = ''

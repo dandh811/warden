@@ -177,7 +177,7 @@ def get_reports(result, webapp):
                     for vul_name in vul_names:
                         logger.info('--- %s' % vul_name)
                     desc = '\n'.join(vul_names)
-                    risk = Risk.objects.update_or_create(webapp=webapp.subdomain, risk_type='awvs扫描漏洞', defaults={'desc': desc})
+                    risk = Risk.objects.update_or_create(target=webapp.subdomain, risk_type='awvs扫描漏洞', defaults={'desc': desc})
                     webapp.risk = risk[0]
                     title = 'awvs扫描漏洞'
                     content = desc
