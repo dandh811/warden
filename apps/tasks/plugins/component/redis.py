@@ -43,7 +43,7 @@ def start(**kwargs):
                                                                    'desc': desc
                                                                    })
 
-                logger.info('[$], this host is vulnerable')
+                logger.info('[$$$]success')
 
             elif "Authentication" in result:
                 for pass_ in passwords:

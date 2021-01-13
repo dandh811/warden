@@ -28,7 +28,7 @@ def start(**kwargs):
             s.send(payload.encode())
             recv = s.recv(1024)
             if b"HTTP/1.1 200 OK" in recv and b'Docker' in recv and b'Api-Version' in recv:
-                logger.info('%-30s%-30s' % ('- Has Risk:', "[True], this host is vulnerable"))
+                logger.info('%-30s%-30s' % ('[$$$]success, ', "[True], this host is vulnerable"))
                 desc = 'Docker未授权访问漏洞，获取到如下信息：\n' + str(recv)
                 Risk.objects.update_or_create(target=ip, risk_type='docker未授权访问', defaults={'desc': desc})
                 title = 'docker未授权访问'

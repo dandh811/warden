@@ -32,6 +32,6 @@ def start(**kwargs):
                     Risk.objects.update_or_create(target=url, risk_type='jenkins漏洞', defaults={
                                                                        'desc': 'jenkins远程命令执行漏洞，编号：CVE-2018-1000861'
                                                                        })
-                    logger.info(webapp.ip + ':' + ' 存在Jenkins漏洞')
+                    logger.info('[$$$]success,' + webapp.ip + ':' + ' 存在Jenkins漏洞')
             except Exception as e:
                 logger.info('* %s' % e)

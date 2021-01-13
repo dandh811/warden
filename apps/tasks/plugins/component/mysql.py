@@ -69,7 +69,7 @@ def mysql_brute(ip, port, user, passwd):
                                                            'desc': '%s:%s' % (user, passwd)
                                                            })
 
-        logger.info('%-30s%-30s' % ('- Has Risk:', "[True], this host is vulnerable"))
+        logger.info("[$$$]success, ")
 
     except Exception as e:
         pass

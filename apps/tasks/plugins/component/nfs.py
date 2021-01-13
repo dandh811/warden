@@ -34,7 +34,7 @@ def start(**kwargs):
             cmd = ["showmount", "-e", ip]
             output = os.popen(" ".join(cmd)).read()
             if 'Export list' in output:
-                logger.info('%-30s%-30s' % ('- Has Risk:', "[True], this host is vulnerable"))
+                logger.info('[$$$]success')
                 Risk.objects.update_or_create(target=ip, defaults={'asset': port.asset,
                                                                'risk_type': 'nfs未授权访问',
                                                                'desc': output})

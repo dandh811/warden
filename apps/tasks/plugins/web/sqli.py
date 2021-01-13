@@ -31,24 +31,24 @@ def start(**kwargs):
         try:
             if data:
                 logger.info(data)
-                logger.info('+ success, 发现SQL注入漏洞')
+                logger.info('[$$$]success, 发现SQL注入漏洞')
                 Risk.objects.update_or_create(target=url, risk_type='SQL注入', defaults={'desc': data})
 
                 title = '发现SQL注入漏洞'
                 content = ''
                 wechat.send_msg(title, content)
             else:
-                logger.info('+ 未发现漏洞')
+                logger.info('未发现漏洞')
             update_scan_status(weburl, 'sqli')
         except Exception as e:
             logger.info('* %s' % e)
 
         if molecular == denominator:
             percent = 100.0
-            logger.info('+ 进度: %s [%d/%d]' % (str(percent)+'%', molecular, denominator))
+            logger.info('进度: %s [%d/%d]' % (str(percent)+'%', molecular, denominator))
         else:
             percent = round(1.0 * molecular / denominator * 100, 2)
-            logger.info('+ 进度 : %s [%d/%d]' % (str(percent)+'%', molecular, denominator))
+            logger.info('进度 : %s [%d/%d]' % (str(percent)+'%', molecular, denominator))
 
 
 def sqlmap(host):

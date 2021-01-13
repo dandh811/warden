@@ -46,7 +46,7 @@ def start(**kwargs):
                                                                'desc': desc
                                                                })
 
-                    logger.info('%-30s%-30s' % ('- Has Risk:', "[True], this host is vulnerable"))
+                    logger.info('[$$$]success')
                 except Exception as e:
                     pass
 

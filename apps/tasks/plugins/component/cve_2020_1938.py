@@ -341,7 +341,7 @@ def start(**kwargs):
             logger.info('----------------------------')
             res = ''.join([d.data.decode('utf_8') for d in data])
             if "web-app" in res:
-                logger.info('%-30s%-30s' % ('- Has Risk:', "[True], this host is vulnerable"))
+                logger.info('%-30s%-30s' % ('[$$$]success, ', "[True], this host is vulnerable"))
                 desc = 'cve-2020-1938 漏洞，获取到如下信息：\n' + str(res)
                 Risk.objects.update_or_create(port=port, asset=port.asset, risk_type='cve-2020-1938', defaults={'desc': desc})
                 title = '发现cve-2020-1938漏洞'

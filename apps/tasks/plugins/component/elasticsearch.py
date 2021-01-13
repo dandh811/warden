@@ -27,7 +27,7 @@ def start(**kwargs):
                 logger.debug("[%s] [%s] %s" % (plugin, port.id, url))
                 response = requests.get(url)
                 if "/_cat/master" in response.text:
-                    logger.info('可以匿名访问')
+                    logger.info('[$$$]success, 可以匿名访问')
                     Risk.objects.update_or_create(target=url, risk_type='elasticsearch匿名访问',
                                               defaults={'desc': 'elasticsearch匿名访问, ' + url})
                     logger.info("[True], this host is vulnerable")

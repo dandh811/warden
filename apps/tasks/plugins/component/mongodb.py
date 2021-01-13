@@ -43,7 +43,7 @@ def start(**kwargs):
             desc = 'MongoDB空口令，连接上数据库后，执行了show dbs命令，获取到如下信息:\n' + str(out)
             Risk.objects.update_or_create(target=ip, risk_type='mongodb空口令', defaults={'desc': desc})
 
-            logger.info('%-30s%-30s' % ('- Has Risk:', "[True], this host is vulnerable"))
+            logger.info('[$$$]success')
         except Exception as e:
             logger.error(e)
         finally:

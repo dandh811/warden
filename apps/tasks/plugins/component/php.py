@@ -34,7 +34,7 @@ def start(**kwargs):
         if 'success' in out:
             Risk.objects.update_or_create(target=url, risk_type='php漏洞', defaults={'desc': cmd})
 
-            logger.info('[$], this host is vulnerable')
+            logger.info('[$$$]success')
             title = '发现漏洞'
             content = plugin
             wechat.send_msg(title, content)

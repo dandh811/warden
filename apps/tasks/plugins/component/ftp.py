@@ -55,7 +55,7 @@ def start(**kwargs):
                     ftp.login(username, password)
 
                     logger.info('FTP login successful!')
-                    logger.info('[$$$] %s:%s' % (username, password))
+                    logger.info('[$$$]success,  %s:%s' % (username, password))
                     Risk.objects.update_or_create(target=ip, risk_type='ftp弱口令', defaults={
                                                                        'desc': '%s:%s' % (username, password)
                                                                        })

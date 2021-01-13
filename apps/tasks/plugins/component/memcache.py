@@ -28,6 +28,6 @@ def start(**kwargs):
             if result and ('STAT version' in result):
                 desc = ip + ' ' + str(port.port_num)
                 Risk.objects.update_or_create(target=ip, risk_type='memcache空口令', defaults={'desc': desc})
-                logger.info("[$$$] vulnerable")
+                logger.info("[$$$]success")
         except Exception as e:
             pass
