@@ -176,7 +176,7 @@ SITE_TITLE = '信息安全学习记录'  # 博客标题
 SITE_TYPE_CHINESE = '宁静致远'  # 打字效果 中文内容
 SITE_TYPE_ENGLISH = 'The quieter you become, the more you are able to hear'  # 打字效果 英文内容
 SITE_MAIL = 'dandh811@163.com'  # 我的邮箱
-SITE_ICP = '京ICP备20000068号-2'  # 网站备案号
+SITE_ICP = '津ICP备2021000346号'  # 网站备案号
 SITE_ICP_URL = 'https://beian.miit.gov.cn'  # 备案号超链接地址
 SITE_DOMAIN = 'http://www.injection.vip/'
 
