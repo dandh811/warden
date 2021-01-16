@@ -7,7 +7,7 @@ from import_export.admin import ImportExportModelAdmin, ImportExportActionModelA
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'status', 'm_time', 'cover_data']
+    list_display = ['title', 'category', 'status', 'm_time']
     list_filter = ['category', 'status', 'tag']
     search_fields = ('title', 'desc', 'content')
     readonly_fields = ['support', 'm_time', 'views']
@@ -19,7 +19,7 @@ class ArticleAdmin(admin.ModelAdmin):
         }),
         ('其他设置', {
             'classes': ('collapse',),
-            'fields': ('cover', 'desc', 'is_recommend', 'tag', 'category', 'm_time'),
+            'fields': ('cover', 'desc', 'tag', 'category', 'm_time'),
         }),
     )
 
