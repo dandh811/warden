@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
-import django.utils.timezone as timezone
 from django.core.exceptions import ValidationError, NON_FIELD_ERRORS
 from apps.tasks.models import Task
 
