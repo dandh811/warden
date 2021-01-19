@@ -14,6 +14,8 @@ import mistune
 import random
 from urllib.parse import unquote
 
+images_num = 50
+
 
 def global_setting(request):
     """
@@ -46,7 +48,7 @@ def index(request):
         articles = Article.objects.filter(status='published').order_by('-m_time')
     is_recommend = models.BooleanField(default=False, verbose_name='是否推荐')
     for article in articles:
-        article.cover = '/static/images/covers/%s.jpg' % random.randint(0,30)
+        article.cover = '/static/images/covers/%s.jpg' % random.randint(0,images_num)
 
     try:
         page = request.GET.get('page', 1)
@@ -65,7 +67,7 @@ def articles_category(request, category):
     else:
         articles = Article.objects.filter(category__name=category, status='published')
     for article in articles:
-        article.cover = '/static/images/covers/%s.jpg' % random.randint(0,20)
+        article.cover = '/static/images/covers/%s.jpg' % random.randint(0,images_num)
     try:
         page = request.GET.get('page', 1)
     except PageNotAnInteger:
@@ -220,7 +222,7 @@ def articles_tag(request, tag):
     tags = Tag.objects.all()
     articles = Article.objects.filter(tag__name=tag, status='published')
     for article in articles:
-        article.cover = '/static/images/covers/%s.jpg' % random.randint(0,20)
+        article.cover = '/static/images/covers/%s.jpg' % random.randint(0,images_num)
     try:
         page = request.GET.get('page', 1)
     except PageNotAnInteger:

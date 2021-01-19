@@ -1,6 +1,7 @@
 import os
 import sys
 from loguru import logger
+import random
 
 logger.add('/var/log/blog/blog.log',
            colorize=True,
