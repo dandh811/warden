@@ -25,6 +25,7 @@ class XssPrey(models.Model):
     domain = models.CharField(max_length=64, default='', verbose_name="域名")
     user_agent = models.CharField(max_length=255, default='', verbose_name="user_agent")
     cookie = models.TextField(default='', verbose_name="cookie")
+    ip = models.TextField(verbose_name="IP", blank=True, null=True, default='')
 
     m_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 

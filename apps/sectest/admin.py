@@ -4,5 +4,5 @@ from apps.sectest import models
 
 @admin.register(models.XssPrey)
 class XssPreyAdmin(admin.ModelAdmin):
-    list_display = ['id', 'domain', 'user_agent', 'cookie']
+    list_display = ['id', 'domain', 'user_agent', 'cookie', 'ip']
     ordering = ['-id']

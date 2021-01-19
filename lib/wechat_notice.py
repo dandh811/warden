@@ -1,6 +1,7 @@
 import json
 import requests
 import urllib3
+from loguru import logger
 
 urllib3.disable_warnings()
 requests.packages.urllib3.disable_warnings()
@@ -26,9 +27,9 @@ class WeChatPub:
                 access_token = json.loads(rep.content.decode('utf-8'))['access_token']
                 return access_token
             except Exception as e:
-                print(e)
+                logger.critical(e)
         else:
-            print("request failed.")
+            logger.critical("request failed.")
             return None
 
     def send_msg(self, title, content):
@@ -52,9 +53,11 @@ class WeChatPub:
         }
         rep = self.s.post(url, data=json.dumps(form_data).encode('utf-8'), headers=header)
         if rep.status_code == 200:
-            return json.loads(rep.content.decode('utf-8'))
+            res = json.loads(rep.content.decode('utf-8'))
+            logger.info(res)
+            return res
         else:
-            print("request failed.")
+            logger.critical("request failed.")
             return None
 
 
@@ -66,4 +69,4 @@ if __name__ == '__main__':
         wechat = WeChatPub()
         wechat.send_msg(title="test", content="<div class=\"gray\">2016年9月26日</div> <div class=\"normal\">test</div><div class=\"highlight\">请于2016年10月10日前联系行政同事领取</div>")
     except Exception as e:
-        print(e)
+        logger.critical(e)

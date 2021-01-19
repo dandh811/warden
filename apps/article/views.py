@@ -9,10 +9,9 @@ from apps.article.models import *
 from django.db.models import Q
 from loguru import logger
 from django.conf import settings
-from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+from pure_pagination import Paginator, PageNotAnInteger
 import mistune
 import random
-from django.views.generic.base import View
 from urllib.parse import unquote
 
 
@@ -47,24 +46,14 @@ def index(request):
         articles = Article.objects.filter(status='published').order_by('-m_time')
     is_recommend = models.BooleanField(default=False, verbose_name='是否推荐')
     for article in articles:
-        article.cover = '/static/images/covers/%s.jpg' % random.randint(0,20)
+        article.cover = '/static/images/covers/%s.jpg' % random.randint(0,30)
 
-    # paginator = Paginator(articles, 10)
-    # page = request.GET.get('page')
-    # particles = paginator.get_page(page)
     try:
         page = request.GET.get('page', 1)
     except PageNotAnInteger:
         page = 1
     p = Paginator(articles, 9, request=request)
     articles = p.page(page)
-
-
-    # for article in particles:
-    #     article.content = markdown.markdown(article.content,
-    #                               extensions=[
-    #                                   'markdown.extensions.extra',
-    #                               ])
 
     return render(request, 'hexo/index.html', locals())
 
