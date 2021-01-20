@@ -19,7 +19,7 @@ class ArticleAdmin(admin.ModelAdmin):
         }),
         ('其他设置', {
             'classes': ('collapse',),
-            'fields': ('cover', 'desc', 'tag', 'category', 'm_time'),
+            'fields': ('desc', 'tag', 'category', 'm_time'),
         }),
     )
 
