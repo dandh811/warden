@@ -242,6 +242,8 @@
                             <div class="info-break-policy">
                                 {% if request.user.is_superuser %}
                                     <span><i class="fa fa-edit"></i><a href="/admin/article/article/{{ article.id }}/change/" target="_blank"> 编辑</a></span>
+                                    <span><i class="fa fa-file"></i> {{ article.get_status_display }}</span>
+
                                 {% endif %}
                             </div>
                         </div>

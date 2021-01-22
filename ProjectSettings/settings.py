@@ -193,7 +193,7 @@ PYTHON_PATH = '/opt/blog/bin/python3'
 SSH_USERS = ['root']
 MYSQL_USERS = ['root', 'mysql']
 
-WORTHY_HTTP_CODE = [200, 500]
+WORTHY_HTTP_CODE = [200, 403, 500]
 
 USELESS_SUBDOMAINS = ['114.qq.com']
 
