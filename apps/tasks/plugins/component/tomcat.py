@@ -1,7 +1,6 @@
 import requests
 from apps.assets.models import Port, Risk
 import uuid
-from django.conf import settings
 import base64
 from lib.wechat_notice import wechat
 from loguru import logger

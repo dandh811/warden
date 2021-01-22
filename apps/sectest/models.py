@@ -1,10 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
-import django.utils.timezone as timezone
-from django.dispatch import receiver
-from django.db.models.signals import post_save
-from django.urls import reverse
 from apps.tasks.models import Task
 
 

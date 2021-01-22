@@ -1,6 +1,5 @@
 from apps.assets.models import Port, Risk
 import requests
-import os
 from lib.wechat_notice import wechat
 from loguru import logger
 

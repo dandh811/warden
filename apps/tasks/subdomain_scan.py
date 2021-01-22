@@ -12,7 +12,6 @@ from loguru import logger
 from multiprocessing.dummy import Pool as ThreadPool
 import time
 from lib.common import check_waf
-import json
 
 urllib3.disable_warnings()
 requests.packages.urllib3.disable_warnings()
@@ -176,9 +175,6 @@ def get_subdomains_subfinder(target):
 
 
 def get_subdomain_info(target, subdomain):
-    for s in settings.USELESS_SUBDOMAINS:
-        if s in subdomain:
-            return
     try:
         _subdomain = 'https://' + subdomain
         r = requests.get(_subdomain, headers=settings.HTTP_HEADERS, timeout=30, verify=False, allow_redirects=False)

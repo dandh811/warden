@@ -1,13 +1,9 @@
-from apps.cases.models import *
 from django.shortcuts import render
-from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-import json
 from urllib import parse
 from random import choice
 import string
-import random
 
 
 def tools_index(request):

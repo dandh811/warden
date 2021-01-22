@@ -1,5 +1,4 @@
 from django.db import models
-import django.utils.timezone as timezone
 from apps.webapps.models import platform_list
 
 

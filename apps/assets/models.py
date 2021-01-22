@@ -1,5 +1,4 @@
 from django.db import models
-import django.utils.timezone as timezone
 from django.urls import reverse
 
 yes_or_no = (

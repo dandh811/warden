@@ -1,7 +1,6 @@
 import pymongo
 from apps.assets.models import Port, Risk
 import subprocess
-import os
 from lib.wechat_notice import wechat
 from loguru import logger
 from lib.common import update_scan_status

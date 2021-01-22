@@ -1,8 +1,5 @@
 import psycopg2
 from apps.assets.models import Port, Risk
-import subprocess
-import os
-from django.conf import settings
 from lib.wechat_notice import wechat
 from loguru import logger
 from multiprocessing.dummy import Pool as ThreadPool

@@ -1,5 +1,4 @@
 from django.db import models
-import django.utils.timezone as timezone
 
 yes_or_no = (
     ('yes', '是'),

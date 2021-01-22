@@ -2,7 +2,6 @@ import socket
 from apps.assets.models import Risk, Port
 from lib.wechat_notice import wechat
 from loguru import logger
-from multiprocessing.dummy import Pool as ThreadPool
 
 plugin = 'docker'
 

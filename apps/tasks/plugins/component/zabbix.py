@@ -1,7 +1,6 @@
 from apps.assets.models import Port, Risk
 import socket
 from lib.wechat_notice import wechat
-import subprocess
 from loguru import logger
 from multiprocessing.dummy import Pool as ThreadPool
 

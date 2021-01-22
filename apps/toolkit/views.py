@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 import json
 import xmltodict
 import base64
@@ -9,8 +9,6 @@ import whois
 import datetime
 from urllib.parse import quote
 from loguru import logger
-import sys
-from apps.tasks.subdomain_scan import get_subdomains_virustotal
 
 
 def index(request):

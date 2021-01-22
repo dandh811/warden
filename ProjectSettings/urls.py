@@ -8,7 +8,6 @@ from django.http import HttpResponse
 from django.contrib.sitemaps.views import sitemap
 from django.contrib.sitemaps import GenericSitemap
 from apps.article.models import Article
-from django.urls import reverse
 
 info_dict = {
     'queryset': Article.objects.filter(status='published'),

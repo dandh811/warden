@@ -1,5 +1,3 @@
-# coding:utf-8
-
 # 参考了anthx大牛的脚本 https://raw.githubusercontent.com/AnthraX1/InsightScan/master/scanner.py
 
 import socket

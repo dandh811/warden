@@ -4,7 +4,6 @@ from django.utils import timezone
 from django.urls import reverse
 from django.utils.html import format_html
 from mdeditor.fields import MDTextField
-from datetime import datetime
 
 
 class Tag(models.Model):

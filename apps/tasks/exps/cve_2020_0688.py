@@ -1,17 +1,13 @@
 # cve-2020-0688  exchange漏洞，可测试对象比较少，而且需要登录的情况下，不开启
 import requests
-import readline
-import argparse
 import re
 import urllib3
 from urllib.parse import urlparse
 from urllib.parse import quote
 urllib3.disable_warnings()
-from apps.assets.models import Risk, Port
 from django.conf import settings
 session = requests.Session()
 from loguru import logger
-from multiprocessing.dummy import Pool as ThreadPool
 
 plugin = 'cve_2020_0688'
 

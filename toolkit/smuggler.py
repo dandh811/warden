@@ -1,9 +1,3 @@
-#!/usr/bin/python3
-'''
-Author: xph
-CreateTime: 2019-09-18
-'''
-
 from requests import Request, Session
 from requests.exceptions import ReadTimeout
 import urllib3

@@ -1,7 +1,3 @@
-# coding=utf-8
-# author: al0ne
-# https://github.com/al0ne
-
 import socket
 import concurrent.futures
 from urllib import parse

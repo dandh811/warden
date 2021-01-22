@@ -1,7 +1,6 @@
 import re
 import requests.packages.urllib3
 from loguru import logger
-import sys
 
 
 requests.packages.urllib3.disable_warnings()

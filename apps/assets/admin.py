@@ -1,6 +1,5 @@
 from django.contrib import admin
 from apps.assets import models
-from django.utils.html import format_html
 
 
 @admin.register(models.Asset)

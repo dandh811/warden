@@ -1,5 +1,5 @@
 from apps.assets.models import Risk, Port
-from pexpect import pxssh, spawn
+from pexpect import pxssh
 from django.conf import settings
 from threading import *
 maxConnections = 30
