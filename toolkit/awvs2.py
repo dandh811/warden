@@ -7,8 +7,8 @@ from multiprocessing.dummy import Pool as ThreadPool
 
 urllib3.disable_warnings()
 
-AWVS_HOST = 'https://127.0.0.1:3443/'
-AWVS_API_KEY = '1986ad8c0a5b3df4d7028d5f3c06e936c1bbb3c20f5594781ac70c726f6236874'
+AWVS_HOST = 'https://127.0.0.1:13443/'
+AWVS_API_KEY = '1986ad8c0a5b3df4d7028d5f3c06e936c3765f2f4a2f54908a90f20fa01c9e3cc'
 AWVS_API_HEADER = {"X-Auth": AWVS_API_KEY, "content-type": "application/json"}
 
 awvs_scan_rule = {
@@ -22,7 +22,7 @@ awvs_scan_rule = {
 
 print('start')
 
-db = pymysql.connect("81.70.89.72", "root", "Sihun2016812", "blog")
+db = pymysql.connect(host="81.70.89.72", user="root", password="Sihun2016812", database="blog")
 cursor = db.cursor()
 
 
@@ -154,7 +154,7 @@ except Exception as e:
     print(e)
 
 try:
-    pool = ThreadPool(5)
+    pool = ThreadPool(2)
     ips2 = pool.map(start, subdomains)
 
     pool.close()
