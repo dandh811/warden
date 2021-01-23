@@ -39,10 +39,11 @@ def vul_scan(task):
 
 @shared_task
 def start(task):
-    targets = task.target
-    webapps, assets = get_specific_targets(targets)
-    params = {"targets": targets, "webapps": webapps, "assets": assets, "policy": task.policy}
     try:
+        targets = task.target
+        webapps, assets = get_specific_targets(targets)
+        params = {"targets": targets, "webapps": webapps, "assets": assets, "policy": task.policy}
+
         plugins = task.plugins.all()
         logger.warning('Scan Policy: ' + task.policy)
 

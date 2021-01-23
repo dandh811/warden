@@ -73,7 +73,7 @@ def start(task):
         logger.debug('Found %d subdomains' % len(subdomains))
 
         try:
-            pool = ThreadPool(30)
+            pool = ThreadPool(20)
             _subdomains = [(target, subdomain) for subdomain in subdomains]
             ips2 = pool.map(check_subdomain_is_exist, _subdomains)
             if ips2:
