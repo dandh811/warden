@@ -2,8 +2,7 @@
 import requests
 import re
 import urllib3
-from urllib.parse import urlparse
-from urllib.parse import quote
+from urllib.parse import urlparse, quote
 urllib3.disable_warnings()
 from django.conf import settings
 session = requests.Session()
