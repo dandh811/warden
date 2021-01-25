@@ -168,11 +168,11 @@ class HTTP_REQUEST_SMUGGLER():
         try:
             h = {
                 "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"}
-            requests.get(self.url, headers=h, verify=False, timeout=10)
+            requests.get(self.url, headers=h, verify=False, timeout=30)
             if not self.check_CLTE():
                 self.check_TECL()
         except Exception as e:
-            logger.info("* timeout: " + self.url)
+            logger.critical(e)
         return self.recheck()
 
     def recheck(self):
@@ -213,10 +213,10 @@ def start(**kwargs):
         logger.info('-' * 75)
         logger.debug("[%s] [%s] %s" % (plugin, webapp.id, subdomain))
 
-        if not web_is_online(subdomain.replace('https://', '')):
-            webapp.delete()   # 判断web是否开启443，关闭则删除
-            logger.info('[删除] ' + subdomain)
-            continue
+        # if not web_is_online(subdomain.replace('https://', '')):
+        #     webapp.delete()   # 判断web是否开启443，关闭则删除
+        #     logger.info('[删除] ' + subdomain)
+        #     continue
 
         try:
             a = HTTP_REQUEST_SMUGGLER(subdomain)

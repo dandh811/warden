@@ -212,4 +212,5 @@ def main():
     [pool.putRequest(req) for req in thread_requests]
     pool.wait()
 
-func("https://shop.bitmain.com")
+func("https://www.bitfufu.com")
+
