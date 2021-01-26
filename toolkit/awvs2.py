@@ -158,7 +158,7 @@ i = 0
 
 while True:
     count = get_scans_running_count()
-    if count < 2:
+    if count < 1:
         subdomain = subdomains[i]
         start(subdomain)
         time.sleep(15)
