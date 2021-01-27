@@ -53,7 +53,7 @@ def add_nmap_scan(target):
 
 def get_ip_info(ip):
     logger.info('-'*75)
-    logger.debug('Scan: ' + ip)
+    logger.debug('扫描: ' + ip)
     asset = Asset.objects.update_or_create(ip=ip)
     cmd = 'masscan -p0-65535 --rate 15000 -oJ /opt/blog/blog/tmp.json %s' % ip
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -77,16 +77,16 @@ def get_ip_info(ip):
     logger.info(ports)
     try:
         ports.remove('80')
-    except:
-        pass
+    except Exception as e:
+        logger.critical(e)
     try:
         ports.remove('443')
-    except:
-        pass
+    except Exception as e:
+        logger.critical(e)
 
     if ports:
         nm = nmap.PortScanner()
-        ports = list(set(ports))
+        ports = list(set(ports))   # 端口去重处理
 
         nm.scan(ip, ports=','.join(ports), arguments='-A -Pn -sS --open --host-timeout 30m')
 
@@ -172,12 +172,14 @@ def nmap_call(task, nm_a):
                     continue
                 else:
                     get_ip_info(ip)
-            except:
-                get_ip_info(ip)
+            except Exception as e:
+                logger.critical(e)
     else:
         for ip in ips:
-            get_ip_info(ip)
-
+            try:
+                get_ip_info(ip)
+            except Exception as e:
+                logger.critical(e)
     while nm_a.still_scanning():
         nm_a.wait(2)
 
