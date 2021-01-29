@@ -52,7 +52,7 @@ def scan_task(url, target_id):
                                  data=json.dumps(data))
         if response.status_code == 201:
             logger.info('%s 已开启扫描' % url)
-            db = pymysql.connect(host="81.70.89.72", user="root", password="Sihun2016812", database="blog")
+            db = pymysql.connect(host="81.70.89.72", port=21129, user="root", password="Sihun2016812", database="blog")
             cursor = db.cursor()
             sql2 = "UPDATE webapps_webapp SET awvs_scanned = 'yes' where subdomain = '%s'" % (subdomain)
 
@@ -104,7 +104,7 @@ def get_reports(result, subdomain):
             logger.info(subdomain + ', scan completed')
 
             try:
-                db = pymysql.connect(host="81.70.89.72", user="root", password="Sihun2016812", database="blog")
+                db = pymysql.connect(host="81.70.89.72", port=21129, user="root", password="Sihun2016812", database="blog")
                 cursor = db.cursor()
                 sql2 = "UPDATE webapps_webapp SET awvs_scanned = 'yes' where subdomain = '%s'" % (subdomain)
 
@@ -130,12 +130,12 @@ def get_scans_running_count():
         return 5
 
 
-sql = "select subdomain, waf_or_cdn, awvs_scanned from webapps_webapp"
+sql = "select subdomain, waf_or_cdn, awvs_scanned from webapps_webapp order by id desc"
 subdomains = []
 
 
 try:
-    db = pymysql.connect(host="81.70.89.72", user="root", password="Sihun2016812", database="blog")
+    db = pymysql.connect(host="81.70.89.72", port=21129, user="root", password="Sihun2016812", database="blog")
     cursor = db.cursor()
     cursor.execute(sql)
     results = cursor.fetchall()
