@@ -91,7 +91,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'Sihun2016812',
         'HOST': '81.70.89.72',
-        'PORT': '3306',
+        'PORT': '21129',
         'OPTIONS': {
                 "init_command": "SET foreign_key_checks = 0;",  # 取消外键检查
         },
