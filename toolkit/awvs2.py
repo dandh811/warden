@@ -17,7 +17,8 @@ awvs_scan_rule = {
     "XSS": "11111111-1111-1111-1111-111111111116",
     "SQL": "11111111-1111-1111-1111-111111111113",
     "Weakpass": "11111111-1111-1111-1111-111111111115",
-    "crawlonly": "11111111-1111-1111-1111-111111111117"
+    "crawlonly": "11111111-1111-1111-1111-111111111117",
+	"dandh": "91c940cd-2fc0-44da-a7f3-c7e42be3803f"
 }
 
 logger.info('start')
@@ -45,7 +46,7 @@ def add_task(url):
 
 
 def scan_task(url, target_id):
-    data = {'target_id': target_id, 'profile_id': awvs_scan_rule['highrisk'],
+    data = {'target_id': target_id, 'profile_id': awvs_scan_rule['dandh'],
             'schedule': {'disable': False, 'start_date': None, 'time_sensitive': False}}
     try:
         response = requests.post(url=AWVS_HOST + 'api/v1/scans', timeout=10, verify=False, headers=AWVS_API_HEADER,
@@ -130,7 +131,7 @@ def get_scans_running_count():
         return 5
 
 
-sql = "select subdomain, waf_or_cdn, awvs_scanned from webapps_webapp order by id desc"
+sql = "select subdomain, waf_or_cdn, awvs_scanned from webapps_webapp where status_code=200 order by id desc"
 subdomains = []
 
 
@@ -158,7 +159,7 @@ i = 0
 
 while True:
     count = get_scans_running_count()
-    if count < 1:
+    if count < 3:
         subdomain = subdomains[i]
         start(subdomain)
         time.sleep(15)
