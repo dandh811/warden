@@ -63,7 +63,7 @@ xmltodict
 whois
 ajpy==0.0.4
 selenium
-awscli  # aws 命令行工具
+awscli          # aws 命令行工具
 virustotal-api  # 子域名查询接口
 loguru  # 日志美化
 django-simpleui

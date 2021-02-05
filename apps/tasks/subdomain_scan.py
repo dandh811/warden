@@ -222,7 +222,7 @@ def get_subdomain_info(target, subdomain):
             logger.error(e)
         try:
             WebApp.objects.update_or_create(domain=target, subdomain=_subdomain, defaults={'ip': ip,
-                'status_code': status_code, 'server': server, 'waf_or_cdn': waf, 'other_info': other_info, 'port': port_num
+                'status_code': status_code, 'server': server, 'waf': waf, 'other_info': other_info, 'port': port_num
             })
             logger.info('[GET] ' + _subdomain)
         except Exception as e:

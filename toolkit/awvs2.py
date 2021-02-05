@@ -131,7 +131,7 @@ def get_scans_running_count():
         return 5
 
 
-sql = "select subdomain, waf_or_cdn, awvs_scanned from webapps_webapp where status_code=200 order by id desc"
+sql = "select subdomain, waf, awvs_scanned from webapps_webapp where status_code=200 order by id desc"
 subdomains = []
 
 

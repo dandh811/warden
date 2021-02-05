@@ -75,7 +75,7 @@ class Command(BaseCommand):
                     try:
                         WebApp.objects.update_or_create(domain=domain, subdomain=_subdomain, defaults={'ip': ip,
                             'status_code': status_code, 'server': server, 'headers': r.headers,
-                            'waf_or_cdn': '', 'other_info': other_info, 'port': port_num})
+                            'waf': '', 'other_info': other_info, 'port': port_num})
 
                         logger.info('+ Valid Subdomain: \033[0;32m %s \033[0m' % _subdomain)
                     except Exception as e:

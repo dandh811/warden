@@ -151,7 +151,7 @@ def get_web_info(ip, port):
                                                                        'status_code': status_code,
                                                                        'server': server,
                                                                        'headers': r.headers,
-                                                                       'waf_or_cdn': '',
+                                                                       'waf': '',
                                                                        'other_info': other_info,
                                                                        'port': port})
 

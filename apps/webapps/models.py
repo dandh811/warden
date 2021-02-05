@@ -48,17 +48,15 @@ class WebApp(models.Model):
         ('online', '在线'),
         ('indeterminate', '不确定')
     )
-    domain = models.CharField(max_length=100, null=True, blank=True)
-    subdomain = models.CharField(max_length=200, unique=True, default='')
-    manual = models.CharField(choices=yes_or_no, verbose_name='是否已手工分析', default='no', max_length=3)
-
+    domain = models.CharField(max_length=100, null=True, blank=True, verbose_name='归属根域名')
+    subdomain = models.CharField(max_length=200, unique=True, default='', verbose_name='子域名')
     status_code = models.CharField(default='', verbose_name='状态码', max_length=10)
     m_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
-    source = models.IntegerField(choices=source_choice, default=2, verbose_name='来源')
+    source = models.IntegerField(choices=source_choice, default=2, verbose_name='获取来源')
     server = models.CharField('web server', max_length=250, null=True, blank=True)
-    ip = models.CharField(max_length=64, verbose_name="IP", blank=True, null=True, default='')
-    port = models.CharField(max_length=5, verbose_name="端口号", blank=True, null=True, default='')
-    waf_or_cdn = models.CharField('WAF or CDN', max_length=250, null=True, blank=True)
+    ip = models.CharField(max_length=64, verbose_name="业务IP", blank=True, null=True, default='-')
+    port = models.CharField(max_length=5, verbose_name="端口号", blank=True, null=True, default='-')
+    waf = models.CharField('WAF', max_length=250, null=True, blank=True)
     other_info = models.TextField(verbose_name='其他信息', default='', blank=True, null=True)
     report = models.CharField(null=True, default='', max_length=200, blank=True)
     comment = models.TextField(verbose_name="备注", null=True, blank=True)
@@ -78,7 +76,6 @@ class WebApp(models.Model):
 class WebUrls(models.Model):
     url = models.TextField(unique=True)
     webapp = models.ForeignKey(WebApp, on_delete=models.CASCADE)
-    manual = models.BooleanField(verbose_name='是否已手工分析', default=False)
 
     m_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
     scanned = models.CharField(max_length=200, null=True, verbose_name='是否已扫描', blank=True, default='not')
