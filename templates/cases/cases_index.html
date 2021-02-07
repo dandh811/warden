@@ -53,21 +53,20 @@
                         <table class="layui-table">
                             <thead>
                               <tr>
-                                <th>用例ID</th>
-                                <th class="search-column">用例名称</th>
-                                <th class="search-column">用例领域</th>
-                                <th>所属漏洞</th>
-                                <th>用例内容</th>
+                                <th>ID</th>
+                                <th class="search-column">功能点</th>
+                                <th class="search-column">归类</th>
+                                <th>漏洞</th>
                               </tr>
                             </thead>
                             <tbody>
-                              {% for c in cases %}
+                              {% for f in fps %}
                                 <tr>
-                                    <td>{{ c.id }}</td>
-                                    <td>{{ c.name }}</td>
-                                    <td>{{ c.case_field }}</td>
-                                    <td>{{ c.vul }}</td>
-                                    <td>{{ c.content|linebreaks }}</td>
+                                    <td>{{ f.id }}</td>
+                                    <td>{{ f.name }}</td>
+                                    <td>{{ f.f_field }}</td>
+                                    <td>{{ f.vuls }}
+                                    </td>
                                 </tr>
                               {% endfor %}
                             </tbody>

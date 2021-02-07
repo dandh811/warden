@@ -84,21 +84,6 @@ class Article(models.Model):
         self.views += 1
         self.save(update_fields=['views'])
 
-    def cover_data(self):
-        return format_html(
-            '<img src="{}" width="156px" height="98px"/>',
-            self.cover,
-        )
-
-    def cover_admin(self):
-        return format_html(
-            '<img src="{}" width="440px" height="275px"/>',
-            self.cover,
-        )
-
-    # def get_message_as_markdown(self):
-    #     return mark_safe(markdown(self.content, safe_mode='escape'))
-
 
 class ArticleUser(models.Model):
     support_choice = (

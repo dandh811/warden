@@ -6,12 +6,14 @@ from django.db.models import Q
 
 
 def cases_index(request):
-    cases_all = Case.objects.all()
-    paginator = Paginator(cases_all, 10)
+    fps_all = FunctionPoint.objects.all()
+    paginator = Paginator(fps_all, 10)
     page = request.GET.get('page')
-    cases = paginator.get_page(page)
+    fps = paginator.get_page(page)
     fields = CaseField.objects.all()
     vuls = Vul.objects.all()
+    for f in fps:
+        f.vuls = FunctionPoint_Vul.objects.filter(functionpoint=f)
 
     return render(request, 'cases/cases_index.html', locals())
 
