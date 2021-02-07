@@ -85,24 +85,12 @@ def article_detail(request, title):
             article = Article.objects.get(title=title)
         else:
             article = Article.objects.get(Q(title=title) & Q(status='published'))
-        # blog_times = ArticleUser.objects.filter()
         article_url = unquote(article.get_absolute_url(), 'utf-8')
         article.viewed()
         mk = mistune.Markdown()
         output = mk(article.content)
         tags = article.tag.all()
-        # md = markdown.Markdown(
-        #     extensions=[
-        #         'markdown.extensions.extra',
-        #         'markdown.extensions.codehilite',
-        #         'markdown.extensions.toc',
-        #     ]
-        # )
-        # article.content = md.convert(article.content)
 
-        # context = {'article': article, 'toc': md.toc}
-
-        # comments = ArticleUser.objects.filter(article__title=title).exclude(comment=None)
         return render(request, 'hexo/detail.html', locals())
     except Exception as e:
         logger.critical(e)

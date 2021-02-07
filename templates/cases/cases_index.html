@@ -65,7 +65,9 @@
                                     <td>{{ f.id }}</td>
                                     <td>{{ f.name }}</td>
                                     <td>{{ f.f_field }}</td>
-                                    <td>{{ f.vuls }}
+                                    <td>{% for v in f.f_vuls %}
+                                            <a class="layui-btn" href="{% url 'cases:case_detail' v.name f.name %}" target="_blank">{{ v.name }}</a>
+                                        {% endfor %}
                                     </td>
                                 </tr>
                               {% endfor %}

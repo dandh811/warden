@@ -44,7 +44,7 @@ def send_email(email, code):
 
     subject = '来自Injection博客(www.injection.com)的注册确认邮件'
 
-    text_content = '''感谢注册小猪哼哼博客！'''
+    text_content = '''感谢注册 Injection 博客！'''
 
     html_content = '''
                     <p>感谢注册, <a href="https://{}/user/confirm/?code={}" target=blank>确认链接</a>！</p>
@@ -85,7 +85,7 @@ def register(request):
                 send_email(email, code)
 
                 wechat = WeChatPub()
-                title = '【小猪哼哼博客】新用户注册成功通知'
+                title = '【 Injection 博客】新用户注册成功通知'
                 content = "<div class=\"normal\">新用户注册成功，邮箱名：%s </div>" % email
                 wechat.send_msg(title, content)
 
