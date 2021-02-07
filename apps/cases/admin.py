@@ -21,6 +21,7 @@ class CaseAdmin(admin.ModelAdmin):
     search_fields = ('vul', 'function_point',)
     list_display_links = ['vul']
     readonly_fields = ['m_time']
+    list_filter = ['case_field', 'vul', 'type', 'function_point']
 
 
 @admin.register(models.FunctionPoint)

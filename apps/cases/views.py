@@ -46,16 +46,16 @@ def cases_search(request):
 
 
 @csrf_exempt
-def case_detail(request, vul, function):
+def case_detail(request, field, vul, function):
     try:
-        case_general = Case.objects.get(Q(type='general') & Q(vul__name=vul))
+        case_general = Case.objects.get(Q(case_field__name=field) & Q(type='general') & Q(vul__name=vul))
         mk = mistune.Markdown()
         output_general = mk(case_general.content)
     except Exception as e:
         logger.critical(e)
 
     try:
-        case_special = Case.objects.get(Q(type='special') & Q(vul__name=vul) & Q(function_point__name=function))
+        case_special = Case.objects.get(Q(case_field__name=field) & Q(type='special') & Q(vul__name=vul) & Q(function_point__name=function))
         mk = mistune.Markdown()
         output_special = mk(case_special.content)
     except Exception as e:
