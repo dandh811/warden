@@ -61,7 +61,7 @@ def start(**kwargs):
                                                                        })
 
                     title = 'ftp弱口令'
-                    content = ''
+                    content = '-'
                     wechat.send_msg(title, content)
                 except Exception as e:
                     # logger.info(e)

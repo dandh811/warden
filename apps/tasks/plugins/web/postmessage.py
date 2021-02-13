@@ -79,7 +79,7 @@ def check(webapp):
         except Exception as e:
             logger.critical(e)
         finally:
-            driver.close()
+            driver.quit()
         cmd2 = 'sed -i "s#%s#www.xxx.com#g" /var/www/html/wordpress/sectest/postmessage/attack.html' % url.strip(
             'https://')
         p2 = subprocess.Popen(cmd2, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)

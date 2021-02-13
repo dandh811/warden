@@ -37,7 +37,7 @@ class SoftwareAdmin(admin.ModelAdmin):
 
 @admin.register(models.Port)
 class PortAdmin(admin.ModelAdmin):
-    list_display = ['port_num', 'software_name', 'software_version', 'service_name', 'asset']
+    list_display = ['port_num', 'software_name', 'software_version', 'service_name', 'asset', 'm_time']
     readonly_fields = ['asset', 'port_num', 'software_name', 'software_version', 'service_name', 'scanned']
     search_fields = ['port_num', 'software_name', 'service_name']
 

@@ -46,7 +46,7 @@ def check(webapp):
             if resp_headers.get("access-control-allow-credentials") == "true":
                 logger.info('[$$$] 存在CORS跨域漏洞，允许发送身份信息')
                 title = '发现CORS跨域漏洞漏洞'
-                content = ''
+                content = '-'
                 wechat.send_msg(title, content)
                 Risk.objects.update_or_create(target=subdomain, risk_type=plugin, defaults={'desc': resp_headers})
             else:

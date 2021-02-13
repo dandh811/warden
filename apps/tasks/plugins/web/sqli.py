@@ -35,7 +35,7 @@ def start(**kwargs):
                 Risk.objects.update_or_create(target=url, risk_type='SQL注入', defaults={'desc': data})
 
                 title = '发现SQL注入漏洞'
-                content = ''
+                content = '-'
                 wechat.send_msg(title, content)
             else:
                 logger.info('未发现漏洞')

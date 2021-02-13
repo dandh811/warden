@@ -1,18 +1,33 @@
-from apps.webapps.models import WebUrls
+from apps.webapps.models import WebUrls, WebApp
 import simplejson
 import subprocess
 from lib.common import update_scan_status
 from urllib import parse
 from loguru import logger
 from multiprocessing.dummy import Pool as ThreadPool
+import requests
+from django.conf import settings
 
 plugin = 'dirsearch'
 
 
 def get_urls(webapp):
     logger.debug("[%s] [%s] %s" % (plugin, webapp.id, webapp.subdomain))
-    cmd = "python3 /opt/tools/dirsearch/dirsearch.py -u %s -e * --simple-report=/tmp/dirsearch.txt -x 403,404" % webapp.subdomain
+    cmd = "python3 /opt/tools/dirsearch/dirsearch.py -u %s --simple-report=/tmp/dirsearch.txt -w /opt/blog/blog/brute/Filenames_or_Directories_All.txt" % webapp.subdomain
+    logger.debug(cmd)
     try:
+        try:
+            r = requests.get(webapp.subdomain, headers=settings.HTTP_HEADERS, timeout=10, verify=False,
+                             allow_redirects=False)
+            if r.status_code != 403:
+                webapp.status_code = r.status_code
+                webapp.save()
+                logger.info(webapp.status_code)
+                return
+
+        except Exception as e:
+            logger.error(e)
+            return
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
         logger.debug(out.decode())
@@ -20,20 +35,29 @@ def get_urls(webapp):
             lines = f.readlines()
             for line in lines:
                 url = line.strip()
+                try:
+                    r = requests.get(url, headers=settings.HTTP_HEADERS, timeout=10, verify=False,
+                                     allow_redirects=False)
+                    if 'not found' in r.text:
+                        break
+                except Exception as e:
+                    logger.error(e)
+                    continue
                 logger.info("[%s] %s" % (plugin, url))
                 WebUrls.objects.update_or_create(url=url, webapp=webapp, scanned='not')
     except Exception as e:
         logger.critical(e)
-    # finally:
-    #     update_scan_status(webapp, plugin)
+    finally:
+        update_scan_status(webapp, plugin)
 
 
 def start(**kwargs):
-    webapps = kwargs['webapps']
     policy = kwargs['policy']
 
     if policy == 'increase':
-        webapps = webapps.exclude(scanned__icontains=plugin)
+        webapps = WebApp.objects.filter(status_code=403).exclude(scanned__icontains=plugin)
+    else:
+        webapps = WebApp.objects.filter(status_code=403)
     if not webapps:
         logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
     else:

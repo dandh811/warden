@@ -55,7 +55,7 @@ def start(**kwargs):
             #     Risk.objects.update_or_create(target=url, risk_type=plugin_name, defaults={'desc': data})
             #
             #     title = '发现%s漏洞' % plugin_name
-            #     content = ''
+            #     content = '-'
             #     wechat.send_msg(title, content)
             # else:
             #     logger.info('+ 未发现漏洞')

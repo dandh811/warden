@@ -31,7 +31,7 @@ urlpatterns = [
     path('financial/', include('apps.financial.urls', namespace='financial')),
 
     re_path(r'^media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
-    path('robots.txt', lambda r: HttpResponse('User-agent: *\nDisallow: /admin', content_type='text/plain')),
+    # path('robots.txt', lambda r: HttpResponse('User-agent: *\nDisallow: /admin', content_type='text/plain')),
     path('sitemap.xml', sitemap, {'sitemaps': {'article': GenericSitemap(info_dict, priority=0.6)}},
          name='django.contrib.sitemaps.views.sitemap'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

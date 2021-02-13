@@ -37,7 +37,7 @@ def start(**kwargs):
                         Risk.objects.update_or_create(target=url, risk_type=plugin, defaults={'desc': url})
 
                         title = '发现%s漏洞' % plugin
-                        content = ''
+                        content = '-'
                         wechat.send_msg(title, content)
                     update_scan_status(weburl, plugin)
                 except Exception as e:

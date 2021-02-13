@@ -83,13 +83,15 @@ def start(**kwargs):
                     Risk.objects.update_or_create(target=url, risk_type='开放重定向', defaults={"desc": _url})
 
                     title = '发现开放重定向漏洞'
-                    content = ''
+                    content = '-'
                     wechat.send_msg(title, content)
                     risk = True
         try:
             subprocess.call('pkill chrome', shell=True)
         except Exception as e:
             logger.critical(e)
+        finally:
+            browser.quit()
         update_scan_status(weburl, plugin)
 
     if not webapps:
@@ -128,3 +130,5 @@ def start(**kwargs):
             subprocess.call('pkill chrome', shell=True)
         except Exception as e:
             logger.critical(e)
+        finally:
+            browser.quit()

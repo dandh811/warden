@@ -17,8 +17,8 @@ class WebAPPAdmin(admin.ModelAdmin):
 
 @admin.register(models.Domain)
 class DomainAdmin(admin.ModelAdmin):
-    list_display = ['domain', 'in_scope', 'company', 'subdomains_total', 'platform', 'm_time', 'in_scope']
-    search_fields = ('domain', 'company', 'm_time', 'platform')
+    list_display = ['domain', 'in_scope', 'company', 'subdomains_total', 'platform', 'm_time']
+    search_fields = ('domain', 'company', 'platform')
     readonly_fields = ['m_time', 'subdomains_total']
     list_editable = ['in_scope']
 
@@ -26,4 +26,5 @@ class DomainAdmin(admin.ModelAdmin):
 @admin.register(models.WebUrls)
 class UrlAdmin(admin.ModelAdmin):
     list_display = ['url', 'm_time']
-    search_fields = ('url', 'm_time')
+    search_fields = ('url',)
+    readonly_fields = ['url', 'scanned', 'm_time', 'webapp']
