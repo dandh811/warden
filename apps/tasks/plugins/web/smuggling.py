@@ -129,7 +129,7 @@ class HTTP_REQUEST_SMUGGLER():
 
             if t1 == None: t1 = 1
 
-            logger.info(t1, t2)
+            logger.info(str(t1), str(t2))
             if t2 > 5 and t2 / t1 >= 5:
                 self.valid = True
                 self.type = "CL-TE"
@@ -168,7 +168,7 @@ class HTTP_REQUEST_SMUGGLER():
         try:
             h = {
                 "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"}
-            requests.get(self.url, headers=h, verify=False, timeout=30)
+            requests.get(self.url, headers=h, verify=False, timeout=10)
             if not self.check_CLTE():
                 self.check_TECL()
         except Exception as e:

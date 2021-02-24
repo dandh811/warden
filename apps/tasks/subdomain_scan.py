@@ -26,7 +26,7 @@ def start(task):
     task_target = task.target
     targets = []
     if task_target == '*':
-        domains = Domain.objects.exclude(Q(domain__isnull=True) | Q(in_scope='no')).order_by('-id')
+        domains = Domain.objects.exclude(Q(domain__isnull=True) | Q(in_scope='no'))
         for domain in domains:
             if domain.domain in targets:
                 continue
@@ -73,7 +73,7 @@ def start(task):
         logger.debug('Found %d subdomains' % len(subdomains))
 
         try:
-            pool = ThreadPool(10)
+            pool = ThreadPool(15)
             _subdomains = [(target, subdomain) for subdomain in subdomains]
             ips2 = pool.map(check_subdomain_is_exist, _subdomains)
             if ips2:
