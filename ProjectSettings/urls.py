@@ -17,6 +17,10 @@ admin.site.site_header = 'Injection 后台'
 admin.site.site_title = 'Injection 后台'
 
 
+def dandh811(request):
+    return HttpResponse(1)
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.article.urls', namespace='articles')),

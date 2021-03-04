@@ -31,3 +31,15 @@ class XssPrey(models.Model):
         ordering = ['domain']
         verbose_name = 'XSS猎物'
         verbose_name_plural = verbose_name
+
+
+class PackagePrey(models.Model):
+    msg = models.JSONField(default='', verbose_name="msg", null=True, blank=True)
+    m_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    def __str__(self):
+        return str(self.id)
+
+    class Meta:
+        verbose_name = '包投毒'
+        verbose_name_plural = verbose_name

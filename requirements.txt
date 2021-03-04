@@ -70,3 +70,4 @@ django-simpleui
 lxml
 simplejson
 django-crontab
+pyautogui  # 自动化库

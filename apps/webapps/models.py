@@ -64,6 +64,7 @@ class WebApp(models.Model):
     scanned = models.CharField(max_length=250, null=True, verbose_name='是否已扫描', blank=True, default='not')
     status = models.CharField(choices=status_choice, default='online', max_length=20, verbose_name='状态')
     awvs_scanned = models.CharField(choices=yes_or_no, default='no', max_length=20, verbose_name='是否awvs扫描完成')
+    is_china = models.BooleanField(default=False, verbose_name='是否国内域名')
 
     def __str__(self):
         return self.subdomain

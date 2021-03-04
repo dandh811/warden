@@ -188,6 +188,15 @@ def get_subdomain_info(target, subdomain):
         if status_code not in settings.WORTHY_HTTP_CODE:
             logger.error('[%s] %s' % (status_code, subdomain))
             return
+        try:
+            if int(r.headers["Content-Length"]) < 100:
+                return
+        except:
+            pass
+        if 'Welcome to OpenResty' in r.text:
+            return
+        if 'Welcome to nginx' in r.text:
+            return 
         # if status_code == 500:
         #     if 'cloudflare' in r.text:
         #         logger.error('[%s] %s, cloudflare' % (status_code, subdomain))

@@ -53,34 +53,34 @@ def check(webapp):
         return
     if 'addEventListener' in res:
         logger.debug("[%s] [%s] %s" % (plugin, 'listening', url))
-        cmd = 'sed -i "s#www.xxx.com#%s#g" /var/www/html/wordpress/sectest/postmessage/attack.html' % url.strip('https://')
-        p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        p.communicate()
-        driver = webdriver.Chrome(executable_path='/opt/tools/chromedriver', chrome_options=chrome_options)
-        # driver.set_page_load_timeout(180)
-        try:
-            driver.get('/sectest/postmessage/attack.html')
-            time.sleep(5)
-            # iframe = driver.find_elements_by_tag_name('iframe')[0]
-            driver.switch_to.frame("otherPage")
-            logger.debug('Can locate to iframe tag')
-            soup = BeautifulSoup(driver.page_source, "html.parser")
-            logger.info(soup.text)
-            if 'dandh811' in soup.text:
-                Risk.objects.update_or_create(target=url, risk_type="postmessage_listen", defaults={"desc": 'addEventListener'})
-                logger.info('[$] 可能存在漏洞')
-            else:
-                logger.debug('未发现dandh811')
-                update_scan_status(webapp, plugin)
-        # if '.postMessage(' in res:
-        #     logger.info("[%s] [%s] %s" % (plugin, 'sending', url))
-        #     Risk.objects.update_or_create(target=url, risk_type="postmessage_post", defaults={"desc": '.postMessage'})
-        # update_scan_status(webapp, plugin)
-        except Exception as e:
-            logger.critical(e)
-        finally:
-            driver.quit()
-        cmd2 = 'sed -i "s#%s#www.xxx.com#g" /var/www/html/wordpress/sectest/postmessage/attack.html' % url.strip(
-            'https://')
-        p2 = subprocess.Popen(cmd2, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        p2.communicate()
+        # cmd = 'sed -i "s#www.xxx.com#%s#g" /var/www/html/wordpress/sectest/postmessage/attack.html' % url.strip('https://')
+        # p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        # p.communicate()
+        # driver = webdriver.Chrome(executable_path='/opt/tools/chromedriver', chrome_options=chrome_options)
+        # # driver.set_page_load_timeout(180)
+        # try:
+        #     driver.get('/sectest/postmessage/attack.html')
+        #     time.sleep(5)
+        #     # iframe = driver.find_elements_by_tag_name('iframe')[0]
+        #     driver.switch_to.frame("otherPage")
+        #     logger.debug('Can locate to iframe tag')
+        #     soup = BeautifulSoup(driver.page_source, "html.parser")
+        #     logger.info(soup.text)
+        #     if 'dandh811' in soup.text:
+        #         Risk.objects.update_or_create(target=url, risk_type="postmessage_listen", defaults={"desc": 'addEventListener'})
+        #         logger.info('[$] 可能存在漏洞')
+        #     else:
+        #         logger.debug('未发现dandh811')
+        #         update_scan_status(webapp, plugin)
+        # # if '.postMessage(' in res:
+        # #     logger.info("[%s] [%s] %s" % (plugin, 'sending', url))
+        # #     Risk.objects.update_or_create(target=url, risk_type="postmessage_post", defaults={"desc": '.postMessage'})
+        # # update_scan_status(webapp, plugin)
+        # except Exception as e:
+        #     logger.critical(e)
+        # finally:
+        #     driver.quit()
+        # cmd2 = 'sed -i "s#%s#www.xxx.com#g" /var/www/html/wordpress/sectest/postmessage/attack.html' % url.strip(
+        #     'https://')
+        # p2 = subprocess.Popen(cmd2, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        # p2.communicate()

@@ -4,6 +4,7 @@ from apps.sectest.models import *
 from django.http import HttpResponse
 from lib.wechat_notice import wechat
 from loguru import logger
+import json
 
 
 def url_illegal_redirect(request, paras):
@@ -31,6 +32,22 @@ def xss(request):
 
 def xss_js(request):
     return render(request, 'sectest/xss.js')
+
+
+def pypi_test_download(request):
+    return render(request, 'sectest/pypi_test.txt')
+
+
+def pypi_test_upload(request):
+    if request.method == 'POST':
+        try:
+            msg = json.loads(request.body)
+            logger.info(msg)
+            PackagePrey.objects.update_or_create(msg=msg)
+        except Exception as e:
+            logger.critical(e)
+
+        return HttpResponse('{"status":"ok"}', content_type='application/json')
 
 
 @csrf_exempt

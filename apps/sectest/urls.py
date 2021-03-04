@@ -11,5 +11,8 @@ urlpatterns = [
     path('xss', views.xss, name='xss'),
     path('xss_prey/', views.xss_prey, name='xss_prey'),
     path('xss/test.js', views.xss_js, name='xss_js'),
+    path('package/pypi/download', views.pypi_test_download, name='pypi_test_download'),
+
+    path('package/pypi/upload', views.pypi_test_upload, name='pypi_test_upload'),
 
 ]

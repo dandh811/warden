@@ -21,6 +21,7 @@ class DomainAdmin(admin.ModelAdmin):
     search_fields = ('domain', 'company', 'platform')
     readonly_fields = ['m_time', 'subdomains_total']
     list_editable = ['in_scope']
+    list_filter = ['in_scope']
 
 
 @admin.register(models.WebUrls)
