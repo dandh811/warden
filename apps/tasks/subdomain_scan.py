@@ -196,7 +196,9 @@ def get_subdomain_info(target, subdomain):
         if 'Welcome to OpenResty' in r.text:
             return
         if 'Welcome to nginx' in r.text:
-            return 
+            return
+        if 'Thank you for using tengine' in r.text:
+            return
         # if status_code == 500:
         #     if 'cloudflare' in r.text:
         #         logger.error('[%s] %s, cloudflare' % (status_code, subdomain))

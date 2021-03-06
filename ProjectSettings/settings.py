@@ -15,7 +15,7 @@ SECRET_KEY = '7q9)5s3^t5i^lt&$p4gnzr1_o+wkyxxpaqhpg*_yw=#w558zx&'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['www.injection.vip']
 
 INSTALLED_APPS = [
     'simpleui',
@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'apps.webapps',
     'apps.sectest',
     'apps.financial',
+    'apps.financial2',
+
     'apps.payloads',
     'apps.toolkit',
     'django_crontab',
@@ -124,15 +126,15 @@ USE_L10N = True
 USE_TZ = False
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "collectstatic/")
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder"
 )
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static/")
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static/")
+# ]
 
 LOGIN_URL = '/user/login'
 

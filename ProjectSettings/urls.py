@@ -33,6 +33,7 @@ urlpatterns = [
     path('toolkit/', include('apps.toolkit.urls', namespace='toolkit')),
     path('sectest/', include('apps.sectest.urls', namespace='sectest')),
     path('financial/', include('apps.financial.urls', namespace='financial')),
+    path('financial2/', include('apps.financial2.urls', namespace='financial2')),
 
     re_path(r'^media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
     # path('robots.txt', lambda r: HttpResponse('User-agent: *\nDisallow: /admin', content_type='text/plain')),
