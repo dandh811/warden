@@ -68,7 +68,7 @@ class Article(models.Model):
     status = models.CharField(choices=status_choice, null=True, blank=True, verbose_name='状态', max_length=20, default='published')
     views = models.PositiveIntegerField('浏览量', default=0)
     desc = models.TextField(max_length=150, verbose_name='文章描述', default='')
-    tag = models.ManyToManyField(Tag, verbose_name='文章标签', null=True, blank=True)
+    tag = models.ManyToManyField(Tag, verbose_name='文章标签', blank=True)
 
     def __str__(self):
         return self.title

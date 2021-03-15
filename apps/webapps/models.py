@@ -1,4 +1,5 @@
 from django.db import models
+from mdeditor.fields import MDTextField
 
 yes_or_no = (
     ('yes', '是'),
@@ -59,7 +60,7 @@ class WebApp(models.Model):
     waf = models.CharField('WAF', max_length=250, null=True, blank=True)
     other_info = models.TextField(verbose_name='其他信息', default='', blank=True, null=True)
     report = models.CharField(null=True, default='', max_length=200, blank=True)
-    comment = models.TextField(verbose_name="备注", null=True, blank=True)
+    comment = MDTextField(verbose_name="笔记", null=True, blank=True)
     in_scope = models.CharField(choices=yes_or_no, default='yes', max_length=5, verbose_name='是否在测试范围内')
     scanned = models.CharField(max_length=250, null=True, verbose_name='是否已扫描', blank=True, default='not')
     status = models.CharField(choices=status_choice, default='online', max_length=20, verbose_name='状态')

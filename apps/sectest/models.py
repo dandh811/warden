@@ -34,7 +34,7 @@ class XssPrey(models.Model):
 
 
 class PackagePrey(models.Model):
-    msg = models.JSONField(default='', verbose_name="msg", null=True, blank=True)
+    msg = models.JSONField(default=dict, verbose_name="msg", null=True, blank=True)
     m_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 
     def __str__(self):

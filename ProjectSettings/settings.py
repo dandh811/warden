@@ -15,7 +15,7 @@ SECRET_KEY = '7q9)5s3^t5i^lt&$p4gnzr1_o+wkyxxpaqhpg*_yw=#w558zx&'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.injection.vip']
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'simpleui',
@@ -195,7 +195,7 @@ PYTHON_PATH = '/opt/blog/bin/python3'
 SSH_USERS = ['root']
 MYSQL_USERS = ['root', 'mysql']
 
-WORTHY_HTTP_CODE = [200, 500]
+WORTHY_HTTP_CODE = [200]
 
 AWVS_HOST = 'https://127.0.0.1:13443/'
 AWVS_API_KEY = '1986ad8c0a5b3df4d7028d5f3c06e936cba16d12b18554b6a96ef70930713c0ba'
@@ -214,4 +214,4 @@ CRONJOBS = [
     ('30 9 * * *', 'django.core.management.call_command', ['finance']),
 ]
 
-logger.warning('blog started')
+logger.warning('blog服务已开启')

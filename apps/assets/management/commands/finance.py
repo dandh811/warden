@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 from apps.financial.models import *
 import time, datetime
 from loguru import logger
-from django.db.models import Max,Avg,F,Q, Sum
+from django.db.models import Sum
 from lib.wechat_notice import wechat
 
 
