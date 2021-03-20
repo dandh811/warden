@@ -26,10 +26,8 @@ def start(task):
     task_target = task.target
     targets = []
     if task_target == '*':
-        domains = Domain.objects.exclude(Q(domain__isnull=True) | Q(in_scope='no'))
+        domains = Domain.objects.exclude(in_scope='no')
         for domain in domains:
-            if domain.domain in targets:
-                continue
             targets.append(domain.domain)
     else:
         _targets = task_target.strip().replace('，', ',').split(',')
@@ -42,17 +40,17 @@ def start(task):
     for target in targets:
         molecular += 1
         logger.info('-' * 75)
-        logger.warning('[subdomain_scan] %s' % target)
+        logger.warning('[子域名扫描] %s' % target)
         ips = []
         domains = Domain.objects.filter(domain=target)
-        if domains:
+        if domains.exists():
             domain = domains[0]
         else:
             domain = Domain.objects.create(domain=target, platform=task.platform)
 
         subdomains = get_subdomains_virustotal(target)
         if not subdomains:
-            logger.error('The virustotal api not returned subdomains')
+            logger.error('virustotal api 未查询到域名')
 
         subdomains2 = get_subdomains_subfinder(target)
         if subdomains2:
@@ -60,17 +58,17 @@ def start(task):
                 if s not in subdomains:
                     subdomains.append(s)
 
-        webapps = WebApp.objects.filter(Q(domain=target) & Q(source=1))
+        webapps = WebApp.objects.filter(Q(domain=target) & Q(source=1))  # 1是手工添加的子域名
         # 因为有些域名是扫描不出来的，需要手工添加到数据库。跟扫描出来的子域名合在一起，执行后面操作
         if webapps:
             for webapp in webapps:
                 subdomains.append(webapp.subdomain)
                 ips.append(webapp.ip)
         if not subdomains:
-            logger.debug('No manually added domains')
+            logger.debug('未扫描到子域名')
             continue
 
-        logger.debug('Found %d subdomains' % len(subdomains))
+        logger.debug('发现%d个子域名' % len(subdomains))
 
         try:
             pool = ThreadPool(15)
@@ -112,7 +110,7 @@ def start(task):
             percent = round(1.0 * molecular / denominator * 100, 2)
             logger.warning('%s [%d/%d]' % (str(percent) + '%', molecular, denominator))
 
-    logger.warning('Subdomain scan task completed!')
+    logger.warning('子域名扫描完毕')
 
 
 def check_subdomain_is_exist(p):
@@ -138,7 +136,7 @@ def get_subdomains_virustotal(target):
     subdomains = []
 
     API_KEY = "61c48fcc9b6d2a6181e738d215c37290f395293b4a0daa9da74f0b181431e307"
-    url = 'http://www.virustotal.com/vtapi/v2/domain/report'
+    url = "http://www.virustotal.com/vtapi/v2/domain/report"
 
     params = {"domain": target, "apikey": API_KEY}
     try:

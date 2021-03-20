@@ -1,8 +1,7 @@
-# Created by .ignore support plugin (hsz.mobi)
-### Example user template template
-### Example user template
-
-# IntelliJ project files
 .idea
 *.iml
-ProjectSettings/local.py
+ProjectSettings/settings.py
+test.py
+apps/financial2
+apps/financial
+apps/payloads
