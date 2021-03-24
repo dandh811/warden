@@ -1,9 +1,3 @@
-# coding:utf-8
-# ***********************************************
-# @Time    : 2019/11/11 16:07
-# @Author  : dandh811
-# @Blog    ：https://www.xiuxing128.top
-# ***********************************************
 from django import template
 
 register = template.Library()

@@ -135,13 +135,10 @@ def check_subdomain_is_exist(p):
 def get_subdomains_virustotal(target):
     subdomains = []
 
-    API_KEY = "61c48fcc9b6d2a6181e738d215c37290f395293b4a0daa9da74f0b181431e307"
-    url = "http://www.virustotal.com/vtapi/v2/domain/report"
-
-    params = {"domain": target, "apikey": API_KEY}
+    params = {"domain": target, "apikey": settings.VIRUSTOTAL_API_KEY}
     try:
         while True:
-            res = requests.get(url, params=params, timeout=10)
+            res = requests.get(settings.VIRUSTOTAL_URL, params=params, timeout=10)
             status_code = res.status_code
             if status_code == 200:
                 if res.json():

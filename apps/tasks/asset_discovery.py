@@ -55,7 +55,7 @@ def get_ip_info(ip):
     logger.info('-'*75)
     logger.debug('扫描: ' + ip)
     asset = Asset.objects.update_or_create(ip=ip)
-    cmd = 'masscan -p0-65535 --rate 15000 -oJ /opt/blog/blog/tmp.json %s' % ip
+    cmd = 'masscan -p0-65535 --rate 15000 -oJ /opt/warden/warden/tmp.json %s' % ip
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     ret = p.wait()
     command_output = p.stdout.read().decode('utf-8')
@@ -65,7 +65,7 @@ def get_ip_info(ip):
         return
 
     ports = []
-    with open('/opt/blog/blog/tmp.json') as f:
+    with open('/opt/warden/warden/tmp.json') as f:
         portsL = f.read().split('\n')[0:-2]
         if len(portsL) > 100:
             return

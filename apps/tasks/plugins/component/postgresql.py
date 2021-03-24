@@ -18,9 +18,9 @@ def start(**kwargs):
         logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
         return
 
-    with open('/opt/blog/blog/brute/usernames.txt', 'r') as f:
+    with open('/opt/warden/warden/brute/usernames.txt', 'r') as f:
         usernames = f.readlines()
-    with open('/opt/blog/blog/brute/passwords.txt', 'r') as f:
+    with open('/opt/warden/warden/brute/passwords.txt', 'r') as f:
         passwords = f.readlines()
 
     for port in ports:

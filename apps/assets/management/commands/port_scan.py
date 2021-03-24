@@ -18,16 +18,16 @@ class Command(BaseCommand):
             ip = asset.ip
             try:
                 print(ip)
-                cmd = 'masscan -p0-65535 --rate 15000 -oJ /opt/blog/blog/tmp.json %s' % ip
+                cmd = 'masscan -p0-65535 --rate 15000 -oJ /opt/warden/warden/tmp.json %s' % ip
                 p = subprocess.Popen(cmd, shell=True,
                                            stdout=subprocess.PIPE,
                                            stderr=subprocess.PIPE)
                 out, err = p.communicate()
                 if err:
-                    print('扫描出错了：' + err)
+                    print(err)
                     continue
                 ports = list()
-                with open('/opt/blog/blog/tmp.json') as f:
+                with open('/opt/warden/warden/tmp.json') as f:
                     portsL = f.read().split('\n')[0:-2]
                     if len(portsL) > 100:
                         print('port num too much')

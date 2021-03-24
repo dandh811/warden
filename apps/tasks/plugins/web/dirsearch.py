@@ -13,7 +13,7 @@ plugin = 'dirsearch'
 
 def get_urls(webapp):
     logger.debug("[%s] [%s] %s" % (plugin, webapp.id, webapp.subdomain))
-    cmd = "python3 /opt/tools/dirsearch/dirsearch.py -u %s --simple-report=/tmp/dirsearch.txt -w /opt/blog/blog/brute/Filenames_or_Directories_All.txt" % webapp.subdomain
+    cmd = "python3 /opt/tools/dirsearch/dirsearch.py -u %s --simple-report=/tmp/dirsearch.txt -w /opt/warden/warden/brute/Filenames_or_Directories_All.txt" % webapp.subdomain
     logger.debug(cmd)
     try:
         try:

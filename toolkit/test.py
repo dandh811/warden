@@ -49,7 +49,7 @@ if 'addEventListener' in res:
         if 'dandh811' in soup.text:
             logger.info('[$] 可能存在漏洞')
         else:
-            logger.debug('未发现dandh811')
+            logger.debug('未发现')
     # if '.postMessage(' in res:
     #     logger.info("[%s] [%s] %s" % (plugin, 'sending', url))
     #     Risk.objects.update_or_create(target=url, risk_type="postmessage_post", defaults={"desc": '.postMessage'})

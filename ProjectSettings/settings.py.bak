@@ -36,14 +36,9 @@ INSTALLED_APPS = [
     'apps.tasks',
     'apps.webapps',
     'apps.sectest',
-    'apps.financial',
-    'apps.financial2',
-
     'apps.payloads',
     'apps.toolkit',
     'django_crontab',
-    # 'pure_pagination'
-    # 'social_django',
 ]
 
 MIDDLEWARE = [
@@ -89,13 +84,13 @@ WSGI_APPLICATION = 'ProjectSettings.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'warden',
-        'USER': 'root',
-        'PASSWORD': 'Sihun2016812',
-        'HOST': '81.70.89.72',
-        'PORT': '21129',
+        'NAME': 'xxx',
+        'USER': 'xxx',
+        'PASSWORD': 'xxx',
+        'HOST': 'xxx',
+        'PORT': 'xxx',
         'OPTIONS': {
-                "init_command": "SET foreign_key_checks = 0;",  # 取消外键检查
+                "init_command": "SET foreign_key_checks = 0;",
         },
     }
 }
@@ -145,8 +140,8 @@ MEDIA_URL = "/media/"      # 跟STATIC_URL类似，指定用户可以通过这�
 EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.163.com'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 'dandh811@163.com'
-EMAIL_HOST_PASSWORD = 'BFIVASCXBHJSFDBL'
+EMAIL_HOST_USER = 'xxx@163.com'
+EMAIL_HOST_PASSWORD = 'xxx'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # 注册有效期天数
@@ -165,23 +160,23 @@ AUTHENTICATION_BACKENDS = (
 
 # 配置微博开放平台授权
 # SOCIAL_AUTH_要使用登录模块的名称大小_KEY，其他如QQ相同
-SOCIAL_AUTH_WECHAT_KEY = '3392969003'
-SOCIAL_AUTH_WECHAT_SECRET = '51a8b59a178960c38f554e9f47d5223d'
+SOCIAL_AUTH_WECHAT_KEY = 'xxx'
+SOCIAL_AUTH_WECHAT_SECRET = 'xxx'
 
 # 登录成功后跳转页面
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 
 # 网站的基本信息配置
-SITE_NAME = 'Injection'  # 站点名称
-SITE_DESCRIPTION = 'Injection'  # 站点描述
-SITE_KEYWORDS = 'Injection,信息安全,Web安全,极客'  # 站点关键词
-SITE_TITLE = '信息安全与漏洞挖掘'  # 博客标题
-SITE_TYPE_CHINESE = '宁静致远'  # 打字效果 中文内容
-SITE_TYPE_ENGLISH = 'The quieter you become, the more you are able to hear'  # 打字效果 英文内容
-SITE_MAIL = 'dandh811@163.com'  # 我的邮箱
-SITE_ICP = '津ICP备2021000346号'  # 网站备案号
+SITE_NAME = 'xxx'  # 站点名称
+SITE_DESCRIPTION = 'xxx'  # 站点描述
+SITE_KEYWORDS = 'xxx'  # 站点关键词
+SITE_TITLE = 'xxx'  # 博客标题
+SITE_TYPE_CHINESE = 'xxx'  # 打字效果 中文内容
+SITE_TYPE_ENGLISH = 'xxx'  # 打字效果 英文内容
+SITE_MAIL = 'xxx@163.com'  # 我的邮箱
+SITE_ICP = 'xxx'  # 网站备案号
 SITE_ICP_URL = 'https://beian.miit.gov.cn'  # 备案号超链接地址
-SITE_DOMAIN = 'http://www.injection.vip/'
+SITE_DOMAIN = 'xxx'
 
 # 设置队列存储
 BROKER_URL = 'pyamqp://guest:guest@127.0.0.1:5672//'
@@ -198,10 +193,10 @@ MYSQL_USERS = ['root', 'mysql']
 WORTHY_HTTP_CODE = [200]
 
 AWVS_HOST = 'https://127.0.0.1:13443/'
-AWVS_API_KEY = '1986ad8c0a5b3df4d7028d5f3c06e936cba16d12b18554b6a96ef70930713c0ba'
+AWVS_API_KEY = 'xxx'
 AWVS_API_HEADER = {"X-Auth": AWVS_API_KEY, "content-type": "application/json"}
 
-WPSCAN_API_TOKEN = ['nLhxpf7z9cpEHdQjD5bi23l5Dt4fISWqRdjEN9HyxI0']
+WPSCAN_API_TOKEN = ['xxx']
 
 HTTP_HEADERS = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
@@ -209,12 +204,5 @@ HTTP_HEADERS = {
 
 SIMPLEUI_HOME_INFO = True
 SIMPLEUI_ANALYSIS = False
-
-CRONJOBS = [
-    ('30 9 * * *', 'django.core.management.call_command', ['finance']),
-]
-
-VIRUSTOTAL_API_KEY = "61c48fcc9b6d2a6181e738d215c37290f395293b4a0daa9da74f0b181431e307"
-VIRUSTOTAL_URL = "http://www.virustotal.com/vtapi/v2/domain/report"
 
 logger.warning('warden 服务已开启')

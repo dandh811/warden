@@ -25,7 +25,7 @@ def start(**kwargs):
 
     usernames = settings.MYSQL_USERS
 
-    with open('/opt/blog/blog/brute/passwords.txt', 'r') as f:
+    with open('/opt/warden/warden/brute/passwords.txt', 'r') as f:
         passwords = f.readlines()
 
     for port in ports:

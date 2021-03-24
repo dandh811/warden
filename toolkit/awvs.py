@@ -2,7 +2,7 @@ import requests
 import hashlib
 import json
 import argparse
-
+from django.conf import settings
 
 username = 'dandh811@163.com'
 password = 'Django12'
