@@ -28,7 +28,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.article',
     'apps.users',
-    'captcha',
     'apps.cases',
     'apps.tools',
     'mdeditor',
@@ -38,12 +37,9 @@ INSTALLED_APPS = [
     'apps.sectest',
     'apps.financial',
     'apps.financial2',
-
     'apps.payloads',
     'apps.toolkit',
     'django_crontab',
-    # 'pure_pagination'
-    # 'social_django',
 ]
 
 MIDDLEWARE = [

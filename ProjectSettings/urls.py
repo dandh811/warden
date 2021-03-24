@@ -24,7 +24,6 @@ urlpatterns = [
     path('cases/', include('apps.cases.urls', namespace='cases')),
     path('tools/', include('apps.tools.urls', namespace='tools')),
     path('mdeditor/', include('mdeditor.urls')),
-    path('captcha', include('captcha.urls')),
     path('task/', include('apps.tasks.urls', namespace='task')),
     path('toolkit/', include('apps.toolkit.urls', namespace='toolkit')),
     path('sectest/', include('apps.sectest.urls', namespace='sectest')),

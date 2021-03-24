@@ -1,10 +1,8 @@
 mysqlclient
-django-simple-captcha
 requests
 simpleui
 librosa
 google-cloud-storage
-social-auth-app-django
 requests
 django-mdeditor
 django-pure-pagination
@@ -40,7 +38,7 @@ django-extensions
 django-werkzeug-debugger-runserver==0.3.1
 pyOpenSSL
 python-nmap
-django
+django==3.1.5
 django-crispy-forms>=1.6.0
 django-reversion>=2.0.0
 django-formtools==2.1
@@ -70,4 +68,3 @@ django-simpleui
 lxml
 simplejson
 django-crontab
-pyautogui  # 自动化库

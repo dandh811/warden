@@ -28,7 +28,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.article',
     'apps.users',
-    'captcha',
     'apps.cases',
     'apps.tools',
     'mdeditor',
