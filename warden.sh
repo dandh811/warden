@@ -7,13 +7,13 @@ case "$1" in
 start)
    python manage.py makemigrations
    python manage.py migrate
-   #nohup python manage.py runserver 0.0.0.0:80 > /var/log/warden/run.log 2>&1 &
-   #echo $!>/var/run/warden.pid
+   nohup python manage.py runserver 0.0.0.0:6957 > /var/log/warden/run.log 2>&1 &
+   echo $!>/var/run/warden.pid
    export C_FORCE_ROOT="true"
    nohup /opt/warden/bin/celery -A ProjectSettings worker -l info -n worker > /var/log/warden/celery.log 2>&1 &
    python manage.py crontab add
    echo $!>>/var/run/warden.pid
-   service apache2 restart
+   #service apache2 restart
    ;;
 stop)
    python manage.py crontab remove

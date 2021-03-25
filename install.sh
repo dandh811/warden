@@ -3,6 +3,7 @@ apt-get -y install masscan
 apt-get -y install redis-server
 apt-get -y install sqlmap
 apt-get -y install whatweb
+apt-get -y install rabbitmq-server
 
 source /opt/warden/bin/activate
 
