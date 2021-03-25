@@ -4,6 +4,8 @@ apt-get -y install redis-server
 apt-get -y install sqlmap
 apt-get -y install whatweb
 apt-get -y install rabbitmq-server
+apt-get -y install mongodb-clients
+apt-get -y install awscli
 
 source /opt/warden/bin/activate
 
