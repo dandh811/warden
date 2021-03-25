@@ -17,4 +17,3 @@ class ProfileAdmin(admin.ModelAdmin):
 admin.site.unregister(User)  # 去掉在admin中的注册
 # admin.site.register(User, ProfileAdmin)  # 用userProfileAdmin注册user
 admin.site.register(User, ProfileAdmin)  # 用userProfileAdmin注册user
-admin.site.register(models.ConfirmString)

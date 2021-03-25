@@ -64,9 +64,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'apps.article.context_processors.add_variable_to_context',
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
                 'apps.article.views.global_setting'
             ],
             'libraries': {
@@ -148,14 +145,6 @@ CONFIRM_DAYS = 1
 
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 15
 SESSION_SAVE_EVERY_REQUEST = True
-
-# 设置要使用的第三方登录
-AUTHENTICATION_BACKENDS = (
-    'social_core.backends.weibo.WeiboOAuth2',           # 使用微博登录
-    'social_core.backends.weixin.WeixinOAuth2',         # 使用微信登录
-    'social_core.backends.qq.QQOAuth2',                 # 使用QQ登录
-    'django.contrib.auth.backends.ModelBackend',        # 指定django的ModelBackend类
-)
 
 # 配置微博开放平台授权
 # SOCIAL_AUTH_要使用登录模块的名称大小_KEY，其他如QQ相同
