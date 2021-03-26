@@ -124,9 +124,10 @@ def check_subdomain_is_exist(p):
     if 'status' in subdomain:
         return
     try:
-        WebApp.objects.get(subdomain='https://' + subdomain)
-        logger.debug('[Existed] %s' % subdomain)
-        return
+        WebApp.objects.get(subdomain__icontains='://' + subdomain)
+        logger.debug('[已收录] %s' % subdomain)
+        ip = get_subdomain_info(target, subdomain)
+        return ip
     except:
         ip = get_subdomain_info(target, subdomain)
         return ip
@@ -175,8 +176,14 @@ def get_subdomain_info(target, subdomain):
         r = requests.get(_subdomain, headers=settings.HTTP_HEADERS, timeout=30, verify=False, allow_redirects=False)
         port_num = 443
     except:
-        logger.error('[Failed] %s' % subdomain)
-        return
+        logger.error('[https打开失败] %s' % subdomain)
+        try:
+            _subdomain = 'http://' + subdomain
+            r = requests.get(_subdomain, headers=settings.HTTP_HEADERS, timeout=30, verify=False, allow_redirects=False)
+            port_num = 80
+        except:
+            logger.error('[http打开失败] %s' % subdomain)
+            return
 
     if r.text:
         status_code = r.status_code

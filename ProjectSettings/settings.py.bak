@@ -193,4 +193,7 @@ HTTP_HEADERS = {
 SIMPLEUI_HOME_INFO = True
 SIMPLEUI_ANALYSIS = False
 
+VIRUSTOTAL_API_KEY = "xxx"
+VIRUSTOTAL_URL = "http://www.virustotal.com/vtapi/v2/domain/report"
+
 logger.warning('warden 服务已开启')

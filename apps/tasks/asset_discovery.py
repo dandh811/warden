@@ -55,7 +55,7 @@ def get_ip_info(ip):
     logger.info('-'*75)
     logger.debug('扫描: ' + ip)
     asset = Asset.objects.update_or_create(ip=ip)
-    cmd = 'masscan -p0-65535 --rate 15000 -oJ /opt/warden/warden/tmp.json %s' % ip
+    cmd = 'masscan -p0-65535 --rate 1000 -oJ /opt/warden/warden/tmp.json %s' % ip
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     ret = p.wait()
     command_output = p.stdout.read().decode('utf-8')
@@ -124,7 +124,12 @@ def get_web_info(ip, port):
         r = requests.get(url, headers=settings.HTTP_HEADERS, timeout=10, verify=False, allow_redirects=False)
     except Exception as e:
         logger.critical(e)
-        return
+        try:
+            url = 'http://' + ip  + ':' + str(port)
+            r = requests.get(url, headers=settings.HTTP_HEADERS, timeout=30, verify=False, allow_redirects=False)
+        except:
+            logger.error('[http打开失败] %s' % url)
+            return
 
     if r.text:
         status_code = r.status_code
@@ -162,6 +167,7 @@ def get_web_info(ip, port):
 
 def nmap_call(task, nm_a):
     ips = add_nmap_scan(task.target)
+
     logger.info('发现存活主机数：' + str(len(ips)))
     ips = reversed(ips)
     if task.policy == 'increase':
