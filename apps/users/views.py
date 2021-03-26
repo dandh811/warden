@@ -1,24 +1,16 @@
-from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, Http404
+from django.shortcuts import HttpResponseRedirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
-from django.contrib import auth
 from apps.users import models
-from apps.users import forms
 import json
-from django.http import HttpResponse
-from django.contrib.auth import authenticate, logout
+from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth.models import User
-from apps.users.models import Profile
-from django.contrib.auth.hashers import make_password
-from apps.article.models import Article, ArticleUser
-from utils.notice import WeChatPub
 import datetime
 import hashlib
-from django.db.models import Q
 from loguru import logger
 
 
@@ -27,13 +19,6 @@ def hash_code(s, salt='mysite'):
     s += salt
     h.update(s.encode())
     return h.hexdigest()
-
-
-def make_confirm_string(user):
-    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    code = hash_code(user.username, now)
-    models.ConfirmString.objects.create(code=code, user=user,)
-    return code
 
 
 @login_required
@@ -88,19 +73,3 @@ def user_disactivate(request):
     else:
         error = '权限错误'
     return JsonResponse({'error': error})
-
-
-@csrf_exempt
-@login_required
-def upload_image(request):
-    if request.method == 'POST':
-        avatar = request.FILES.get('avatar')
-        user = request.user
-        try:
-            Profile.objects.update_or_create(user=user, defaults={'avatar': avatar})
-            data = {'state': 1}
-        except Exception as e:
-            logger.critical(e)
-            data = {'state': 0}
-
-        return JsonResponse(data)

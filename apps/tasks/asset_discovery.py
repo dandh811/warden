@@ -125,10 +125,10 @@ def get_web_info(ip, port):
     except Exception as e:
         logger.critical(e)
         try:
-            url = 'http://' + ip  + ':' + str(port)
+            url = 'http://' + ip + ':' + str(port)
             r = requests.get(url, headers=settings.HTTP_HEADERS, timeout=30, verify=False, allow_redirects=False)
         except:
-            logger.error('[http打开失败] %s' % url)
+            logger.error('[访问失败]http://%s' % url)
             return
 
     if r.text:

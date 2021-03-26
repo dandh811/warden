@@ -71,7 +71,7 @@ def start(task):
         logger.debug('发现%d个子域名' % len(subdomains))
 
         try:
-            pool = ThreadPool(15)
+            pool = ThreadPool(1)
             _subdomains = [(target, subdomain) for subdomain in subdomains]
             ips2 = pool.map(check_subdomain_is_exist, _subdomains)
             if ips2:
@@ -173,16 +173,16 @@ def get_subdomains_subfinder(target):
 def get_subdomain_info(target, subdomain):
     try:
         _subdomain = 'https://' + subdomain
-        r = requests.get(_subdomain, headers=settings.HTTP_HEADERS, timeout=30, verify=False, allow_redirects=False)
+        r = requests.get(_subdomain, headers=settings.HTTP_HEADERS, timeout=15, verify=False, allow_redirects=False)
         port_num = 443
     except:
-        logger.error('[https打开失败] %s' % subdomain)
+        logger.error('[访问失败] https://%s' % subdomain)
         try:
             _subdomain = 'http://' + subdomain
-            r = requests.get(_subdomain, headers=settings.HTTP_HEADERS, timeout=30, verify=False, allow_redirects=False)
+            r = requests.get(_subdomain, headers=settings.HTTP_HEADERS, timeout=15, verify=False, allow_redirects=False)
             port_num = 80
-        except:
-            logger.error('[http打开失败] %s' % subdomain)
+        except Exception as e:
+            logger.error('[访问失败] http://%s' % subdomain)
             return
 
     if r.text:

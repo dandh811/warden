@@ -120,21 +120,21 @@
                 {% endfor %}
             </ul>
             <div class="layui-form layui-form-pane">
-                {% if request.user.is_authenticated %}
-                    <form class="layui-form">
-                        <div class="layui-form-item layui-form-text">
-                          <div class="layui-input-block">
-                            <textarea id="L_content" name="content" required lay-verify="required" placeholder="请输入内容"  class="layui-textarea fly-editor" style="height: 150px;"></textarea>
-                          </div>
-                        </div>
-                        <div class="layui-form-item">
-                          <input type="hidden" id="article_id" value="{{ article_id }}">
-                          <button class="layui-btn" lay-submit lay-filter="add-comment">提交评论</button>
-                        </div>
-                  </form>
-                {% else %}
-                    <p>请<a href="{% url 'users:login' %}?next={% url 'articles:article_detail' article.title %}" style="color:red"> 登录 </a>后再添加评论。</p>
-                {% endif %}
+{#                {% if request.user.is_authenticated %}#}
+{#                    <form class="layui-form">#}
+{#                        <div class="layui-form-item layui-form-text">#}
+{#                          <div class="layui-input-block">#}
+{#                            <textarea id="L_content" name="content" required lay-verify="required" placeholder="请输入内容"  class="layui-textarea fly-editor" style="height: 150px;"></textarea>#}
+{#                          </div>#}
+{#                        </div>#}
+{#                        <div class="layui-form-item">#}
+{#                          <input type="hidden" id="article_id" value="{{ article_id }}">#}
+{#                          <button class="layui-btn" lay-submit lay-filter="add-comment">提交评论</button>#}
+{#                        </div>#}
+{#                  </form>#}
+{#                {% else %}#}
+{#                    <p>请<a href="{% url 'users:login' %}?next={% url 'articles:article_detail' article.title %}" style="color:red"> 登录 </a>后再添加评论。</p>#}
+{#                {% endif %}#}
             </div>
           </div>
     {#            <ul class="layui-fixbar">#}

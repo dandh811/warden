@@ -97,13 +97,13 @@
                             {% endif %}
 
                         </li>
-                    {% else %}
-                        <li class="m-nav-item">
-                            <a href="{% url 'users:login' %}"> <i class="fa-fw fas fa-user"></i> 登录</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'users:register' %}"><i class="fa-fw fas fa-registered"></i> 注册</a>
-                        </li>
+{#                    {% else %}#}
+{#                        <li class="m-nav-item">#}
+{#                            <a href=""> <i class="fa-fw fas fa-user"></i> 登录</a>#}
+{#                        </li>#}
+{#                        <li>#}
+{#                            <a href=""><i class="fa-fw fas fa-registered"></i> 注册</a>#}
+{#                        </li>#}
                     {% endif %}
                     <li>
                         <a href="#searchModal" class="modal-trigger waves-effect waves-light">
@@ -156,8 +156,8 @@
                             </li>
                         {% else %}
                             <li class="m-nav-item">
-                                <a href="{% url 'users:login' %}"> <i class="fa-fw fas fa-home"></i>登录</a>|
-                                <a href="{% url 'users:register' %}"><i class="fa-fw fas fa-home"></i> 注册</a>
+                                <a href=""> <i class="fa-fw fas fa-home"></i>登录</a>|
+                                <a href=""><i class="fa-fw fas fa-home"></i> 注册</a>
                             </li>
                         {% endif %}
                     </ul>

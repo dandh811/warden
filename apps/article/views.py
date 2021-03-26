@@ -4,7 +4,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from utils.visit_info import update_access_nums
 from django.core.paginator import Paginator
-from apps.users.models import Profile
 from apps.article.models import *
 from django.db.models import Q
 from loguru import logger
@@ -94,26 +93,6 @@ def article_detail(request, title):
         return render(request, 'hexo/detail.html', locals())
     except Exception as e:
         logger.critical(e)
-
-
-@csrf_exempt
-def article_comment(request):
-    """
-    文章评论
-    """
-    if request.method == 'POST':
-        content = request.POST.get('content')
-        article_id = request.POST.get('article_id')
-        article = Article.objects.get(id=article_id)
-        try:
-            user_profile = Profile.objects.get(user=request.user)
-            ArticleUser.objects.update_or_create(article_id=article_id, user=request.user, defaults={'comment': content})
-            user_profile.point = int(user_profile.point) + 1
-            user_profile.save()
-            # return HttpResponse('{"status":"success"}', content_type='application/json')
-            return HttpResponseRedirect(reverse('article:article_detail', args=[article.title]))
-        except Exception as e:
-            logger.critical(e)
 
 
 @csrf_exempt

@@ -7,8 +7,6 @@ urlpatterns = [
     path('', views.index, name="index"),
     path('articles/<str:category>', views.articles_category, name="articles_category"),
     path('article/<str:title>', views.article_detail, name="article_detail"),
-
-    path('comment', views.article_comment, name="article_comment"),
     path('category/<str:category>', views.articles_category, name="articles_category"),
     path('add/message', views.add_message, name="add_message"),
     path('support', views.article_support, name="article_support"),
