@@ -50,7 +50,7 @@ def start(task):
 
         subdomains = get_subdomains_virustotal(target)
         if not subdomains:
-            logger.error('virustotal api 未查询到域名')
+            logger.error('从virustotal接口未获取到域名')
 
         subdomains2 = get_subdomains_subfinder(target)
         if subdomains2:
@@ -71,7 +71,7 @@ def start(task):
         logger.debug('发现%d个子域名' % len(subdomains))
 
         try:
-            pool = ThreadPool(1)
+            pool = ThreadPool(15)
             _subdomains = [(target, subdomain) for subdomain in subdomains]
             ips2 = pool.map(check_subdomain_is_exist, _subdomains)
             if ips2:
@@ -91,7 +91,7 @@ def start(task):
         except Exception as e:
             logger.critical(e)
         if ips:
-            logger.debug('Found %d hosts: ' % len(ips))
+            logger.debug('发现 %d 个主机: ' % len(ips))
             logger.debug(ips)
 
             for ip in ips:
@@ -237,7 +237,7 @@ def get_subdomain_info(target, subdomain):
             WebApp.objects.update_or_create(domain=target, subdomain=_subdomain, defaults={'ip': ip,
                 'status_code': status_code, 'server': server, 'waf': waf, 'other_info': other_info, 'port': port_num
             })
-            logger.info('[GET] ' + _subdomain)
+            logger.info('[收录] ' + _subdomain)
         except Exception as e:
             logger.critical(e)
 

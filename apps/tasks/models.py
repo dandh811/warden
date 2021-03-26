@@ -37,7 +37,7 @@ class Plugins(models.Model):
 class Task(models.Model):
     name = models.CharField('任务名称', max_length=200)
     type = models.CharField(choices=TASK_TYPE, verbose_name='任务类型', default=None, max_length=100)
-    target = models.TextField('被测目标IP或者URL', default='')
+    target = models.TextField('被测目标', default='')
     policy = models.CharField(choices=policy_choose, default='increase', max_length=10)
     plugins = models.ManyToManyField(Plugins, verbose_name='漏洞扫描插件', blank=True, max_length=255)
     platform = models.CharField(choices=platform_list, max_length=100, null=True, verbose_name='众测平台', default='hackerone', blank=True)
