@@ -10,7 +10,7 @@ plugin = 'zookeeper'
 def start(**kwargs):
     ports = Port.objects.filter(service_name__icontains=plugin)
     if not ports:
-        logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
+        logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
 
     for port in ports:
         ip = port.asset.ip

@@ -16,7 +16,7 @@ def start(**kwargs):
     else:
         ports = Port.objects.exclude(scanned__icontains=plugin).filter(service_name__icontains=plugin)
     if not ports:
-        logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
+        logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
 
     with open('/opt/warden/warden/brute/usernames.txt', 'r') as f:
         usernames = f.readlines()

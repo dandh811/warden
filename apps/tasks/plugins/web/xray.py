@@ -18,7 +18,7 @@ def start(**kwargs):
         weburls = WebUrls.objects.filter(url__contains='?').exclude(scanned__icontains=plugin)
         webapps = WebApp.objects.exclude(scanned__icontains=plugin).exclude(status_code=404)
     if not weburls:
-        logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
+        logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
         return
     logger.info('有效url数： %s' % len(weburls))
     for weburl in []:

@@ -1,10 +1,7 @@
 from apps.webapps.models import WebUrls, WebApp
-import simplejson
 import subprocess
 from lib.common import update_scan_status
-from urllib import parse
 from loguru import logger
-from multiprocessing.dummy import Pool as ThreadPool
 import requests
 from django.conf import settings
 
@@ -44,7 +41,7 @@ def get_urls(webapp):
                     logger.error(e)
                     continue
                 logger.info("[%s] %s" % (plugin, url))
-                WebUrls.objects.update_or_create(url=url, webapp=webapp, scanned='not')
+                WebUrls.objects.update_or_create(url=url, webapp=webapp)
     except Exception as e:
         logger.critical(e)
     finally:
@@ -59,7 +56,7 @@ def start(**kwargs):
     else:
         webapps = WebApp.objects.filter(status_code=403)
     if not webapps:
-        logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
+        logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
     else:
         for webapp in webapps:
             get_urls(webapp)

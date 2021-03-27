@@ -15,7 +15,7 @@ def start(**kwargs):
     else:
         ports = Port.objects.exclude(scanned__icontains=plugin).filter(port_num=9200)
     if not ports:
-        logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
+        logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
 
     protocols = ['http', 'https']
     for port in ports:

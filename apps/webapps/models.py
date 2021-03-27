@@ -30,6 +30,7 @@ class Domain(models.Model):
     scanned = models.CharField(max_length=100, null=True, verbose_name='是否已扫描', blank=True, default='not')
     in_scope = models.CharField(choices=yes_or_no, default='yes', max_length=5, verbose_name='是否在测试范围内')
     subdomains_total = models.IntegerField(verbose_name='子域名数量', blank=True, null=True, default=0)
+    is_china = models.BooleanField(default=False, verbose_name='是否国内域名')
 
     def __str__(self):
         return '%s %s' % (self.domain, self.company)
@@ -81,6 +82,7 @@ class WebUrls(models.Model):
 
     m_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
     scanned = models.CharField(max_length=200, null=True, verbose_name='是否已扫描', blank=True, default='not')
+    is_china = models.BooleanField(default=False, verbose_name='是否国内域名')
 
     def __str__(self):
         return '%s %s' % (self.url, self.webapp.domain)

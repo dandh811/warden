@@ -43,7 +43,7 @@ def start(**kwargs):
     else:
         weburls = WebUrls.objects.order_by('-id')
     if not weburls:
-        logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
+        logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
     try:
         pool = ThreadPool(100)
         pool.map(check, webapps)

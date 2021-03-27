@@ -17,7 +17,7 @@ def start(**kwargs):
     assets = kwargs['assets']
     ports = Port.objects.filter(asset_id__in=assets, software_name__icontains='tomcat')
     if not ports:
-        logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
+        logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
 
     with open('/opt/warden/warden/brute/usernames.txt', 'r') as f:
         usernames = f.readlines()

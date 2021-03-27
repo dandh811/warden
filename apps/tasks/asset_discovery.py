@@ -54,7 +54,11 @@ def add_nmap_scan(target):
 def get_ip_info(ip):
     logger.info('-'*75)
     logger.debug('扫描: ' + ip)
-    asset = Asset.objects.update_or_create(ip=ip)
+    try:
+        Asset.objects.get(ip=ip)
+        return
+    except:
+        asset = Asset.objects.create(ip=ip)
     cmd = 'masscan -p0-65535 --rate 1000 -oJ /opt/warden/warden/tmp.json %s' % ip
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     ret = p.wait()
@@ -89,8 +93,10 @@ def get_ip_info(ip):
         ports = list(set(ports))   # 端口去重处理
 
         nm.scan(ip, ports=','.join(ports), arguments='-A -Pn -sS --open --host-timeout 30m')
-
-        ports_dict = nm[ip]['tcp']
+        try:
+            ports_dict = nm[ip]['tcp']
+        except:
+            return
         for k, v in ports_dict.items():
             if v['name'] in ['tcpwrapped', 'unknown', 'dnox', 'infowave', 'amberon', 'tnp1-port']:
                 continue
@@ -99,7 +105,7 @@ def get_ip_info(ip):
                     Software.objects.update_or_create(nmap_name=v['product'])
 
                 try:
-                    Port.objects.update_or_create(asset=asset[0], port_num=k,
+                    Port.objects.update_or_create(asset=asset, port_num=k,
                                               defaults={'software_name': v['product'],
                                                         'software_version': v['version'],
                                                         'service_name': v['name']})
@@ -108,10 +114,10 @@ def get_ip_info(ip):
                 except Exception as e:
                     logger.critical(e)
                 logger.info(str(k) + ', ' + str(v['product']) + ', ' + str(v['name']) + ', ' + str(v['version']))
-        asset[0].scanned = 'yes'
-        asset[0].save()
+        asset.scanned = 'yes'
+        asset.save()
     else:
-        logger.info('Not open ports')
+        logger.info('除80，443，未开启其他端口')
 
 
 def get_web_info(ip, port):

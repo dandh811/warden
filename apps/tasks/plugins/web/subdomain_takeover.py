@@ -21,7 +21,7 @@ def start(**kwargs):
     webapps = kwargs['webapps'].filter(status_code__in=[404, 500])
 
     if not webapps:
-        logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
+        logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
 
     try:
         pool = ThreadPool(50)

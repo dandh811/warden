@@ -14,7 +14,7 @@ def start(**kwargs):
     else:
         webapps = webapps.filter(other_info__icontains=plugin)
     if not webapps:
-        logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
+        logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
 
     for webapp in webapps:
         url = webapp.subdomain

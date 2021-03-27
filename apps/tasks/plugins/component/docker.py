@@ -12,7 +12,7 @@ def start(**kwargs):
     socket.setdefaulttimeout(2)
     ports = Port.objects.filter(service_name__icontains='docker')
     if not ports:
-        logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
+        logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
 
     for port in ports:
         port_num = port.port_num

@@ -17,7 +17,7 @@ def start(**kwargs):
         ports = Port.objects.filter(Q(service_name__icontains='redis') | Q(port_num=6379)).exclude(scanned__contains=plugin)
 
     if not ports:
-        logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
+        logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
     with open('/opt/warden/warden/brute/passwords.txt', 'r') as f:
         passwords = f.readlines()
     for port in ports:

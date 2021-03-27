@@ -43,7 +43,7 @@ def start(**kwargs):
         webapps = webapps.exclude(scanned__icontains=plugin)
 
     if not weburls:
-        logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
+        logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
     for weburl in weburls:
         url = parse.unquote(weburl.url, 'utf-8')
 

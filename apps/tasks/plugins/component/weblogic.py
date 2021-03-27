@@ -13,7 +13,7 @@ def start(**kwargs):
     assets = kwargs['assets']
     ports = Port.objects.filter(asset_id__in=assets, software_name__icontains='weblogic')
     if not ports:
-        logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
+        logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
         return
 
     data = '''

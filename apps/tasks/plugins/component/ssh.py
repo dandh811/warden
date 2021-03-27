@@ -18,7 +18,7 @@ def start(**kwargs):
     if policy == 'increase':
         ports = Port.objects.filter(service_name__icontains=plugin).exclude(scanned__contains=plugin)
     if not ports:
-        logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
+        logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
         return
     usernames = settings.SSH_USERS
 

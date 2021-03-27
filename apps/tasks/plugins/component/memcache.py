@@ -12,7 +12,7 @@ def start(**kwargs):
 
     ports = Port.objects.filter(asset_id__in=assets, service_name__icontains='memcache')
     if not ports:
-        logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
+        logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
 
     for port in ports:
         ip = port.asset.ip

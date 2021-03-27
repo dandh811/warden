@@ -17,11 +17,11 @@ class WebAPPAdmin(admin.ModelAdmin):
 
 @admin.register(models.Domain)
 class DomainAdmin(admin.ModelAdmin):
-    list_display = ['domain', 'in_scope', 'company', 'subdomains_total', 'platform', 'm_time']
+    list_display = ['domain', 'in_scope', 'is_china', 'subdomains_total', 'platform', 'm_time']
     search_fields = ('domain', 'company', 'platform')
     readonly_fields = ['m_time', 'subdomains_total']
-    list_editable = ['in_scope']
-    list_filter = ['in_scope']
+    list_editable = ['in_scope', 'is_china']
+    list_filter = ['in_scope', 'is_china']
 
 
 @admin.register(models.WebUrls)

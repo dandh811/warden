@@ -201,7 +201,7 @@ def start(**kwargs):
     if policy == 'increase':
         webapps = webapps.exclude(scanned__icontains=plugin).order_by('-id')
     if not webapps:
-        logger.debug("[%s] %s" % (plugin, 'There are no objects to scan'))
+        logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
 
     denominator = len(webapps)
     molecular = 0
