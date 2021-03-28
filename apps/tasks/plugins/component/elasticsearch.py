@@ -1,3 +1,5 @@
+# 检测时会卡住，原因未知
+
 import requests
 from apps.assets.models import Port, Risk
 from lib.wechat_notice import wechat
@@ -34,6 +36,6 @@ def start(**kwargs):
                     title = 'elasticsearch匿名访问'
                     content = url
                     wechat.send_msg(title, content)
-            except:
-                pass
+            except Exception as e:
+                logger.error(e)
         update_scan_status(port, plugin)
