@@ -21,7 +21,7 @@ policy_choose = (
 
 class Plugins(models.Model):
     name = models.CharField('插件名称', max_length=50, unique=True)
-    verbose_name = models.CharField('插件别名', max_length=50)
+    verbose_name = models.CharField('插件介绍', max_length=50)
     tick_status = models.CharField('是否启用', max_length=1, choices=YES_OR_NO, default='y')
     m_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 

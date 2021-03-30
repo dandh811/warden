@@ -148,7 +148,6 @@
                         {% if request.user.is_authenticated %}
                             <li class="m-nav-item">
                                 <a ><i class="fa-fw fas fa-home"></i>{{ user }}</a>
-{#                                    <a href="{% url 'users:user_home' request.user.id %}" target="_blank">个人中心</a>#}
                                 {% if request.user.is_superuser %}
                                     <a href="/admin/" target="_blank"><i class="fa-fw fas fa-home"></i>后台管理</a>
                                 {% endif %}
@@ -156,8 +155,6 @@
                             </li>
                         {% else %}
                             <li class="m-nav-item">
-                                <a href=""> <i class="fa-fw fas fa-home"></i>登录</a>|
-                                <a href=""><i class="fa-fw fas fa-home"></i> 注册</a>
                             </li>
                         {% endif %}
                     </ul>

@@ -12,6 +12,7 @@ from loguru import logger
 from multiprocessing.dummy import Pool as ThreadPool
 import time
 from lib.common import check_waf
+from lib.wechat_notice import wechat
 
 urllib3.disable_warnings()
 requests.packages.urllib3.disable_warnings()
@@ -57,7 +58,10 @@ def start(task):
             for s in subdomains2:
                 if s not in subdomains:
                     subdomains.append(s)
-
+        if len(subdomains) > 1000:
+            title = '子域名扫描'
+            content = '%s，获取到子域名数量超出1000，考虑是否排除掉' % target
+            wechat.send_msg(title, content)
         webapps = WebApp.objects.filter(Q(domain=target) & Q(source=1))  # 1是手工添加的子域名
         # 因为有些域名是扫描不出来的，需要手工添加到数据库。跟扫描出来的子域名合在一起，执行后面操作
         if webapps:

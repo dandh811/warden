@@ -96,9 +96,6 @@
                     <li data-id="111">
                 <div class="detail-about detail-about-reply">
                   <div class="fly-detail-user">
-                    <a href="{% url 'users:user_home' c.user.id %}" class="fly-link">
-                      <cite>{{ c.user }}</cite>
-                    </a>
                   </div>
                   <div class="detail-hits">
                     <span>{{ c.c_time|date:"Y-m-j G:i" }}</span>
@@ -119,141 +116,12 @@
               </li>
                 {% endfor %}
             </ul>
-            <div class="layui-form layui-form-pane">
-{#                {% if request.user.is_authenticated %}#}
-{#                    <form class="layui-form">#}
-{#                        <div class="layui-form-item layui-form-text">#}
-{#                          <div class="layui-input-block">#}
-{#                            <textarea id="L_content" name="content" required lay-verify="required" placeholder="请输入内容"  class="layui-textarea fly-editor" style="height: 150px;"></textarea>#}
-{#                          </div>#}
-{#                        </div>#}
-{#                        <div class="layui-form-item">#}
-{#                          <input type="hidden" id="article_id" value="{{ article_id }}">#}
-{#                          <button class="layui-btn" lay-submit lay-filter="add-comment">提交评论</button>#}
-{#                        </div>#}
-{#                  </form>#}
-{#                {% else %}#}
-{#                    <p>请<a href="{% url 'users:login' %}?next={% url 'articles:article_detail' article.title %}" style="color:red"> 登录 </a>后再添加评论。</p>#}
-{#                {% endif %}#}
-            </div>
           </div>
-    {#            <ul class="layui-fixbar">#}
-    {#                <li class="layui-icon" lay-type="bar1" style="background-color:#009688"></li>#}
-    {#                <li class="layui-icon layui-fixbar-top" lay-type="top" style="background-color: rgb(0, 150, 136); display: list-item;"></li>#}
-    {#            </ul>#}
         </div>
     </div>
 {% endblock %}
 
 {% block js %}
-    <script>
-        layui.use(['layer','form'], function(){
-        var layer = layui.layer
-           ,form = layui.form;
-          form.on('submit(add-comment)', function(data){
-              var content = $("#L_content").val();
-          $.ajax({
-              type: "post",
-              url:"{% url 'articles:article_comment' %}",
-              data:{'article_id': {{ article.id }}, 'content': content},
-              dateType:"json",
-              async: false,
-              success: function(data) {
-                  if(data.status == 'success'){
-                      alert("提交成功");
-                      window.location.reload();//刷新当前页面.
-                  }else {
-                      $('#jsCompanyTips').html(data.msg)
-                      alert("提交失败！");
-                  }
-              },
-          });
-          return false;
-            });
-          });
-
-        $('#collect').click(function(){
-        $.ajax({
-            url: '{% url 'articles:article_collect' %}',
-            data: {'article_id': {{ article.id }}, 'action': 'collect'},
-            type: 'post',
-            dataType: 'json',
-            success: function(data) {
-                  if(data.status == 'success'){
-                      window.location.reload();//刷新当前页面.
-                  }else {
-                      $('#jsCompanyTips').html(data.msg);
-                      alert("提交失败！");
-                  }
-              },
-        })
-        });
-
-        $('#uncollect').click(function(){
-        $.ajax({
-            url: '{% url 'articles:article_collect' %}',
-            data: {'article_id': {{ article.id }}, 'action': 'uncollect'},
-            type: 'post',
-            dataType: 'json',
-            {#contentType: 'application/json; charset=utf-8',#}
-            success: function(data) {
-                  if(data.status == 'success'){
-                      window.location.reload();//刷新当前页面.
-                  }else {
-                      $('#jsCompanyTips').html(data.msg);
-                      alert("提交失败！");
-                  }
-              },
-        })
-        });
-
-        function setExcerpt(){
-            var tr = window.getSelection().getRangeAt(0);
-            {#var span = document.createElement("span");#}
-            {#span.style.cssText = "color:#ff0000";#}
-            {#tr.surroundContents(span);#}
-            $.ajax({
-                url: '{% url 'article:add_excerpt' %}',
-                data: {'article_id': {{article.id}}, 'content': tr.toString()},
-                type: 'post',
-                dataType: 'json',
-                async: false,
-                success: function(data) {
-                    if(data.status == 'success'){
-                        alert("已加入摘录");
-                    }else {
-                        $('#jsCompanyTips').html(data.msg);
-                        alert("请先选中要摘录的内容");
-                    }
-                },
-            })
-
-        }
-
-        function setIdea(){
-            var tr = window.getSelection().getRangeAt(0);
-            layer.prompt({
-                formType: 2,
-                value: '',
-                title: '请输入批注内容',
-                area: ['500px', '200px'] // 宽、高
-            }, function(value, index, elem){
-                layer.close(index);
-                $.ajax({
-                    url: '{% url 'article:add_idea' %}',
-                    data: {'article_id': {{article.id}}, 'content': tr.toString(), 'i_content': value.toString()},
-                    type: 'post',
-                    dataType: 'json',
-                    async: false,
-                    success: function(data) {
-                        if(data.status == 'fail'){
-                            alert("请先选中要批注的内容");
-                        }
-                    },
-                })
-            });
-        }
-    </script>
     <script>
         function shareTo(stype){
             var ftit = '';

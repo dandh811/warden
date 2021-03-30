@@ -6,6 +6,7 @@ apt-get -y install whatweb
 apt-get -y install rabbitmq-server
 apt-get -y install mongodb-clients
 apt-get -y install awscli
+apt-get -y install build-essential python3-dev libssl-dev libffi-dev libxml2 libxml2-dev libxslt1-dev zlib1g-dev libmysqlclient-dev
 
 source /opt/warden/bin/activate
 
