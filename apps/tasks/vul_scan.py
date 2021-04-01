@@ -14,7 +14,7 @@ urllib3.disable_warnings()
 requests.packages.urllib3.disable_warnings()
 from apps.tasks.plugins.component import docker, jenkins, memcache, mongodb, ssh, redis, \
     wordpress, zookeeper, ftp, mysql, nfs, elasticsearch, tomcat, postgresql, weblogic, \
-    cve_2020_1938, zabbix, php, rsync
+    cve_2020_1938, zabbix, php, rsync, struts2
 from apps.tasks.plugins.web import crlf, cors, aws_s3, xray, dirsearch, \
     subdomain_takeover,  \
     smuggling, crawlergo, sqli, ssrf, open_redirect, postmessage

