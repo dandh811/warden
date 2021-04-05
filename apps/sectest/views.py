@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from lib.wechat_notice import wechat
 from loguru import logger
 import json
+from urllib.parse import unquote
 
 
 def url_illegal_redirect(request, paras):
@@ -51,21 +52,25 @@ def pypi_test_upload(request):
 
 
 @csrf_exempt
-def xss_prey(requests):
-    if 'HTTP_X_FORWARDED_FOR' in requests.META:
-        ip = requests.META['HTTP_X_FORWARDED_FOR']
+def xss_prey(request):
+    if 'HTTP_X_FORWARDED_FOR' in request.META:
+        ip = request.META['HTTP_X_FORWARDED_FOR']
     else:
         try:
-            ip = requests.META['REMOTE_ADDR']
+            ip = request.META['REMOTE_ADDR']
         except:
             ip = '0.0.0.0'
 
     ip = ip.replace("'","\'")
-    domain = requests.GET.get('domain','Unknown').replace("'","\'")
-    user_agent = requests.META.get('HTTP_USER_AGENT','Unknown').replace("'","\'")
+    domain = request.GET.get('domain','Unknown').replace("'","\'")
+    user_agent = request.META.get('HTTP_USER_AGENT','Unknown').replace("'","\'")
     # method = requests.method.replace("'","\'")
-    cookie = requests.GET.get('data', 'No data').replace("'","\'")
+    full_path = request.get_full_path()
+    full_path = unquote(full_path)
 
+    logger.debug(full_path)
+    cookie = full_path
+    logger.info(cookie)
     try:
         XssPrey.objects.update_or_create(domain=domain, user_agent=user_agent, cookie=cookie, ip=ip)
 

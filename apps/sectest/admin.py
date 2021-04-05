@@ -6,6 +6,7 @@ from apps.sectest import models
 class XssPreyAdmin(admin.ModelAdmin):
     list_display = ['id', 'domain', 'user_agent', 'cookie', 'ip']
     ordering = ['-id']
+    readonly_fields = ('cookie', )
 
 
 @admin.register(models.PackagePrey)

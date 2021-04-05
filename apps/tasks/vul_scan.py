@@ -66,12 +66,12 @@ def start(task):
 def get_specific_targets(targets):
     targets = targets.strip().replace('，', ',').strip(',')
     if targets == '*':
-        logger.warning('Scan Target: ALL')
-        webapps = WebApp.objects.all()
+        logger.warning('扫描对象: ALL')
+        webapps = WebApp.objects.filter(in_scope='yes')
         assets = Asset.objects.all()
     elif re.match(r'\d+.\d+.\d+.', targets):
         # 支持扫描各种IP组合形式
-        logger.warning('scan target: ' + targets)
+        logger.warning('扫描对象: ' + targets)
         ips = asset_discovery.add_nmap_scan(targets)
         webapps = []
         assets = []
@@ -79,7 +79,7 @@ def get_specific_targets(targets):
             asset = Asset.objects.filter(ip=ip)[0]
             assets.append(asset)
     else:
-        logger.warning('Scan Target: ' + targets)
+        logger.warning('扫描对象: ' + targets)
         assets = []
         targets = targets.split(',')
         targets = list(map(lambda x: x.strip(), targets))
