@@ -77,7 +77,7 @@ class WebApp(models.Model):
 
 
 class WebUrls(models.Model):
-    url = models.TextField(unique=True)
+    url = models.TextField()
     webapp = models.ForeignKey(WebApp, on_delete=models.CASCADE)
 
     m_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')

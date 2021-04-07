@@ -1,6 +1,5 @@
 mysqlclient
 requests
-simpleui
 librosa
 google-cloud-storage
 requests
