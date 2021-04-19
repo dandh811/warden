@@ -8,7 +8,6 @@ import requests
 from lxml.html import fromstring
 from apps.webapps.models import WebApp
 from loguru import logger
-from multiprocessing.dummy import Pool as ThreadPool
 
 
 def nmap_port(host, port):
@@ -56,10 +55,9 @@ def get_ip_info(ip):
     logger.debug('扫描: ' + ip)
     try:
         Asset.objects.get(ip=ip)
-        return
-    except:
+    except Exception as e:
         asset = Asset.objects.create(ip=ip)
-    cmd = 'masscan -p0-65535 --rate 1000 -oJ /opt/warden/warden/tmp.json %s' % ip
+    cmd = 'masscan -p0-65535 --rate 500 -oJ /opt/warden/warden/tmp.json %s' % ip
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     ret = p.wait()
     command_output = p.stdout.read().decode('utf-8')
@@ -185,7 +183,9 @@ def nmap_call(task, nm_a):
                 else:
                     get_ip_info(ip)
             except Exception as e:
-                logger.critical(e)
+                Asset.objects.create(ip=ip)
+                get_ip_info(ip)
+
     else:
         for ip in ips:
             try:

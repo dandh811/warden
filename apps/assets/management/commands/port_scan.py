@@ -18,7 +18,7 @@ class Command(BaseCommand):
             ip = asset.ip
             try:
                 print(ip)
-                cmd = 'masscan -p0-65535 --rate 1000 -oJ /opt/warden/warden/tmp.json %s' % ip
+                cmd = 'masscan -p0-65535 --rate 500 -oJ /opt/warden/warden/tmp.json %s' % ip
                 p = subprocess.Popen(cmd, shell=True,
                                            stdout=subprocess.PIPE,
                                            stderr=subprocess.PIPE)

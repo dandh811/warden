@@ -6,6 +6,18 @@ yes_or_no = (
     ('no', '否')
 )
 
+groups = (
+    ('production', '生产服务区'),
+    ('dmz', 'DMZ区'),
+    ('foreign', '外联区'),
+    ('basis', '基础服务区'),
+    ('operations', '运维管理区'),
+    ('standard_production', '准生产区'),
+    ('equipment_management', '设备管理区'),
+    ('other', '其他'),
+
+)
+
 
 class Asset(models.Model):
     id = models.AutoField(primary_key=True)
@@ -13,6 +25,11 @@ class Asset(models.Model):
     m_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
     ip = models.CharField(max_length=15, verbose_name="IP", blank=True, null=True, default='')
     scanned = models.CharField(max_length=10, null=True, verbose_name='是否已扫描', blank=True, default='no')
+    group = models.CharField(default='', blank=True, null=True, max_length=30)
+    hostname = models.CharField(max_length=50, verbose_name="主机名", blank=True, null=True, default='')
+    os = models.CharField(max_length=20, verbose_name="操作系统", blank=True, null=True, default='')
+    manager = models.CharField(max_length=50, verbose_name="管理员", blank=True, null=True, default='')
+
 
     def __str__(self):
         return self.ip
@@ -27,7 +44,7 @@ class Asset(models.Model):
 
 class Port(models.Model):
     id = models.AutoField(primary_key=True)
-    asset = models.ForeignKey('Asset', on_delete=models.CASCADE)
+    asset = models.ForeignKey(Asset, on_delete=models.CASCADE)
     port_num = models.IntegerField('端口号', blank=True, null=True)
     software_name = models.CharField('软件名', max_length=128, null=True, default='')
     software_version = models.CharField('软件版本', max_length=100, null=True)

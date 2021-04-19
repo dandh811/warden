@@ -4,7 +4,7 @@ from apps.assets import models
 
 @admin.register(models.Asset)
 class AssetAdmin(admin.ModelAdmin):
-    list_display = ['ip', "m_time"]
+    list_display = ['ip', 'group', 'hostname', 'os', "m_time"]
     search_fields = ('ip',)
 
 

@@ -53,6 +53,8 @@ class WebApp(models.Model):
     domain = models.CharField(max_length=100, null=True, blank=True, verbose_name='归属根域名')
     subdomain = models.CharField(max_length=200, unique=True, default='', verbose_name='子域名')
     status_code = models.CharField(default='', verbose_name='状态码', max_length=10)
+    title = models.CharField(default='', verbose_name='Title', max_length=200)
+
     m_time = models.DateTimeField(auto_now=True, verbose_name='更新时间')
     source = models.IntegerField(choices=source_choice, default=2, verbose_name='获取来源')
     server = models.CharField('web server', max_length=250, null=True, blank=True)
@@ -67,6 +69,7 @@ class WebApp(models.Model):
     status = models.CharField(choices=status_choice, default='online', max_length=20, verbose_name='状态')
     awvs_scanned = models.CharField(choices=yes_or_no, default='no', max_length=20, verbose_name='是否awvs扫描完成')
     is_china = models.BooleanField(default=False, verbose_name='是否国内域名')
+    desc = models.CharField(max_length=200, default='', verbose_name="备注", null=True, blank=True)
 
     def __str__(self):
         return self.subdomain
