@@ -15,20 +15,31 @@ def start(**kwargs):
     if policy == 'full':
         webapps = WebApp.objects.all()
     else:
-        webapps = WebApp.objects.exclude(scanned__icontains=plugin)
+        webapps = WebApp.objects.filter(status_code=404).exclude(scanned__icontains=plugin)
 
-    if webapps:
+    if not webapps:
         logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
         return
     keywords = ['admin']
     for webapp in webapps:
         for keyword in keywords:
             url = webapp.subdomain + '/' + keyword
-            logger.debug("[%s] [%s] %s" % (plugin, webapp.id, url))
             try:
                 res = requests.get(url, timeout=10, verify=False, allow_redirects=False).content.decode('utf-8')
 
                 if res:
+                    logger.debug("[%s] [%s] %s" % (plugin, webapp.id, url))
+
+                    if 'not found' in res:
+                        continue
+                    if 'doesn’t exist' in res:
+                        continue
+                    if 'nginx' in res:
+                        continue
+                    if 'Cannot GET /admin' in res:
+                        continue
+                    if 'Access Denied' in res:
+                        continue
                     logger.info(res)
                     # logger.info('[$$$] success, 发现%s漏洞' % url)
                     # Risk.objects.update_or_create(target=url, risk_type=plugin, defaults={'desc': url})
@@ -37,4 +48,4 @@ def start(**kwargs):
                     # wechat.send_msg(title, content)
                 # update_scan_status(weburl, plugin)
             except Exception as e:
-                logger.critical(e)
+                pass
