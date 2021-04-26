@@ -64,10 +64,13 @@ def mysql_brute(ip, port, user, passwd):
 
         logger.info('+ mysql login successful!')
         logger.info('+ %s:%s' % (user, passwd))
-        Risk.objects.update_or_create(port=port, defaults={'asset': port.asset,
+        try:
+            Risk.objects.update_or_create(target=ip+':'+str(port.port_num), defaults={
                                                            'risk_type': 'mysql弱口令',
                                                            'desc': '%s:%s' % (user, passwd)
                                                            })
+        except Exception as e:
+            logger.critical(e)
 
         logger.info("[$$$]success, ")
 

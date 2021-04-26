@@ -16,7 +16,7 @@ from apps.tasks.plugins.component import docker, jenkins, memcache, mongodb, ssh
     wordpress, zookeeper, ftp, mysql, nfs, elasticsearch, tomcat, postgresql, weblogic, \
     cve_2020_1938, zabbix, php, rsync, struts2
 from apps.tasks.plugins.web import crlf, cors, aws_s3, xray, dirsearch, \
-    subdomain_takeover,  \
+    subdomain_takeover,  dir_scan, \
     smuggling, crawlergo, sqli, ssrf, open_redirect, postmessage
 from apps.tasks.plugins import awvs, sweep
 

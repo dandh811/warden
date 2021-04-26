@@ -5,19 +5,11 @@ from apps.webapps.models import WebApp
 import urllib3
 from django.conf import settings
 import requests
-from bs4 import BeautifulSoup
 from loguru import logger
 import re
 import subprocess
 
 urllib3.disable_warnings()
-
-
-headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36",
-        # "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,[i]/[/i];q=0.8",
-        # "Accept-Encoding": "gzip, deflate, sdch"
-    }
 
 
 class Command(BaseCommand):
@@ -58,7 +50,8 @@ class Command(BaseCommand):
         #             web.delete()
         #         title = re.findall('<title>(.+)</title>', r.text)
         #         logger.info(title)
-        ports = Port.objects.filter(service_name__icontains='http').order_by('-id')
+        #######################################################################################
+        ports = Port.objects.filter(service_name__icontains='http')
 
         for port in ports:
             ip = port.asset.ip
@@ -81,17 +74,40 @@ class Command(BaseCommand):
                 logger.info('获取web信息: ' + _subdomain)
 
                 try:
-                    r = requests.get(_subdomain, headers=headers, timeout=10, verify=False, allow_redirects=True)
+                    r = requests.get(_subdomain, headers=settings.HTTP_HEADERS, timeout=15, verify=False, allow_redirects=True)
                 except Exception as e:
-                    logger.info('* 访问出错，跳过')
+                    logger.info(e)
                     continue
 
                 if r.text:
                     status_code = r.status_code
                     if status_code != 200:
                         continue
-                    title = re.findall('<title>(.+)</title>', r.text)
-                    logger.info(title)
+                    try:
+                        if int(r.headers["Content-Length"]) < 100:
+                            logger.info('返回内容长度不够100')
+                            continue
+                    except:
+                        pass
+                    if 'Welcome to OpenResty' in r.text:
+                        logger.info('Welcome to OpenResty')
+                        continue
+                    if 'Welcome to nginx' in r.text:
+                        logger.info('Welcome to nginx')
+                        continue
+                    if 'Thank you for using tengine' in r.text:
+                        logger.info('Thank you for using tengine')
+                        continue
+                    if 'ilo:' in r.text:
+                        continue
+                    if 'root.title' in r.text:
+                        continue
+                    try:
+                        title = re.findall('<title>(.*?)</title>', r.text)
+                        title = title[0]
+                        logger.info(title)
+                    except:
+                        title = ''
                     command = 'whatweb %s --colour never' % _subdomain
                     p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
                     out, err = p.communicate()
@@ -108,7 +124,7 @@ class Command(BaseCommand):
                         server = ''
                     try:
                         WebApp.objects.update_or_create(domain=domain, subdomain=_subdomain, defaults={'ip': ip,
-                            'status_code': status_code, 'server': server,
+                            'status_code': status_code, 'server': server, 'title': title,
                             'waf': '', 'other_info': other_info, 'port': port_num})
 
                         logger.info('+ 有效web: %s' % _subdomain)

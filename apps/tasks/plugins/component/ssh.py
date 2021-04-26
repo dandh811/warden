@@ -41,7 +41,7 @@ def connect(host, user, password, port, asset):
         logger.info('发现弱口令：' + host + ' ' + str(port.port_num) + ' ' + user + ' ' + password)
         desc = user + ' : ' + password + ''
         Risk.objects.update_or_create(target=port.asset.ip, risk_type="ssh弱口令", defaults={
-                'asset': asset, 'desc': desc})
+                'desc': desc})
 
     except Exception as e:
         pass
