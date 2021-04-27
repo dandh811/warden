@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Article, Category, Tag
 from django.forms import TextInput, Textarea
 from django.db import models
-from import_export.admin import ImportExportModelAdmin, ImportExportActionModelAdmin
+# from import_export.admin import ImportExportModelAdmin, ImportExportActionModelAdmin
 
 
 @admin.register(Article)

@@ -45,7 +45,7 @@ def start(**kwargs):
     if not weburls:
         logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
     try:
-        pool = ThreadPool(100)
+        pool = ThreadPool(20)
         pool.map(check, webapps)
         pool.close()
         pool.join()
@@ -53,7 +53,7 @@ def start(**kwargs):
         logger.critical(e)
 
     try:
-        pool = ThreadPool(100)
+        pool = ThreadPool(20)
         pool.map(check, weburls)
         pool.close()
         pool.join()
