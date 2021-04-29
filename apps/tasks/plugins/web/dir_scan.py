@@ -17,7 +17,7 @@ def start(**kwargs):
     else:
         webapps = WebApp.objects.exclude(scanned__icontains=plugin)
 
-    if webapps:
+    if not webapps:
         logger.debug("[%s] %s" % (plugin, '未匹配到扫描对象'))
         return
     keywords = ['admin']
@@ -29,6 +29,8 @@ def start(**kwargs):
                 res = requests.get(url, timeout=10, verify=False, allow_redirects=False).content.decode('utf-8')
 
                 if res:
+                    if 'not found' in res:
+                        continue
                     logger.info(res)
                     # logger.info('[$$$] success, 发现%s漏洞' % url)
                     # Risk.objects.update_or_create(target=url, risk_type=plugin, defaults={'desc': url})

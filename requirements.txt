@@ -7,7 +7,6 @@ django-mdeditor
 django-pure-pagination
 mistune
 django-import-export
-markdown
 bs4
 celery
 certifi==2018.1.18
