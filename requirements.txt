@@ -10,7 +10,6 @@ django-import-export
 bs4
 celery
 certifi==2018.1.18
-cffi==1.11.5
 chardet==3.0.4
 cssselect2==0.2.1
 defusedxml==0.5.0
@@ -19,7 +18,7 @@ html5lib==1.0.1
 idna==2.6
 jieba==0.39
 pdfrw==0.4
-Pillow==5.1.0
+Pillow
 pyasn1==0.4.2
 pyasn1-modules==0.2.1
 pycparser==2.18
