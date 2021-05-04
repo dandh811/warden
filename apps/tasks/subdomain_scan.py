@@ -72,7 +72,7 @@ def start(task):
             logger.debug('未扫描到子域名')
             continue
 
-        logger.debug('发现%d个子域名' % len(subdomains))
+        logger.debug('发现 %d 个子域名' % len(subdomains))
 
         try:
             pool = ThreadPool(15)
@@ -130,8 +130,8 @@ def check_subdomain_is_exist(p):
     try:
         WebApp.objects.get(subdomain__icontains='://' + subdomain)
         logger.debug('[已收录] %s' % subdomain)
-        ip = get_subdomain_info(target, subdomain)
-        return ip
+        # ip = get_subdomain_info(target, subdomain)
+        # return ip
     except:
         ip = get_subdomain_info(target, subdomain)
         return ip

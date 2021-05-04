@@ -4,8 +4,8 @@ from . import models
 
 @admin.register(models.WebApp)
 class WebAPPAdmin(admin.ModelAdmin):
-    list_display = ['id', 'subdomain', 'in_scope', 'status_code', 'server', 'desc', 'm_time']
-    search_fields = ('subdomain', 'ip', 'server', 'status_code', 'other_info')
+    list_display = ['id', 'subdomain', 'in_scope', 'title', 'server', 'desc', 'm_time']
+    search_fields = ('subdomain', 'ip', 'server', 'title', 'other_info')
     readonly_fields = ['status_code', 'm_time', 'server', 'ip', 'port', 'other_info']
     list_filter = ['status_code']
     list_editable = ['in_scope']
