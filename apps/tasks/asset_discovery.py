@@ -73,9 +73,13 @@ def get_ip_info(ip):
             return
         for i in portsL:
             i = i.strip(',')
-            port_dict = json.loads(i)
-            port = port_dict['ports'][0]['port']
-            ports.append(str(port))
+            try:
+                port_dict = json.loads(i)
+                port = port_dict['ports'][0]['port']
+                ports.append(str(port))
+            except Exception as e:
+                logger.error(e)
+
     logger.info(ports)
     try:
         ports.remove('80')
